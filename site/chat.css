@@ -1,0 +1,155 @@
+:root {
+    --bg-primary: rgb(41, 56, 67);
+    --bg-secondary: rgb(63, 63, 63);
+    --bg-default: transparent;
+
+    --txt-primary: rgb(255, 255, 255);
+}
+
+* {
+    background-color: var(--bg-default);
+    color: var(--txt-primary);
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 0px;
+
+    margin: 0;
+    padding: 0;
+    height: 100dvh;
+    background-color: var(--bg-primary);
+}
+
+@keyframes fadeinall {
+    0% {
+        opacity: 1;
+    }
+
+    97% {
+        opacity: 0;
+    }
+
+    98% {
+        opacity: 0;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        z-index: -1;
+    }
+}
+
+#fadein {
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+    z-index: 999;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation: fadeinall 1s normal both;
+    animation: fadeinall 1s normal both;
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#loader-wrapper {
+    background-color: #2b2b2b;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 5px solid var(--txt-primary);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    margin-top: calc(50vh - 20px);
+    display: inline-block;
+    box-sizing: border-box;
+    -webkit-animation: rotation 1s linear infinite;
+    animation: rotation 1s linear infinite;
+}
+
+
+
+
+
+
+.left {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, .1fr) 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 0px;
+
+    margin: 8px;
+    background-color: var(--bg-secondary);
+    border-radius: 10px 10px 20px 20px;
+    overflow: hidden;
+}
+
+.left * {
+    padding: 8px;
+}
+
+.user {
+    background-color: grey;
+
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.user img {
+    padding: 0;
+    height: 2em;
+    border-radius: 40px;
+}
+
+.settings:hover {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24   
+}
+.friends {
+    background-color: rgb(200, 200, 200);
+}
+
+.chats {
+    overflow-y: auto;
+}
