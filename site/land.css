@@ -31,6 +31,12 @@ body{
     position: relative;
     overflow: hidden;
 }
+.navIcon{
+    display: none;
+}
+.navIcon:hover{
+    opacity: 0.5;
+}
 .navbar{
     position: absolute;
     right: 0;
@@ -40,7 +46,7 @@ body{
 .navbar a{
     margin-inline: 10px;
     text-decoration: none;
-    font-size: 1vw;
+    font-size: 0.7vw;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
 }
@@ -98,9 +104,10 @@ body{
     justify-content: center;
     align-items: center;
     border-radius: 75px;
+    margin-left: 30px !important; 
     margin: 10px;
     width: 13vw;
-    height: 30px;
+    height: 1.5vw;
     font-size: 1vw;
     font-family: 'Roboto', sans-serif;
     justify-content: center;
@@ -118,22 +125,22 @@ body{
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 4vw;
+    font-size: 3vw;
 }
 .heroContainer div p{
     margin: 0;
     text-align: left;
-    margin-left: 35px;
+    margin-left: 40px;
     color: #ffffff;
     width: 60%;
 
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 2vw;
+    font-size: 1.2vw;
 }
 span{
-    font-size: 4vw;
+    font-size: 3vw;
     background: -webkit-linear-gradient(#F1FF54, #ffe345);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -188,6 +195,7 @@ span{
 }
 .infoContainerTextDiv{
     text-align: left !important;
+    display: flex;
 }
 .inner-infoTextContainer{
     width: 65%;
@@ -204,9 +212,6 @@ span{
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
-}
-.infoDivContainerLeftImg div{
-    height: 100%;
 }
 @media only screen and (max-width: 1000px) {
     .heroContainer div h1{
@@ -270,6 +275,38 @@ span{
         width: 80%;
         margin: auto;
     }
+    .infoContainerImgDiv img{
+        width: 70%;
+    }
+    .navIcon{
+        display: block;
+        position: absolute;
+        right: 0;
+        height: 75px;
+        width: 75px;
+        z-index: 999;
+        margin: 10px;
+    }
+    .navbar{
+        display: none;
+    }
+    .infoContainerEnd{
+        display: flex;
+        height: 30vh;
+        background-color: #ffffff;
+        text-align: center;
+    }
+    .infoContainerEnd div{
+        width: 80% !important;
+    }
+    .infoContainerEnd h1{
+        font-size: 5vw !important;
+    }
+    .infoContainerEnd a{
+        width: 35vw !important;
+        height: 3vw !important;
+        font-size: 3vw !important;
+    }
 }
 .infoContainer1{
     height: 100vh;
@@ -278,4 +315,42 @@ span{
 .infoContainer2{
     height: 100vh;
     background-color: #A9CEE6;
+}
+.infoContainerEnd{
+    display: flex;
+    height: 50vh;
+    background-color: #ffffff;
+    text-align: center;
+}
+.infoContainerEnd div{
+    width: 40%;
+    margin: auto;
+}
+.infoContainerEnd h1{
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2vw;
+}
+.infoContainerEnd a{
+    background-color: rgb(29, 29, 29);
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 75px;
+    margin: 10px;
+    width: 13vw;
+    height: 1.5vw;
+    font-size: 1vw;
+    font-family: 'Roboto', sans-serif;
+    justify-content: center;
+}
+.infoContainerEnd a:hover{
+    background-color: rgb(58, 58, 58);
+    color: rgb(214, 214, 214);
 }
