@@ -3,22 +3,16 @@
 
 ::-webkit-scrollbar {
     width: 5px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
+}
+::-webkit-scrollbar-track {
     background: #f1f1f1; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
+}
+::-webkit-scrollbar-thumb {
     background: #888; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+}
+::-webkit-scrollbar-thumb:hover {
     background: #555; 
-  }
+}
 body{
     margin: 0;
     background-color: #ffffff;
@@ -148,7 +142,7 @@ body{
     font-weight: 400;
     font-size: 1.2vw;
 }
-span{wavesOpabox
+span{
     font-size: 3vw;
     background: -webkit-linear-gradient(#F1FF54, #ffe345);
     -webkit-background-clip: text;

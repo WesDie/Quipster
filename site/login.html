@@ -5,8 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    
+    <div class="mainContainer">
+        <div class="topText">
+            <div id="login" class="textInfo">
+                <h1>Login</h1>
+                <a href="#register">Register</a>
+            </div>
+            <div id="register" class="textInfo">
+                <h1>Register</h1>
+                <a href="#login">Login</a>
+            </div>
+            <div class="spacer wave">
+        </div>
+
+        </div>
+    </div>
 </body>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            console.log(entry)
+            if(entry.isIntersecting) {
+                entry.target.classList.add('show');
+            } else  {
+                entry.target.classList.remove('show');
+            }
+        });
+    });
+
+    const hiddenElements = document.querySelectorAll('.textInfo, .topText');
+    hiddenElements.forEach((el) => observer.observe(el));
+</script>
 </html>
