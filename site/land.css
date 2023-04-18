@@ -21,10 +21,11 @@
   }
 body{
     margin: 0;
-    background-color: #008E86;
+    background-color: #ffffff;
 }
 .heroSection{
-    height: 85vh;
+    padding-top: 10vh;
+    height: fit-content;
     background: linear-gradient(90deg, #008E86, #08CC9D);
     justify-content: center;
     text-align: center;
@@ -46,7 +47,7 @@ body{
 .navbar a{
     margin-inline: 10px;
     text-decoration: none;
-    font-size: 0.7vw;
+    font-size: 1vw;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
 }
@@ -76,7 +77,7 @@ body{
     z-index: 100;
 }
 .heroContainer{
-    height: 70vh;
+    height: fit-content;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
@@ -112,6 +113,14 @@ body{
     font-family: 'Roboto', sans-serif;
     justify-content: center;
 }
+.downloadBtn{
+    background-color: rgb(255, 255, 255) !important;
+    color: rgb(0, 0, 0) !important;
+}
+.downloadBtn:hover{
+    background-color: rgb(219, 219, 219) !important;
+    color: rgb(65, 65, 65) !important;
+}
 .heroContainer div div a:hover{
     background-color: rgb(58, 58, 58);
     color: rgb(214, 214, 214);
@@ -139,7 +148,7 @@ body{
     font-weight: 400;
     font-size: 1.2vw;
 }
-span{
+span{wavesOpabox
     font-size: 3vw;
     background: -webkit-linear-gradient(#F1FF54, #ffe345);
     -webkit-background-clip: text;
@@ -154,18 +163,16 @@ span{
     height: 10vh;
 }
 .layer1 {
-    position: absolute;
-    bottom: 0px;
     width: 100%;
-    background-image: url('./wavesOpacity.svg');
+    /* background-image: url('./images/wavesOpacity.svg'); */
     transform: rotate(180deg);
+    background: linear-gradient(-90deg, #008E86, #08CC9D);
+    background-image: url('./images/wavesOpacity.svg'), linear-gradient(-90deg, #008E86, #08CC9D);
 }
 .layer2 {
-    /* position: absolute; */
-    bottom: 0px;
-    width: 100%;
-    background-image: url('./wavesOpacity\ \(3\).svg');
+    background-image: url('./images/wavesOpacity\ \(3\).svg');
     transform: rotate(180deg);
+    background-color: #ffffff;
 }
 .ChatImg{
     width: 80%;
@@ -174,7 +181,6 @@ span{
     width: 100%;
 }
 .infoDivContainerLeftImg{
-    height: 90vh;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
@@ -182,7 +188,8 @@ span{
     grid-row-gap: 0px;
     margin-inline: auto;
     justify-content: center;
-    align-items: center;   
+    align-items: center;  
+    overflow: hidden; 
 }
 .infoContainerImgDiv img{
     width: 60%;
@@ -232,13 +239,17 @@ span{
         display: none;
     }
     .heroContainer{
-        height: 100%;
+        height: fit-content;
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         grid-template-rows: 1fr;
         grid-column-gap: 0px;
         grid-row-gap: 0px;
         margin-inline: auto;
+    }
+    .heroSection{
+        padding-top: 15vh;
+        height: fit-content;
     }
     .downloadopen-div{
         text-align: center !important;
@@ -250,12 +261,6 @@ span{
         height: 30px;
         font-size: 20px;
         font-family: 'Roboto', sans-serif;
-    }
-    .downloadBtn{
-        /* display: none !important; */
-    }
-    .openBtn{
-        /* display: block !important; */
     }
     .infoDivContainerLeftImg{
         display: grid;
@@ -309,16 +314,18 @@ span{
     }
 }
 .infoContainer1{
-    height: 100vh;
+    height: fit-content;
     background-color: #ffffff;
 }
 .infoContainer2{
-    height: 100vh;
+    height: fit-content;
     background-color: #A9CEE6;
 }
 .infoContainerEnd{
+    margin-top: 10vh;
+    margin-bottom: 10vh;
     display: flex;
-    height: 50vh;
+    height: fit-content;
     background-color: #ffffff;
     text-align: center;
 }
@@ -353,4 +360,30 @@ span{
 .infoContainerEnd a:hover{
     background-color: rgb(58, 58, 58);
     color: rgb(214, 214, 214);
+}
+.openBtnEnd{
+    display: none !important;
+}
+@media (pointer:coarse) {
+    .downloadBtn{
+        display: none !important;
+    }
+    .downloadBtnEnd{
+        display: none !important;
+    }
+    .openBtnEnd{
+        display: inline-flex !important;
+    }
+}
+.hidden{
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-100%);
+    transition: all 1s;
+}
+.show{
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+    transition-delay: 100ms;
 }
