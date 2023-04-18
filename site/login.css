@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+body{
+    background-color: #3e3744;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+    display: flex;
+}
+.mainContainer{
+    width: 500px;
+    height: 800px;
+    background-color: #1f1b22;
+    margin: auto;
+    border-radius: 5%;
+    overflow: hidden;
+}
+.topText{
+    position: relative;
+    top: 0;
+    height: 25%;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    display: flex;
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-100%);
+    transition: all 1s;
+}
+.textInfo{
+    margin: auto;
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-150%);
+    transition: all 1s;
+} 
+.show{
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+    transition-delay: 100ms;
+}
+#register, #login{
+    display: none;
+}
+.textInfo:target{
+    display: block !important;
+}
+.textInfo h1{
+    margin: 0;
+    font-size: 55px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+} 
+.textInfo a{
+    margin: 20px;
+    color: #302e31;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+}
+.spacer {
+    aspect-ratio: 960/300;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 10vh;
+    position: absolute;
+    bottom: calc(0% - 10vh);
+}
+.wave{
+    width: 100%;
+    background-image: url('./images/wavesOpacity (6).svg'), linear-gradient(-90deg, #1f1b22, #1f1b22);
+}
