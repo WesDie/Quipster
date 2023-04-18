@@ -13,10 +13,10 @@
 
 body {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: auto 1fr auto;
     grid-template-rows: 1fr;
-    grid-column-gap: 20px;
-    grid-row-gap: 0px;
+    grid-column-gap: 0;
+    grid-row-gap: 0;
 
     margin: 0;
     padding: 0;
@@ -144,7 +144,8 @@ body {
         'FILL' 1,
         'wght' 400,
         'GRAD' 0,
-        'opsz' 24
+        'opsz' 24;
+    cursor: pointer;
 }
 
 .friends {
@@ -156,29 +157,64 @@ body {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(1fr);
-    grid-column-gap: 20px;
-    grid-row-gap: 10px;
+    grid-template-rows: auto;
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+
+    padding: 0;
 }
 
 .chat {
-    border-radius: 25px;
-    background-color: rgba(240, 248, 255, 0.1);
+    height: 2em;
+    background-color: rgba(240, 248, 255, 0);
     cursor: pointer;
     transition-duration: 200ms;
+
+    display: grid;
+    grid-template-columns: .1fr 1fr .1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
 .chat:hover {
-    border-radius: 16px;
     background-color: rgba(240, 248, 255, 0.15);
 }
 
 .chat.selected {
-    border-radius: 14px;
     background-color: rgba(240, 248, 255, 0.2);
+}
+
+.chat img {
+    padding: 0;
+    height: 2em;
+    border-radius: 40px;
 }
 
 
 .middle {
     background-color: var(--bg-secondary);
+    border-radius: 10px 10px 20px 20px;
+    margin: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 40px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 40px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
