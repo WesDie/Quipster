@@ -26,10 +26,35 @@
       Friend requests
     </div>
     <div class="chats">
-      chat1
+      <div class="chat">
+        chat1
+      </div>
+      <div class="chat selected">
+        chat2
+      </div>
+      <div class="chat">
+        chat3
+      </div>
+      <div class="chat">
+        chat4
+      </div>
+      <div class="chat">
+        chat4
+      </div>
+      <div class="chat">
+        chat4
+      </div>
+      <div class="chat">
+        chat4
+      </div>
+
     </div>
   </div>
-  <div class="middle"></div>
+  <div class="middle">
+    <div class="currentchat">
+      blablas
+    </div>
+  </div>
   <div class="right"></div>
   <div id="fadein"></div>
   <div id="loader-wrapper">

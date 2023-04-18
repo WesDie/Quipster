@@ -123,7 +123,7 @@ body {
 }
 
 .user {
-    background-color: grey;
+    background-color: #252525;
 
     display: inline-flex;
     flex-direction: row;
@@ -148,9 +148,37 @@ body {
 }
 
 .friends {
-    background-color: rgb(200, 200, 200);
+    background-color: rgb(54, 54, 54);
 }
 
 .chats {
     overflow-y: auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+}
+
+.chat {
+    border-radius: 25px;
+    background-color: rgba(240, 248, 255, 0.1);
+    cursor: pointer;
+    transition-duration: 200ms;
+}
+
+.chat:hover {
+    border-radius: 16px;
+    background-color: rgba(240, 248, 255, 0.15);
+}
+
+.chat.selected {
+    border-radius: 14px;
+    background-color: rgba(240, 248, 255, 0.2);
+}
+
+
+.middle {
+    background-color: var(--bg-secondary);
 }
