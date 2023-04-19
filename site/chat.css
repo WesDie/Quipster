@@ -191,6 +191,9 @@ body {
     border-radius: 40px;
 }
 
+.chat p {
+    margin: 0;
+}
 
 .middle {
     background-color: var(--bg-secondary);
