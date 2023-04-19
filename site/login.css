@@ -15,8 +15,24 @@ body{
     margin: auto;
     border-radius: 5%;
     overflow: hidden;
+    flex-direction: column;
 }
-.topText{
+.mainContainer:target{
+    display: flex !important;
+}
+.topTextLogin{
+    position: relative;
+    top: 0;
+    height: 25%;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-100%);
+    transition: all 1s;
+    display: flex;
+}
+.topTextRegister{
     position: relative;
     top: 0;
     height: 25%;
@@ -27,6 +43,7 @@ body{
     filter: blur(5px);
     transform: translateY(-100%);
     transition: all 1s;
+    display: flex;
 }
 .textInfo{
     margin: auto;
@@ -34,19 +51,20 @@ body{
     filter: blur(5px);
     transform: translateY(-150%);
     transition: all 1s;
+    display: block;
 } 
-.show{
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-    transition-delay: 100ms;
-}
 #register, #login{
     display: none;
 }
-.textInfo:target{
+/* .textInfo:target{
     display: block !important;
 }
+.topTextLogin:target{
+    display: flex !important;
+}
+.topTextRegister:target{
+    display: flex !important;
+} */
 .textInfo h1{
     margin: 0;
     font-size: 55px;
@@ -74,4 +92,99 @@ body{
 .wave{
     width: 100%;
     background-image: url('./images/wavesOpacity (6).svg'), linear-gradient(-90deg, #1f1b22, #1f1b22);
+}
+.loginForm{
+    margin: auto;
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    display: flex;
+}
+.loginForm form{
+    margin: auto;
+    width: 100%;
+}
+.inputLabel{
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    display: block;
+    color: rgb(255, 255, 255);
+
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-150%);
+    transition: all 1s;
+}
+.inputBox{
+    background-color: #4d4255;
+    border-width: 0;
+    width: 60%;
+    height: 30px;
+    color: rgb(255, 255, 255);
+    border-radius: 3px;
+    font-size: 17px;
+    margin-bottom: 10px;
+
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-150%);
+    transition: all 1s;
+}
+.inputBox:focus{
+    outline: 0;
+    caret-color: rgb(206, 206, 206);
+    caret-shape: block;
+}
+.submitBtn{
+    background-color: #cdb7dd;
+    width: 100px;
+    height: 40px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    border-radius: 10px;
+    border-width: 0;
+    margin-top: 10px;
+
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-150%);
+    transition: all 1s;
+}
+.forgotPassLink{
+    color: #74687a;
+    text-decoration: none;
+
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(-150%);
+    transition: all 1s;
+}
+.forgotPassLink:hover{
+    color: #b295c2;
+    text-decoration: none;
+}
+.submitBtn:hover{
+    cursor: pointer;
+    background-color: #a592b3;
+}
+.show{
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+    transition-delay: 100ms;
+}
+
+@media only screen and (max-width: 600px) {
+    .mainContainer{
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+    }
+}
+@media only screen and (max-height: 800px) {
+    .mainContainer{
+        height: 100%;
+    }
 }
