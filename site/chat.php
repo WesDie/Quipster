@@ -16,7 +16,7 @@
 <body>
   <div class="left">
     <div class="user">
-      <img src="https://lh3.googleusercontent.com/ogw/AOLn63EWRe_Pk06KJLljMCbMzU4A5WphTCsWm7-bG6AtUw=s64-c-mo" alt="">
+      <img src="images/box.png" alt="">
       <p style="display: inline-block;">Jonatan</p>
       <span class="settings material-symbols-outlined">
         settings
@@ -26,28 +26,23 @@
       Friend requests
     </div>
     <div class="chats">
+    <div class="chat selected">
+          <img src="/images/box.png" alt="">
+          <p>das</p>
+        </div>
+      <?php
+      for ($i = 0; $i < 20; $i++) {
+      ?>
+        <div class="chat">
+          <img src="/images/box.png" alt="">
+          <p>das</p>
+        </div>
+      <?php
+      }
+      ?>
       <div class="chat">
-        chat1
+        Create new chat
       </div>
-      <div class="chat selected">
-        chat2
-      </div>
-      <div class="chat">
-        chat3
-      </div>
-      <div class="chat">
-        chat4
-      </div>
-      <div class="chat">
-        chat4
-      </div>
-      <div class="chat">
-        chat4
-      </div>
-      <div class="chat">
-        chat4
-      </div>
-
     </div>
   </div>
   <div class="middle">
