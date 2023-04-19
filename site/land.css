@@ -185,6 +185,17 @@ span{
     align-items: center;  
     overflow: hidden; 
 }
+.infoDivContainerStats{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    margin-inline: auto;
+    justify-content: center;
+    align-items: center;  
+    overflow: hidden; 
+}
 .infoContainerImgDiv img{
     width: 60%;
     margin: 30px;
@@ -197,6 +208,26 @@ span{
 .infoContainerTextDiv{
     text-align: left !important;
     display: flex;
+}
+.infoContainerStatsDiv{
+    text-align: center !important;
+    display: flex;
+}
+.infoContainerStatsDiv h1 {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 50px;
+}
+
+.infoContainerStatsDiv p{
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    background: -webkit-linear-gradient(0deg, #f8df00, #f1c471);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 .inner-infoTextContainer{
     width: 65%;
@@ -268,6 +299,13 @@ span{
         margin-top: 0;
     }
     .infoContainerTextDiv p{
+        font-size: 4vw;
+    }
+    .infoContainerStatsDiv h1{
+        font-size: 7vw;
+        margin-top: 0;
+    }
+    .infoContainerStatsDiv p{
         font-size: 4vw;
     }
     .inner-infoTextContainer{
