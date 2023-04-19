@@ -26,16 +26,19 @@
       Friend requests
     </div>
     <div class="chats">
-    <div class="chat selected">
-          <img src="/images/box.png" alt="">
-          <p>das</p>
-        </div>
+      <div class="chat selected">
+        <img src="/images/box.png" alt="">
+        <p>das</p>
+      </div>
       <?php
       for ($i = 0; $i < 20; $i++) {
       ?>
         <div class="chat">
           <img src="/images/box.png" alt="">
           <p>das</p>
+          <button class="material-symbols-outlined">
+            more_horiz
+          </button>
         </div>
       <?php
       }
