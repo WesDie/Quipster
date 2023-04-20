@@ -22,9 +22,9 @@
             <div>
                 <h1>Download <span>Quipster</span></h1>
                 <p>The future of communication is just on click away</p>
-                <div class="downloadopen-div">
-                    <a href="download.exe" download class="downloadBtn">Download for windows</a>
-                </div>
+                    <!-- <div class="downloadopen-div">
+                        <a href="download.exe" download class="downloadBtn">Download for windows</a>
+                    </div> -->
             </div>
             <div class="image-chat-hero-div">
                 <img src="https://cdn.discordapp.com/attachments/953594570518691900/1097267231672504462/chatImg.png" alt="" class="ChatImg">
@@ -38,24 +38,49 @@
                     <img src="images/box.png" alt="" class="ChatImg">
                 </div>
                 <div class="infoContainerTextDiv">
-                    <div class="inner-infoTextContainer">
-                        <h1 class="hidden">Text header</h1>
-                        <p class="hidden">Some text</p>
+                    <div class="inner-infoTextContainer" style="text-align: center !important;">
+                        <h1 class="hidden">Download For Windows</h1>
+                        <p class="hidden" style="margin-bottom: 40px;">Get the best experience with Quipster on desktop</p>
+                        <a  href="" class="latestDownloadBtn hidden">Download latest version</a>
                     </div>
                 </div>
             </div>
     </section>
     <div class="spacer layer2"></div>
     <section class="infoContainer2">
-            <div class="infoDivContainerLeftImg">
-                <div class="infoContainerTextDiv">
+            <div class="infoDivContainerLog">
+                <div class="infoContainerStatsDiv">
                     <div class="inner-infoTextContainer">
-                        <h1 class="hidden">Text header</h1>
-                        <p class="hidden">Some text</p>
+                        <h1>Changelog:</h1>
+                        <button class="PatchBtn hidden" onclick="DisplayNextChangeLog('0.0.2')">0.0.2 (26-04-2023)</button>
+                        <div class="ChangeLogText disabledChangeLog" id="0.0.2">
+                            <p class="hidden">Added: Nothing</p>
+                            <p class="hidden">Fixed: Nothing</p>
+                        </div>
+                        <button class="PatchBtn hidden" onclick="DisplayNextChangeLog('0.0.1')">0.0.1 (20-04-2023)</button>
+                        <div class="ChangeLogText disabledChangeLog" id="0.0.1">
+                            <p class="hidden">Desktop updates:</p>
+                            <p class="hidden">Added: Kaas</p>
+                            <p class="hidden">Added: Ijsjes</p>
+                            <p class="hidden">Added: Cake</p>
+                            <p class="hidden">Major fix: If player chats chat dont work</p>
+                            <p class="hidden">Minor fix: Chat not working with friend</p>
+                            <p class="hidden">Minor fix: can not add friend if has no friends</p>
+                            <p class="hidden">Minor fix: cheese is not working while you chat</p>
+                            <br>
+                            <br>
+
+                            <p class="hidden">Website updates:</p>
+                            <p class="hidden">Added: Kaas</p>
+                            <p class="hidden">Added: Ijsjes</p>
+                            <p class="hidden">Added: Cake</p>
+                            <p class="hidden">Minor fix: If player chats chat dont work</p>
+                            <p class="hidden">Minor fix: Chat not working with friend</p>
+                            <p class="hidden">Minor fix: can not add friend if has no friends</p>
+                            <p class="hidden">Minor fix: cheese is not working while you chat</p>
+
+                        </div>
                     </div>
-                </div>
-                <div class="infoContainerImgDiv">
-                    <img src="https://cdn.discordapp.com/attachments/953594570518691900/1097588718874935426/image.png" alt="" class="ChatImg">
                 </div>
             </div>
     </section>
@@ -110,5 +135,24 @@
 
     const hiddenElements = document.querySelectorAll('.hidden');
     hiddenElements.forEach((el) => observer.observe(el));
+
+
+    function DisplayNextChangeLog(version){
+
+        var ChangeLogTextArray = document.getElementsByClassName("ChangeLogText");
+        for(var i = 0; i < ChangeLogTextArray.length; i++)
+        {
+            ChangeLogTextArray[i].classList.remove('enabledChangeLog');
+            ChangeLogTextArray[i].classList.add('disabledChangeLog');
+        }
+
+        if(document.getElementById(version).classList.contains('enabledChangeLog')){
+            document.getElementById(version).classList.remove('enabledChangeLog');
+            document.getElementById(version).classList.add('disabledChangeLog');
+        } else {
+            document.getElementById(version).classList.add('enabledChangeLog');
+            document.getElementById(version).classList.remove('disabledChangeLog');
+        }
+    }
 </script>
 </html>

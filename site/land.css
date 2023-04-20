@@ -196,6 +196,16 @@ span{
     align-items: center;  
     overflow: hidden; 
 }
+.infoDivContainerLog{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    margin-inline: auto;
+    justify-content: center;
+    align-items: center;  
+    overflow: hidden; 
+}
 .infoContainerImgDiv img{
     width: 60%;
     margin: 30px;
@@ -396,6 +406,64 @@ span{
 .openBtnEnd{
     display: none !important;
 }
+.latestDownloadBtn{
+    background-color: #000000;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 50px;
+    text-decoration: none;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
+.latestDownloadBtn:hover{
+    background-color: #3d3d3d;
+    color: #d1d1d1;
+}
+.PatchBtn{
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    background: -webkit-linear-gradient(0deg, #f8df00, #f1c471);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: auto;
+    display: block;
+    padding: 10px;
+    border-width: 0;
+}
+.PatchBtn:hover{
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    background: -webkit-linear-gradient(0deg, #aef800, #def171);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+}
+.ChangeLogText{
+    width: 80%;
+    height: 100%;
+    margin: auto;
+}
+.ChangeLogText p{
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    background: -webkit-linear-gradient(0deg, #000000, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.disabledChangeLog{
+    display: none;
+}
+.enabledChangeLog{
+    display: block;
+}
+
 @media (pointer:coarse) {
     .downloadBtn{
         display: none !important;
