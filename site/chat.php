@@ -54,13 +54,13 @@
   </div>
   <div class="middle">
     <div class="top">
-      <button onclick="Toggle(1)" id="toggleLeft" class="material-symbols-outlined">
+      <button onclick="Toggle(true)" id="toggleLeft" class="material-symbols-outlined">
         chevron_left
       </button>
       <p style="display: inline;">
         chat title
       </p>
-      <button id="toggleRight" class="material-symbols-outlined" style="float: right;">
+      <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
         chevron_right
       </button>
     </div>
@@ -68,7 +68,9 @@
       blablas
     </div>
   </div>
-  <div class="right"></div>
+  <div class="right">
+    <p>pizza</p>
+  </div>
   <div id="fadein"></div>
   <div id="loader-wrapper">
     <div class="loader"></div>

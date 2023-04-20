@@ -24,6 +24,7 @@ body {
     padding: 0;
     height: 100dvh;
     background-color: var(--bg-primary);
+    transition-duration: 200ms;
 }
 
 @keyframes fadeinall {
@@ -208,6 +209,14 @@ body {
     border-radius: 10px 10px 20px 20px;
     margin: 8px;
 }
+
+.right {
+    background-color: var(--bg-secondary);
+    border-radius: 10px 10px 20px 20px;
+    margin: 8px;
+    overflow: hidden;
+}
+
 
 
 ::-webkit-scrollbar {
