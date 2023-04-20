@@ -23,6 +23,7 @@
         settings
       </span>
     </div>
+    <hr>
     <div class="friends">
       Friend requests
     </div>
