@@ -5,9 +5,8 @@
   <meta charset="UTF-8" />
   <title>Quipster APP</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <link rel="icon" href="favicon.png">
+  <meta name="description" content="Quipster APP" />
+  <link rel="icon" href="assets/favicon.ico">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <link rel="stylesheet" href="chat.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
@@ -48,7 +47,7 @@
       <?php
       }
       ?>
-      <div class="chat">
+      <div>
         Create new chat
       </div>
     </div>
@@ -65,8 +64,19 @@
         chevron_right
       </button>
     </div>
-    <div class="currentchat">
-      blablas
+    <div class="spacer wave"></div>
+    <div id="currentchat">
+      <div class="message">
+        <img src="images/box.png" alt="">
+        <p class="user">Jonatan</p>fffffffz
+        <p id="message">Consectetur consectetur sint veniam minim magna cupidatat ea mollit aute excepteur. Minim consequat est aliquip anim deserunt reprehenderit id eiusmod ullamco. Commodo proident elit nisi ullamco commodo non nulla consequat cillum. Irure irure laboris sunt minim ea exercitation reprehenderit fugiat sunt ullamco excepteur nulla.</p>
+      </div>
+    </div>
+    <div id="newMessage">
+      <input type="text" placeholder="Message das">
+      <button class="material-symbols-outlined">
+        send
+      </button>
     </div>
   </div>
   <div class="right">
