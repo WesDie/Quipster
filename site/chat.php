@@ -66,14 +66,23 @@
     </div>
     <div class="spacer wave"></div>
     <div id="currentchat">
+
       <div class="message">
-        <img src="images/box.png" alt="">
-        <p class="user">Jonatan</p>fffffffz
+        <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="" draggable="false">
+        <b class="user">Whes</b>
         <p id="message">Consectetur consectetur sint veniam minim magna cupidatat ea mollit aute excepteur. Minim consequat est aliquip anim deserunt reprehenderit id eiusmod ullamco. Commodo proident elit nisi ullamco commodo non nulla consequat cillum. Irure irure laboris sunt minim ea exercitation reprehenderit fugiat sunt ullamco excepteur nulla.</p>
+      </div>
+      <div class="message">
+        <img src="https://cdn.discordapp.com/avatars/612355034419560449/ab133ea0a5a822d4a6fbbde202957206.webp?size=128" alt="">
+        <div class="user">
+          <b>Jonatan</b>
+          <span class="timestamp">Today at 12:34</span>
+        </div>
+        <p id="message">Anim anim elit ullamco anim minim. Esse minim elit laborum ad. Irure nisi nostrud pariatur nulla eiusmod cillum ex esse amet duis. Ullamco non est est fugiat aute.</p>
       </div>
     </div>
     <div id="newMessage">
-      <input type="text" placeholder="Message das">
+      <input type="text" placeholder="Message Whes...">
       <button class="material-symbols-outlined">
         send
       </button>

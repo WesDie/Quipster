@@ -25,3 +25,13 @@ function Toggle(side) {
     }
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
 }
+
+
+const mqLarge = window.matchMedia('(min-width: 800px)');
+mqLarge.addEventListener('change', mqHandler);
+
+function mqHandler(e) {
+    console.log(e.matches ? 'large' : 'not large');
+
+    // e.matches ?
+}
