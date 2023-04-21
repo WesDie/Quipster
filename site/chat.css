@@ -1,6 +1,7 @@
 :root {
-    --bg-primary: rgb(31, 27, 34);
-    --bg-secondary: rgb(63, 63, 63);
+    --bg-primary: #3e3744;
+    --bg-secondary: #1f1b22;
+    --bg-secondary-action: #3b3441;
     --bg-default: transparent;
 
     --txt-primary: rgb(255, 255, 255);
@@ -11,6 +12,8 @@
 * {
     background-color: var(--bg-default);
     color: var(--txt-primary);
+
+    transition-duration: 200ms;
 }
 
 body {
@@ -168,8 +171,9 @@ body {
 }
 
 .chat {
+    width: 16em;
     height: 2em;
-    background-color: var(--btn-primary);
+    background-color: var(--bg-secondary);
     cursor: pointer;
     transition-duration: 200ms;
 
@@ -180,12 +184,16 @@ body {
     grid-row-gap: 0px;
 }
 
+hr {
+    border-top: 3px solid #bbb;
+}
+
 .chat:hover {
-    background-color: rgba(205, 183, 221, 0.65);
+    background-color: var(--bg-secondary-action);
 }
 
 .chat.selected {
-    background-color: rgba(205, 183, 221, 0.696);
+    background-color: var(--btn-primary);
 }
 
 .chat img {
@@ -201,6 +209,15 @@ body {
 .chat button {
     height: inherit;
     line-height: .5;
+    /* background-color: var(--btn-primary); */
+    border: none;
+    border-radius: 40px;
+}
+
+.chat button:hover {
+    background-color: var(--btn-primary);
+    border: none;
+    border-radius: 20px;
 }
 
 
@@ -208,6 +225,7 @@ body {
     background-color: var(--bg-secondary);
     border-radius: 10px 10px 20px 20px;
     margin: 8px;
+    overflow: hidden;
 }
 
 .right {
