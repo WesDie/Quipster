@@ -140,17 +140,30 @@ body {
     /* background-color: #252525; */
 
     display: grid;
-    grid-template-columns: 2em auto auto;
+    grid-template-columns: 2em auto 2em;
     grid-template-rows: 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+
+    padding: 8px;
 }
 
 .left .user img {
+    margin: auto;
     padding: 0;
     height: 2em;
     border-radius: 40px;
     vertical-align: middle;
+}
+
+.left .user p {
+    display: inline-block;
+    margin: auto;
+    margin-left: 8px;
+}
+
+.left .user span {
+    margin: auto;
 }
 
 .settings {
@@ -198,6 +211,7 @@ body {
 }
 
 hr {
+    border: 0;
     border-top: 3px solid #bbb;
 }
 
