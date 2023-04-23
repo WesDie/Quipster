@@ -27,7 +27,7 @@
       Friend requests
     </div>
     <div class="chats">
-      <div class="chat selected">
+      <div class="chat selected" data-id="9ds13dh13d13">
         <img src="/images/box.png" alt="">
         <p>das</p>
         <button class="material-symbols-outlined">
@@ -69,7 +69,10 @@
 
       <div class="message">
         <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="" draggable="false">
-        <b class="user">Whes</b>
+        <div class="user">
+          <b>Wehs</b>
+          <span class="timestamp">Today at 12:13</span>
+        </div>
         <p id="message">Consectetur consectetur sint veniam minim magna cupidatat ea mollit aute excepteur. Minim consequat est aliquip anim deserunt reprehenderit id eiusmod ullamco. Commodo proident elit nisi ullamco commodo non nulla consequat cillum. Irure irure laboris sunt minim ea exercitation reprehenderit fugiat sunt ullamco excepteur nulla.</p>
       </div>
       <div class="message">

@@ -139,18 +139,22 @@ body {
 .left .user {
     /* background-color: #252525; */
 
-    display: inline-flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 2em auto auto;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
 .left .user img {
     padding: 0;
     height: 2em;
     border-radius: 40px;
+    vertical-align: middle;
+}
+
+.settings {
+    vertical-align: middle;
 }
 
 .settings:hover {
@@ -259,7 +263,7 @@ hr {
     padding: 8px;
 
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 2em auto;
     grid-template-rows: auto auto auto;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
@@ -270,7 +274,6 @@ hr {
 }
 
 #currentchat img {
-    display: inline-block;
     height: 2em;
     border-radius: 40px;
     grid-area: 1 / 1 / 3 / 2;
@@ -278,9 +281,6 @@ hr {
 }
 
 #currentchat .user {
-    display: inline-block;
-    vertical-align: text-bottom;
-
     padding-left: 8px;
     margin: 0;
 }
@@ -295,9 +295,6 @@ hr {
 }
 
 #message {
-    display: inline-block;
-    vertical-align: text-bottom;
-
     grid-area: 2 / 2 / 4 / 3;
     margin: 0;
     padding-left: 8px;
@@ -306,6 +303,14 @@ hr {
 
 #newMessage {
     height: 2em;
+
+    display: grid;
+    grid-template-columns: auto 2em;
+    grid-template-rows: auto;
+    grid-column-gap: 8px;
+    grid-row-gap: 0px;
+
+    padding: 8px;
 }
 
 #newMessage input {
@@ -315,6 +320,7 @@ hr {
     border-radius: 40px;
     background-color: #3d3443;
     display: inline;
+    padding: 0 8px;
 }
 
 #newMessage input:focus-visible {
@@ -328,14 +334,16 @@ hr {
     border-radius: 40px;
     background-color: #3d3443;
     display: inline;
+    user-select: none;
 }
 
 #newMessage button:hover {
     background-color: var(--btn-primary);
 }
 
-
-
+#newMessage button:focus-visible {
+    outline: none;
+}
 
 
 .right {
@@ -366,4 +374,18 @@ hr {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #3d3443;
+}
+
+
+
+
+
+@media only screen and (max-width: 800px) {
+
+    .left,
+    .middle,
+    .right {
+        border-radius: 0;
+        margin: 0;
+    }
 }
