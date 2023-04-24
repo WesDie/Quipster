@@ -81,6 +81,83 @@
         </div>
         <p id="message">Anim anim elit ullamco anim minim. Esse minim elit laborum ad. Irure nisi nostrud pariatur nulla eiusmod cillum ex esse amet duis. Ullamco non est est fugiat aute.</p>
       </div>
+      <div class="message">
+        <img src="https://cdn.discordapp.com/avatars/612355034419560449/ab133ea0a5a822d4a6fbbde202957206.webp?size=128" alt="">
+        <div class="user">
+          <b>Jonatan</b>
+          <span class="timestamp">Today at 13:31</span>
+        </div>
+        <p id="message">CREATE TABLE `users` (
+          `id` varchar (13),
+          `username` varchar (255),
+          `email` varchar (255),
+          `password` varchar (1024),
+          `pfp` varchar (255),
+          `created` date,
+          `status` enum ("online","idle","nodisturb","offline"),
+          `lastonline` datetime,
+          `banned` datetime,
+          PRIMARY KEY (`id`)
+          );
+
+          CREATE TABLE `chats` (
+          `id` varchar (13),
+          `name` varchar (255),
+          `icon` varchar (255),
+          `description` varchar (1024),
+          `created` date,
+          `type` enum ("duo","group"),
+          `reported` enum ("false","true"),
+          PRIMARY KEY (`id`)
+          );
+
+          CREATE TABLE `messages` (
+          `id` varchar (13),
+          `chat` varchar (13),
+          `user` varchar (13),
+          `sent` datetime,
+          `type` enum ("text","media"),
+          `message` varchar (255),
+          `replyto` varchar (13),
+          `pinned` enum ("false","true"),
+          PRIMARY KEY (`id`),
+          FOREIGN KEY (`user`) REFERENCES `User`(`id`),
+          FOREIGN KEY (`chat`) REFERENCES `Chat`(`id`)
+          );
+
+          CREATE TABLE `emojis` (
+          `id` varchar (13),
+          `name` varchar (255),
+          `emoji` varchar (255),
+          PRIMARY KEY (`id`)
+          );
+
+          CREATE TABLE `reactions` (
+          `message` varchar (13),
+          `emoji` varchar (13),
+          FOREIGN KEY (`message`) REFERENCES `Message`(`id`),
+          FOREIGN KEY (`emoji`) REFERENCES `Emoji`(`id`)
+          );
+
+          CREATE TABLE `chatmembers` (
+          `chat` varchar (13),
+          `user` varchar (13),
+          `joined` datetime,
+          `role` enum ("banned","member","admin","owner"),
+          FOREIGN KEY (`chat`) REFERENCES `Chat`(`id`),
+          FOREIGN KEY (`user`) REFERENCES `User`(`id`)
+          );
+
+          CREATE TABLE `friendships` (
+          `user1` varchar (13),
+          `user2` varchar (13),
+          `type` enum ("request","friends","block"),
+          FOREIGN KEY (`user2`) REFERENCES `User`(`id`),
+          FOREIGN KEY (`user1`) REFERENCES `User`(`id`)
+          );
+
+        </p>
+      </div>
     </div>
     <div id="newMessage">
       <input type="text" placeholder="Message Whes...">
