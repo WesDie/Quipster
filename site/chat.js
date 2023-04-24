@@ -27,11 +27,16 @@ function Toggle(side) {
 }
 
 
-const mqLarge = window.matchMedia('(min-width: 800px)');
-mqLarge.addEventListener('change', mqHandler);
+const mqSmall = window.matchMedia('(max-width: 800px)');
+const mqMedium = window.matchMedia('(min-width: 800px)');
+const mqLarge = window.matchMedia('(min-width: 1200px)');
 
-function mqHandler(e) {
+mqSmall.addEventListener('change', function (e) {
+    console.log(e.matches ? 'small' : 'not small');
+});
+mqMedium.addEventListener('change', function (e) {
+    console.log(e.matches ? 'medium' : 'not medium');
+});
+mqLarge.addEventListener('change', function (e) {
     console.log(e.matches ? 'large' : 'not large');
-
-    // e.matches ?
-}
+});

@@ -34,6 +34,18 @@ body {
     transition-duration: 200ms;
 }
 
+button {
+    user-select: none;
+    border: none;
+    border-radius: 40px;
+}
+
+img {
+    user-select: none;
+}
+
+
+
 @keyframes fadeinall {
     0% {
         opacity: 1;
@@ -137,7 +149,7 @@ body {
 }
 
 .left .user {
-    /* background-color: #252525; */
+    background-color: #ffffff;
 
     display: grid;
     grid-template-columns: 2em auto 2em;
@@ -160,10 +172,12 @@ body {
     display: inline-block;
     margin: auto;
     margin-left: 8px;
+    color: black;
 }
 
-.left .user span {
+.left .user button {
     margin: auto;
+    color: black;
 }
 
 .settings {
@@ -210,11 +224,6 @@ body {
     grid-row-gap: 0px;
 }
 
-hr {
-    border: 0;
-    border-top: 3px solid #bbb;
-}
-
 .chat:hover {
     background-color: var(--bg-secondary-action);
 }
@@ -238,9 +247,6 @@ hr {
 .chat button {
     height: inherit;
     line-height: .5;
-    /* background-color: var(--btn-primary); */
-    border: none;
-    border-radius: 40px;
 }
 
 .chat button:hover {
@@ -261,6 +267,32 @@ hr {
     grid-template-rows: 2fr auto;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+}
+
+.top {
+    display: grid;
+    grid-template-columns: 2em auto 2em;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+
+    padding: 8px;
+}
+
+.top p {
+    display: inline-block;
+    margin: auto;
+    margin-left: 8px;
+}
+
+.top button {
+    height: 2em;
+    line-height: .5;
+}
+
+.top button:hover {
+    background-color: var(--btn-primary);
+    border-radius: 20px;
 }
 
 #currentchat {
@@ -365,8 +397,42 @@ hr {
     border-radius: 10px 10px 20px 20px;
     margin: 8px;
     overflow: hidden;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2em auto 2em;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
+.members {
+    overflow-y: auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fill, minmax(3em, 1fr));
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+
+    padding: 0;
+}
+
+
+.wave {
+    width: 100%;
+    background-image: url('./images/wavesOpacity (6).svg'), linear-gradient(-90deg, #1f1b22, #1f1b22);
+}
+
+.spacer {
+    aspect-ratio: 960/300;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 2em;
+    /* position: absolute; */
+    /* bottom: calc(0% - 10vh); */
+}
 
 
 ::-webkit-scrollbar {

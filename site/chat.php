@@ -18,11 +18,11 @@
     <div class="user">
       <img src="images/box.png" alt="">
       <p style="display: inline-block;">Jonatan</p>
-      <span class="settings material-symbols-outlined">
+      <button class="settings material-symbols-outlined">
         settings
-      </span>
+      </button>
     </div>
-    <hr>
+    <div class="spacer wave"></div>
     <div class="friends">
       Friend requests
     </div>
@@ -57,16 +57,14 @@
       <button onclick="Toggle(true)" id="toggleLeft" class="material-symbols-outlined">
         chevron_left
       </button>
-      <p style="display: inline;">
+      <p>
         chat title
       </p>
       <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
         chevron_right
       </button>
     </div>
-    <div class="spacer wave"></div>
     <div id="currentchat">
-
       <div class="message">
         <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="" draggable="false">
         <div class="user">
@@ -92,12 +90,30 @@
     </div>
   </div>
   <div class="right">
-    <p>pizza</p>
+    <div class="top">
+      Members
+    </div>
+    <div class="members">
+      <?php
+      for ($i = 0; $i < 10; $i++) {
+      ?>
+        <div class="chat">
+          <img src="/images/box.png" alt="">
+          <p>das</p>
+          <button class="material-symbols-outlined">
+            more_horiz
+          </button>
+        </div>
+      <?php
+      }
+      ?>
+    </div>
+    <button>Invite members</button>
   </div>
-  <div id="fadein"></div>
+  <!-- <div id="fadein"></div>
   <div id="loader-wrapper">
     <div class="loader"></div>
-  </div>
+  </div> -->
   <script type="text/javascript">
     window.onload = function() {
       setTimeout(function() {
