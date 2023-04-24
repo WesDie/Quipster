@@ -87,7 +87,8 @@
           <b>Jonatan</b>
           <span class="timestamp">Today at 13:31</span>
         </div>
-        <p id="message">CREATE TABLE `users` (
+        <p id="message">
+          CREATE TABLE `users` (
           `id` varchar (13),
           `username` varchar (255),
           `email` varchar (255),
@@ -121,8 +122,8 @@
           `replyto` varchar (13),
           `pinned` enum ("false","true"),
           PRIMARY KEY (`id`),
-          FOREIGN KEY (`user`) REFERENCES `User`(`id`),
-          FOREIGN KEY (`chat`) REFERENCES `Chat`(`id`)
+          FOREIGN KEY (`user`) REFERENCES `users`(`id`),
+          FOREIGN KEY (`chat`) REFERENCES `chats`(`id`)
           );
 
           CREATE TABLE `emojis` (
@@ -135,8 +136,8 @@
           CREATE TABLE `reactions` (
           `message` varchar (13),
           `emoji` varchar (13),
-          FOREIGN KEY (`message`) REFERENCES `Message`(`id`),
-          FOREIGN KEY (`emoji`) REFERENCES `Emoji`(`id`)
+          FOREIGN KEY (`message`) REFERENCES `messages`(`id`),
+          FOREIGN KEY (`emoji`) REFERENCES `emojis`(`id`)
           );
 
           CREATE TABLE `chatmembers` (
@@ -144,18 +145,17 @@
           `user` varchar (13),
           `joined` datetime,
           `role` enum ("banned","member","admin","owner"),
-          FOREIGN KEY (`chat`) REFERENCES `Chat`(`id`),
-          FOREIGN KEY (`user`) REFERENCES `User`(`id`)
+          FOREIGN KEY (`chat`) REFERENCES `chats`(`id`),
+          FOREIGN KEY (`user`) REFERENCES `users`(`id`)
           );
 
           CREATE TABLE `friendships` (
           `user1` varchar (13),
           `user2` varchar (13),
           `type` enum ("request","friends","block"),
-          FOREIGN KEY (`user2`) REFERENCES `User`(`id`),
-          FOREIGN KEY (`user1`) REFERENCES `User`(`id`)
+          FOREIGN KEY (`user2`) REFERENCES `users`(`id`),
+          FOREIGN KEY (`user1`) REFERENCES `users`(`id`)
           );
-
         </p>
       </div>
     </div>
