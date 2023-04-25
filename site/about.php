@@ -1,3 +1,7 @@
+<?php
+    require 'db.php';
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +19,13 @@
         <a href="download.php">DOWNLOAD</a>
         <a href="about.php">ABOUT</a>
         <a href="contact.php">CONTACT</a>
-        <a class="loginBtn" href="login.php#login">LOGIN</a>
+        <?php      
+            if (isset($_SESSION['logedin']) && $_SESSION['logedin'] === true) {
+                ?>  <a class="loginBtn" href="chat.php">OPEN</a> <?php
+            } else{
+                ?>  <a class="loginBtn" href="login.php#login">LOGIN</a> <?php
+            }
+        ?>
     </nav>
     <section class="heroSection">
         <div class="heroContainer">
