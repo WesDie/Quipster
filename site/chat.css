@@ -460,12 +460,16 @@ img {
 
 
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 600px) {
 
     .left,
     .middle,
     .right {
         border-radius: 0;
         margin: 0;
+    }
+
+    .chat{
+        width: auto;
     }
 }
