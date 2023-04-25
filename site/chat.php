@@ -68,7 +68,7 @@
       <div class="message">
         <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="" draggable="false">
         <div class="user">
-          <b>Wehs</b>
+          <b>Wes</b>
           <span class="timestamp">Today at 12:13</span>
         </div>
         <p id="message">Consectetur consectetur sint veniam minim magna cupidatat ea mollit aute excepteur. Minim consequat est aliquip anim deserunt reprehenderit id eiusmod ullamco. Commodo proident elit nisi ullamco commodo non nulla consequat cillum. Irure irure laboris sunt minim ea exercitation reprehenderit fugiat sunt ullamco excepteur nulla.</p>
@@ -160,7 +160,7 @@
       </div>
     </div>
     <div id="newMessage">
-      <input type="text" placeholder="Message Whes...">
+      <input type="text" placeholder="Message Wes...">
       <button class="material-symbols-outlined">
         send
       </button>
@@ -187,6 +187,13 @@
     </div>
     <button>Invite members</button>
   </div>
+  <div id="settings">
+    Settings
+  </div>
+
+
+
+
   <!-- <div id="fadein"></div>
   <div id="loader-wrapper">
     <div class="loader"></div>
