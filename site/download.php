@@ -11,11 +11,11 @@
     <img src="https://cdn.discordapp.com/attachments/953594570518691900/1097267231500546068/logoQuipster.png" alt="" class="logoImg">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png" alt="" class="navIcon">
     <nav class="navbar">
-        <a href="land.html">HOME</a>
-        <a href="download.html">DOWNLOAD</a>
-        <a href="about.html">ABOUT</a>
-        <a href="contact.html">CONTACT</a>
-        <a class="loginBtn" href="login.html#login">LOGIN</a>
+        <a href="land.php">HOME</a>
+        <a href="download.php">DOWNLOAD</a>
+        <a href="about.php">ABOUT</a>
+        <a href="contact.php">CONTACT</a>
+        <a class="loginBtn" href="login.php#login">LOGIN</a>
     </nav>
     <section class="heroSection">
         <div class="heroContainer">

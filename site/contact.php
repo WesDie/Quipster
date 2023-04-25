@@ -11,17 +11,17 @@
     <img src="https://cdn.discordapp.com/attachments/953594570518691900/1097267231500546068/logoQuipster.png" alt="" class="logoImg">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png" alt="" class="navIcon">
     <nav class="navbar">
-        <a href="land.html">HOME</a>
-        <a href="download.html">DOWNLOAD</a>
-        <a href="about.html">ABOUT</a>
-        <a href="contact.html">CONTACT</a>
-        <a class="loginBtn" href="login.html#login">LOGIN</a>
+        <a href="land.php">HOME</a>
+        <a href="download.php">DOWNLOAD</a>
+        <a href="about.php">ABOUT</a>
+        <a href="contact.php">CONTACT</a>
+        <a class="loginBtn" href="login.php#login">LOGIN</a>
     </nav>
     <section class="heroSection">
         <div class="heroContainer">
             <div>
-                <h1>About <span>us</span></h1>
-                <p>Do you want to know more about us learn more here!</p>
+                <h1>Contact <span>us</span></h1>
+                <p>Do you have any questions you can ask it here.</p>
             </div>
             <div class="image-chat-hero-div">
                 <svg class="chatBoxLeft" width="571" height="334" viewBox="0 0 571 334" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,23 +43,35 @@
             </div>
             <div class="infoContainerTextDiv">
                 <div class="inner-infoTextContainer">
-                    <h1 class="hidden">Information 1</h1>
-                    <p class="hidden">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed laoreet nisi. Integer ut pretium nulla. Aenean mattis efficitur elit id consectetur. Mauris vehicula quis ipsum eu molestie. Phasellus pretium felis ac auctor interdum. Ut varius porttitor felis, ac efficitur turpis dignissim ut. Praesent aliquam sapien in magna tincidunt, et tempor dolor ornare. Vivamus id orci ac nisi accumsan varius. Nam pulvinar ut massa in tristique.</p>
+                    <h1 class="hidden">When are we available?</h1>
+                    <p class="hidden">We are available at any day of the week the times are as follows: </p>
+                    <p class="hidden">Monday: 8:00 UTC - 20:00 UTC <br> Tuesday: 8:00 UTC - 20:00 UTC <br> Wednesday: 8:00 UTC - 20:00 UTC <br> Thursday: 8:00 UTC - 20:00 UTC <br> Friday: 8:00 UTC - 4:00 UTC <br> Saturday: 12:00 UTC - 4:00 UTC <br> Sunday: 12:00 UTC - 4:00 UTC </p>
                 </div>
             </div>
         </div>
     </section>
     <div class="spacer layer2"></div>
     <section class="infoContainer2">
-            <div class="infoDivContainerLeftImg">
-                <div class="infoContainerTextDiv">
+            <div class="infoDivContainerLog">
+                <div class="infoContainerStatsDiv">
                     <div class="inner-infoTextContainer">
-                        <h1 class="hidden">Information 2</h1>
-                        <p class="hidden">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed laoreet nisi. Integer ut pretium nulla. Aenean mattis efficitur elit id consectetur. Mauris vehicula quis ipsum eu molestie. Phasellus pretium felis ac auctor interdum. Ut varius porttitor felis, ac efficitur turpis dignissim ut. Praesent aliquam sapien in magna tincidunt, et tempor dolor ornare. Vivamus id orci ac nisi accumsan varius. Nam pulvinar ut massa in tristique.</p>
+                        <h1 class="hidden">Contact Us</h1>
+                        <p class="hidden" style="background: -webkit-linear-gradient(0deg, #000000, #000000); -webkit-background-clip: text; font-size: 20px;">You can fill in this contact form to ask us any questions.</p>
+                        <div class="contactFormContainer">
+                            <form action="" class="contactForm">
+                                <label for="">Email</label>
+                                <input type="text" placeholder="Your Email">
+                                <label for="">First name</label>
+                                <input type="text" placeholder="First name">
+                                <label for="">Last name</label>
+                                <input type="text" placeholder="Last name">
+                                <label for="">Subject</label>
+                                <input type="text" placeholder="Subject">
+                                <label for="">Text</label>
+                                <textarea id="subject" name="subject" placeholder="Write something.."></textarea>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <div class="infoContainerImgDiv">
-                    <img src="https://cdn.discordapp.com/attachments/953594570518691900/1097588718874935426/image.png" alt="" class="ChatImg">
                 </div>
             </div>
     </section>
