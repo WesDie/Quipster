@@ -1,3 +1,23 @@
+<?php
+    require 'db.php';
+    session_start();
+
+    $sthandler = $conn->prepare("SELECT * FROM users");
+    $sthandler->execute();
+    $userCount = $sthandler->rowCount();
+
+    $sthandler = $conn->prepare("SELECT * FROM users WHERE status = 'online'");
+    $sthandler->execute();
+    $userActiveCount = $sthandler->rowCount();
+
+    $sthandler = $conn->prepare("SELECT * FROM messages WHERE type = 'group'");
+    $sthandler->execute();
+    $messageCount = $sthandler->rowCount();
+
+    $sthandler = $conn->prepare("SELECT * FROM chats");
+    $sthandler->execute();
+    $groupCount = $sthandler->rowCount();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +35,13 @@
         <a href="download.php">DOWNLOAD</a>
         <a href="about.php">ABOUT</a>
         <a href="contact.php">CONTACT</a>
-        <a class="loginBtn" href="login.php#login">LOGIN</a>
+        <?php      
+            if (isset($_SESSION['logedin']) && $_SESSION['logedin'] === true) {
+                ?>  <a class="loginBtn" href="chat.php">OPEN</a> <?php
+            } else{
+                ?>  <a class="loginBtn" href="login.php#login">LOGIN</a> <?php
+            }
+        ?>
     </nav>
     <section class="heroSection">
         <div class="heroContainer">
@@ -96,25 +122,25 @@
                 <div class="infoContainerStatsDiv">
                     <div class="inner-infoTextContainer">
                         <h1 class="hidden">Active users:</h1>
-                        <p class="hidden">368.372</p>
+                        <p class="hidden"><?php echo $userActiveCount ?></p>
                     </div>
                 </div>
                 <div class="infoContainerStatsDiv">
                     <div class="inner-infoTextContainer">
                         <h1 class="hidden">Users:</h1>
-                        <p class="hidden">1.822.212</p>
+                        <p class="hidden"><?php echo $userCount ?></p>
                     </div>
                 </div>
                 <div class="infoContainerStatsDiv">
                     <div class="inner-infoTextContainer">
                         <h1 class="hidden">Messages:</h1>
-                        <p class="hidden">2.382.387.578</p>
+                        <p class="hidden"><?php echo $messageCount ?></p>
                     </div>
                 </div>
                 <div class="infoContainerStatsDiv">
                     <div class="inner-infoTextContainer">
                         <h1 class="hidden">Groups:</h1>
-                        <p class="hidden">2.543.123</p>
+                        <p class="hidden"><?php echo $groupCount ?></p>
                     </div>
                 </div>
             </div>

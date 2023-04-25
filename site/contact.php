@@ -1,3 +1,7 @@
+<?php
+    require 'db.php';
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +19,13 @@
         <a href="download.php">DOWNLOAD</a>
         <a href="about.php">ABOUT</a>
         <a href="contact.php">CONTACT</a>
-        <a class="loginBtn" href="login.php#login">LOGIN</a>
+        <?php      
+            if (isset($_SESSION['logedin']) && $_SESSION['logedin'] === true) {
+                ?>  <a class="loginBtn" href="chat.php">OPEN</a> <?php
+            } else{
+                ?>  <a class="loginBtn" href="login.php#login">LOGIN</a> <?php
+            }
+        ?>
     </nav>
     <section class="heroSection">
         <div class="heroContainer">
@@ -56,7 +66,7 @@
                 <div class="infoContainerStatsDiv">
                     <div class="inner-infoTextContainer">
                         <h1 class="hidden">Contact Us</h1>
-                        <p class="hidden" style="background: -webkit-linear-gradient(0deg, #000000, #000000); -webkit-background-clip: text; font-size: 20px;">You can fill in this contact form to ask us any questions.</p>
+                        <p class="hidden" style="background: -webkit-linear-gradient(0deg, #000000, #000000); --webkit-background-clip: text; font-size: 20px;">You can fill in this contact form to ask us any questions.</p>
                         <div class="contactFormContainer">
                             <form action="" class="contactForm">
                                 <label for="">Email</label>
