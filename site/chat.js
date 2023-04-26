@@ -68,3 +68,34 @@ function Toggle(side) {
     }
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
 }
+
+
+
+
+function ChangeChat() {
+
+}
+
+
+function ChangeSettingTab() {
+
+}
+
+var settingsOpen = false;
+function SettingsToggle() {
+    if (settingsOpen) {
+        document.getElementById("middle").removeAttribute("inert","");
+        document.getElementById("right").removeAttribute("inert","");
+
+        document.getElementById("settings").style.display = "none";
+        document.getElementById("settings").setAttribute("inert","");
+        settingsOpen = false;
+    }else{
+        document.getElementById("middle").setAttribute("inert","");
+        document.getElementById("right").setAttribute("inert","");
+
+        document.getElementById("settings").style.display = "grid";
+        document.getElementById("settings").removeAttribute("inert","");
+        settingsOpen = true;
+    }
+}

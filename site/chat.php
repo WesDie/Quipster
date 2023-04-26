@@ -14,11 +14,11 @@
 </head>
 
 <body>
-  <div class="left">
+  <div id="left">
     <div class="user">
       <img src="images/box.png" alt="">
       <p style="display: inline-block;">Jonatan</p>
-      <button class="settings material-symbols-outlined">
+      <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
         settings
       </button>
     </div>
@@ -52,7 +52,7 @@
       </div>
     </div>
   </div>
-  <div class="middle">
+  <div id="middle">
     <div class="top">
       <button onclick="Toggle(true)" id="toggleLeft" class="material-symbols-outlined">
         chevron_left
@@ -166,7 +166,7 @@
       </button>
     </div>
   </div>
-  <div class="right">
+  <div id="right">
     <div class="top">
       Members
     </div>
@@ -187,8 +187,45 @@
     </div>
     <button>Invite members</button>
   </div>
-  <div id="settings">
-    Settings
+  <div id="settings" style="display: none">
+    <div class="back">
+      <button onclick="SettingsToggle()" class="material-symbols-outlined">close</button>
+    </div>
+    <div id="catagories">
+      <button class="catagory selected">
+        Profile
+      </button>
+      <button class="catagory">
+        Privacy
+      </button>
+      <button class="catagory">
+        Notification
+      </button>
+      <button class="catagory">
+        Chat
+      </button>
+      <button class="catagory">
+        Media
+      </button>
+      <button class="catagory">
+        Security
+      </button>
+      <button class="catagory">
+        Language
+      </button>
+      <button class="catagory" inert>
+        Help and support
+      </button>
+      <button class="catagory">
+        Account
+      </button>
+      <button class="catagory">
+        Logout
+      </button>
+    </div>
+    <div class="setting">
+      <p>Dummy setting</p>
+    </div>
   </div>
 
 
