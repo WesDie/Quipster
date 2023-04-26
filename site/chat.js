@@ -2,17 +2,40 @@ var window = null;
 const mqSmall = window.matchMedia('(max-width: 800px)');
 const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1200px)');
 const mqLarge = window.matchMedia('(min-width: 1200px)');
+let leftOpen = true, rightOpen = true, left = "auto", right = "auto";
 
 mqSmall.addEventListener('change', function (e) {
     if (e.matches) {
         window = "small"; console.log('small');
         document.getElementsByTagName("body")[0].style.gridTemplateColumns = 0 + " 1fr " + 0;
+
+        document.getElementById("toggleLeft").innerHTML = "chevron_right";
+        left = 0;
+        leftOpen = false;
+
+        document.getElementById("toggleRight").innerHTML = "chevron_left";
+        right = 0;
+        rightOpen = false;
+
+        document.getElementById("left").setAttribute("inert", "");
+        document.getElementById("right").setAttribute("inert", "");
     }
 });
 mqMedium.addEventListener('change', function (e) {
     if (e.matches) {
         window = "medium"; console.log('medium');
         document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + 0;
+
+        document.getElementById("toggleLeft").innerHTML = "chevron_left";
+        left = "auto";
+        leftOpen = true;
+
+        document.getElementById("toggleRight").innerHTML = "chevron_left";
+        right = 0;
+        rightOpen = false;
+
+        document.getElementById("left").removeAttribute("inert", "");
+        document.getElementById("right").setAttribute("inert", "");
     }
 });
 mqLarge.addEventListener('change', function (e) {
@@ -25,7 +48,6 @@ mqLarge.addEventListener('change', function (e) {
 
 // document.getElementById("toggleLeft").addEventListener("click", Toggle(0));
 // document.getElementById("toggleRight").addEventListener("click", Toggle(1));
-let leftOpen = true, rightOpen = true, left = "auto", right = "auto";
 function Toggle(side) {
     if (side) {
         if (leftOpen) {
@@ -33,11 +55,12 @@ function Toggle(side) {
             left = 0;
             leftOpen = false;
         } else {
-            if (window === "large") {
+            if (window == "large") {
                 document.getElementById("toggleLeft").innerHTML = "chevron_left";
                 left = "auto";
                 leftOpen = true;
             } else {
+                console.log("yes");
                 document.getElementById("toggleLeft").innerHTML = "chevron_left";
                 left = "auto";
                 leftOpen = true;
@@ -52,7 +75,7 @@ function Toggle(side) {
             right = 0;
             rightOpen = false;
         } else {
-            if (window === "large") {
+            if (window == "large") {
                 document.getElementById("toggleRight").innerHTML = "chevron_right";
                 right = "auto";
                 rightOpen = true;
@@ -78,24 +101,24 @@ function ChangeChat() {
 
 
 function ChangeSettingTab() {
-
+    
 }
 
 var settingsOpen = false;
 function SettingsToggle() {
     if (settingsOpen) {
-        document.getElementById("middle").removeAttribute("inert","");
-        document.getElementById("right").removeAttribute("inert","");
+        document.getElementById("middle").removeAttribute("inert", "");
+        document.getElementById("right").removeAttribute("inert", "");
 
         document.getElementById("settings").style.display = "none";
-        document.getElementById("settings").setAttribute("inert","");
+        document.getElementById("settings").setAttribute("inert", "");
         settingsOpen = false;
-    }else{
-        document.getElementById("middle").setAttribute("inert","");
-        document.getElementById("right").setAttribute("inert","");
+    } else {
+        document.getElementById("middle").setAttribute("inert", "");
+        document.getElementById("right").setAttribute("inert", "");
 
         document.getElementById("settings").style.display = "grid";
-        document.getElementById("settings").removeAttribute("inert","");
+        document.getElementById("settings").removeAttribute("inert", "");
         settingsOpen = true;
     }
 }
