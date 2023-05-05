@@ -40,6 +40,7 @@ button {
     user-select: none;
     border: none;
     border-radius: 40px;
+    cursor: pointer;
 }
 
 img {
@@ -126,9 +127,6 @@ img {
 
 
 
-
-
-
 #left {
     grid-area: 1 / 1 / 2 / 2;
     margin: 8px;
@@ -138,7 +136,7 @@ img {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, .1fr) 1fr;
+    grid-template-rows: 3em 2em 2em 1fr;
     grid-column-gap: 20px;
     grid-row-gap: 0px;
 }
@@ -202,7 +200,7 @@ img {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    grid-template-rows: repeat(auto-fill, minmax(3em, 1fr));
     grid-column-gap: 0;
     grid-row-gap: 0;
 
@@ -218,7 +216,7 @@ img {
     transition-duration: 200ms;
 
     display: grid;
-    grid-template-columns: .1fr 1fr .1fr;
+    grid-template-columns: .0fr 1fr .0fr;
     grid-template-rows: 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
@@ -226,6 +224,10 @@ img {
 
 .chat:hover {
     background-color: var(--bg-secondary-action);
+}
+
+.chat:hover > button {
+    display: inline-block;
 }
 
 .chat.selected {
@@ -242,11 +244,16 @@ img {
     margin: 0;
     padding: 5px;
     padding-left: 8px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .chat button {
     height: inherit;
     line-height: .5;
+    display: none;
 }
 
 .chat button:hover {
@@ -278,6 +285,9 @@ img {
     grid-row-gap: 0px;
 
     padding: 8px;
+    height: 3em;
+    /* box-shadow: 0px 0px 50px 10px #1F1B22; */
+    z-index: 2;
 }
 
 .top p {
@@ -419,21 +429,8 @@ img {
     padding: 0;
 }
 
-
 .wave {
-    width: 100%;
-    background-image: url('./images/wavesOpacity (6).svg'), linear-gradient(-90deg, #1f1b22, #1f1b22);
-}
-
-.spacer {
-    aspect-ratio: 960/300;
-    width: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 2em;
-    /* position: absolute; */
-    /* bottom: calc(0% - 10vh); */
+    background-image: url('./images/wavesOpacity (6).svg');
 }
 
 
@@ -449,6 +446,7 @@ img {
     grid-template-rows: 4em 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    z-index: 20;
 }
 
 #catagories {
@@ -471,6 +469,7 @@ img {
     margin: 4px;
     padding: 0;
 }
+
 #settings button.selected {
     background-color: red;
 }
