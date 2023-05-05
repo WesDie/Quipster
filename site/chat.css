@@ -7,6 +7,7 @@
     --bg-default: transparent;
 
     --txt-primary: rgb(255, 255, 255);
+    --txt-secondary: rgba(255, 255, 255, 0.62);
 
     --btn-primary: rgba(205, 183, 221, 0.5);
 
@@ -143,7 +144,7 @@ img {
 
 #left *,
 #right * {
-    color: #ffffff9e;
+    color: var(--txt-secondary);
 }
 
 #left .user {
@@ -224,14 +225,16 @@ img {
 
 .chat:hover {
     background-color: var(--bg-secondary-action);
+    color: var(--txt-primary) !important;
 }
 
-.chat:hover > button {
+.chat:hover>button {
     display: inline-block;
 }
 
 .chat.selected {
     background-color: var(--btn-primary);
+    color: var(--txt-secondary) !important;
 }
 
 .chat img {
@@ -349,6 +352,7 @@ img {
 #currentchat .user .timestamp {
     font-weight: 100;
     font-size: .75em;
+    color: var(--txt-secondary);
 }
 
 #message {
@@ -486,6 +490,13 @@ img {
 .setting {
     margin: auto;
     justify-content: left;
+}
+
+
+#context-menu {
+    display: none;
+    position: absolute;
+    background-color: var(--bg-primary);
 }
 
 

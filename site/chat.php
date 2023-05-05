@@ -16,7 +16,7 @@
 <body>
   <div id="left">
     <div class="user">
-      <img src="images/box.png" alt="">
+      <img src="https://cdn.discordapp.com/avatars/612355034419560449/ab133ea0a5a822d4a6fbbde202957206.webp?size=128" alt="">
       <p style="display: inline-block;">Jonatan</p>
       <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
         settings
@@ -29,7 +29,7 @@
     <div class="chats">
       <div class="chat selected" data-id="9ds13dh13d13">
         <img src="/images/box.png" alt="">
-        <p>das</p>
+        <p>das gfhadiygfadfiygasdsdagfhadiygfadfiygasdsdagfhadiygfadfiygasdsdagfhadiygfadfiygasdsdagfhadiygfadfiygasdsda</p>
         <button class="material-symbols-outlined">
           more_horiz
         </button>
@@ -38,8 +38,8 @@
       for ($i = 0; $i < 20; $i++) {
       ?>
         <div class="chat">
-          <img src="/images/box.png" alt="">
-          <p>das</p>
+          <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
+          <p>das ilad gfhadiygfadfiygasdsda</p>
           <button class="material-symbols-outlined">
             more_horiz
           </button>
@@ -246,6 +246,43 @@
     $(window).on('load', function() {
       $("#loader-wrapper").fadeOut(700);
     });
+  </script>
+
+
+  <div id="context-menu">
+    <div class="item">
+      <button>Emoji</button>
+    </div>
+    <div class="item">
+      <button>Reply</button>
+    </div>
+    <div class="divider"></div>
+    <div class="item">
+      <button>idk</button>
+    </div>
+  </div>
+  <script>
+    const contextMenu = document.getElementById("context-menu");
+    console.log(contextMenu)
+
+    window.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      let x = e.offsetX,
+        y = e.offsetY,
+        winWidth = window.innerWidth,
+        winHeight = window.innerHeight,
+        cmWidth = contextMenu.offsetWidth,
+        cmHeight = contextMenu.offsetHeight;
+
+      x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
+      y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+
+      contextMenu.style.left = `${x}px`;
+      contextMenu.style.top = `${y}px`;
+      contextMenu.style.display = "block";
+    });
+
+    document.addEventListener("click", () => contextMenu.style.display = "none");
   </script>
 </body>
 

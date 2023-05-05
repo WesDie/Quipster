@@ -101,7 +101,7 @@ function ChangeChat() {
 
 
 function ChangeSettingTab() {
-    
+
 }
 
 var settingsOpen = false;
@@ -122,3 +122,31 @@ function SettingsToggle() {
         settingsOpen = true;
     }
 }
+
+
+
+
+
+
+/*
+
+const contextMenu = document.getElementById("cmenu");
+console.log(contextMenu)
+
+window.addEventListener("contextmenu", e => {
+    e.preventDefault();
+    let x = e.offsetX, y = e.offsetY,
+        winWidth = window.innerWidth,
+        winHeight = window.innerHeight,
+        cmWidth = contextMenu.offsetWidth,
+        cmHeight = contextMenu.offsetHeight;
+
+    x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
+    y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+
+    contextMenu.style.left = `${x}px`;
+    contextMenu.style.top = `${y}px`;
+    contextMenu.style.visibility = "visible";
+});
+
+document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
