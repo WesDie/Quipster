@@ -235,18 +235,6 @@
   <div id="loader-wrapper">
     <div class="loader"></div>
   </div> -->
-  <script type="text/javascript">
-    window.onload = function() {
-      setTimeout(function() {
-        document.getElementById("fadein").remove();
-      }, 1000);
-    };
-  </script>
-  <script type="text/javascript">
-    $(window).on('load', function() {
-      $("#loader-wrapper").fadeOut(700);
-    });
-  </script>
 
 
   <div id="context-menu">
@@ -267,8 +255,8 @@
 
     window.addEventListener("contextmenu", e => {
       e.preventDefault();
-      let x = e.offsetX,
-        y = e.offsetY,
+      let x = e.clientX,
+        y = e.clientY,
         winWidth = window.innerWidth,
         winHeight = window.innerHeight,
         cmWidth = contextMenu.offsetWidth,

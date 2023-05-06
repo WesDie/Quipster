@@ -497,11 +497,19 @@ img {
     display: none;
     position: absolute;
     background-color: var(--bg-primary);
+    border-radius: 6px;
+    color: var(--txt-primary);
+    padding: 4px;
 }
 
+#context-menu button {
+    /* background-color: var(--bg-secondary); */
+    border-radius: 4px;
+}
 
-
-
+#context-menu button:hover {
+    background-color: var(--bg-secondary);
+}
 
 
 
