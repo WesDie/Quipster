@@ -27,17 +27,10 @@
       Friend requests
     </div>
     <div class="chats">
-      <div class="chat selected" data-id="9ds13dh13d13">
-        <img src="/images/box.png" alt="">
-        <p>das gfhadiygfadfiygasdsdagfhadiygfadfiygasdsdagfhadiygfadfiygasdsdagfhadiygfadfiygasdsdagfhadiygfadfiygasdsda</p>
-        <button class="material-symbols-outlined">
-          more_horiz
-        </button>
-      </div>
       <?php
       for ($i = 0; $i < 20; $i++) {
       ?>
-        <div class="chat">
+        <div class="chat<?php echo $i == 4 ? " selected" : "" ?>">
           <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
           <p>das ilad gfhadiygfadfiygasdsda</p>
           <button class="material-symbols-outlined">
@@ -71,7 +64,10 @@
           <b>Wes</b>
           <span class="timestamp">Today at 12:13</span>
         </div>
-        <p id="message">Consectetur consectetur sint veniam minim magna cupidatat ea mollit aute excepteur. Minim consequat est aliquip anim deserunt reprehenderit id eiusmod ullamco. Commodo proident elit nisi ullamco commodo non nulla consequat cillum. Irure irure laboris sunt minim ea exercitation reprehenderit fugiat sunt ullamco excepteur nulla.</p>
+        <p id="message">Consectetur consectetur sint veniam minim magna cupidatat ea mollit aute excepteur.
+          Minim consequat est aliquip anim deserunt reprehenderit id eiusmod ullamco. Commodo proident elit
+          nisi ullamco commodo non nulla consequat cillum. Irure irure laboris sunt minim ea exercitation
+          reprehenderit fugiat sunt ullamco excepteur nulla.</p>
       </div>
       <div class="message">
         <img src="https://cdn.discordapp.com/avatars/612355034419560449/ab133ea0a5a822d4a6fbbde202957206.webp?size=128" alt="">
@@ -79,7 +75,8 @@
           <b>Jonatan</b>
           <span class="timestamp">Today at 12:34</span>
         </div>
-        <p id="message">Anim anim elit ullamco anim minim. Esse minim elit laborum ad. Irure nisi nostrud pariatur nulla eiusmod cillum ex esse amet duis. Ullamco non est est fugiat aute.</p>
+        <p id="message">Anim anim elit ullamco anim minim. Esse minim elit laborum ad. Irure nisi nostrud
+          pariatur nulla eiusmod cillum ex esse amet duis. Ullamco non est est fugiat aute.</p>
       </div>
       <div class="message">
         <img src="https://cdn.discordapp.com/avatars/612355034419560449/ab133ea0a5a822d4a6fbbde202957206.webp?size=128" alt="">
@@ -251,10 +248,10 @@
   </div>
   <script>
     const contextMenu = document.getElementById("context-menu");
-    console.log(contextMenu)
 
     window.addEventListener("contextmenu", e => {
       e.preventDefault();
+      contextMenu.style.display = "none";
       let x = e.clientX,
         y = e.clientY,
         winWidth = window.innerWidth,
@@ -267,8 +264,24 @@
 
       contextMenu.style.left = `${x}px`;
       contextMenu.style.top = `${y}px`;
-      contextMenu.style.display = "block";
+      contextMenu.style.display = "grid";
     });
+
+    function ContextMenu() {
+      let x = e.clientX,
+        y = e.clientY,
+        winWidth = window.innerWidth,
+        winHeight = window.innerHeight,
+        cmWidth = contextMenu.offsetWidth,
+        cmHeight = contextMenu.offsetHeight;
+
+      x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
+      y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+
+      contextMenu.style.left = `${x}px`;
+      contextMenu.style.top = `${y}px`;
+      contextMenu.style.display = "grid";
+    }
 
     document.addEventListener("click", () => contextMenu.style.display = "none");
   </script>

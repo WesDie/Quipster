@@ -201,7 +201,7 @@ img {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(auto-fill, minmax(3em, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(3em, 0fr));
     grid-column-gap: 0;
     grid-row-gap: 0;
 
@@ -228,13 +228,20 @@ img {
     color: var(--txt-primary) !important;
 }
 
-.chat:hover>button {
+.chat:hover button {
     display: inline-block;
+}
+
+.chat:hover p {
+    color: var(--txt-primary) !important;
 }
 
 .chat.selected {
     background-color: var(--btn-primary);
-    color: var(--txt-secondary) !important;
+}
+
+.chat.selected p {
+    color: var(--txt-primary) !important;
 }
 
 .chat img {
@@ -263,6 +270,7 @@ img {
     background-color: var(--btn-primary);
     border: none;
     border-radius: 20px;
+    color: var(--txt-primary) !important;
 }
 
 
@@ -500,11 +508,26 @@ img {
     border-radius: 6px;
     color: var(--txt-primary);
     padding: 4px;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fill, minmax(2em, 1fr));
+    grid-column-gap: 0px;
+    grid-row-gap: 2px;
+
+    -webkit-box-shadow: 0px 0px 15px 5px #181818;
+    box-shadow: 0px 0px 15px 5px #181818;
+}
+
+#context-menu .item {
+    width: 100%;
+    height: 100%;
 }
 
 #context-menu button {
     /* background-color: var(--bg-secondary); */
     border-radius: 4px;
+    width: 100%;
+    height: 100%;
 }
 
 #context-menu button:hover {
