@@ -32,11 +32,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div class="friends">
         Friend requests
       </div>
-      <div class="chats">
+      <div class="list">
         <?php
         for ($i = 0; $i < 20; $i++) {
         ?>
-          <div class="chat<?php echo $i == 4 ? " selected" : "" ?>">
+          <div class="list-item<?php echo $i == 4 ? " selected" : "" ?>">
             <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
             <p>das ilad gfhadiygfadfiygasdsda</p>
             <button class="material-symbols-outlined">
@@ -46,9 +46,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <?php
         }
         ?>
-        <div>
-          Create new chat
-        </div>
+      </div>
+      <div>
+        Create new chat
       </div>
     </div>
     <div id="middle">
@@ -173,11 +173,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div class="top">
         Members
       </div>
-      <div class="members">
+      <div class="list">
         <?php
         for ($i = 0; $i < 10; $i++) {
         ?>
-          <div class="chat">
+          <div class="list-item">
             <img src="/images/box.png" alt="">
             <p>das</p>
             <button class="material-symbols-outlined">

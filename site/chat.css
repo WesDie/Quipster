@@ -196,7 +196,7 @@ img {
     /* background-color: rgb(54, 54, 54); */
 }
 
-.chats {
+.list {
     overflow-y: auto;
 
     display: grid;
@@ -208,7 +208,7 @@ img {
     padding: 0;
 }
 
-.chat {
+.list-item {
     width: 16em;
     height: 2em;
     padding: 8px;
@@ -223,34 +223,34 @@ img {
     grid-row-gap: 0px;
 }
 
-.chat:hover {
+.list-item:hover {
     background-color: var(--bg-secondary-action);
     color: var(--txt-primary) !important;
 }
 
-.chat:hover button {
+.list-item:hover button {
     display: inline-block;
 }
 
-.chat:hover p {
+.list-item:hover p {
     color: var(--txt-primary) !important;
 }
 
-.chat.selected {
+.list-item.selected {
     background-color: var(--btn-primary);
 }
 
-.chat.selected p {
+.list-item.selected p {
     color: var(--txt-primary) !important;
 }
 
-.chat img {
+.list-item img {
     padding: 0;
     height: 2em;
     border-radius: 40px;
 }
 
-.chat p {
+.list-item p {
     margin: 0;
     padding: 5px;
     padding-left: 8px;
@@ -260,13 +260,13 @@ img {
     text-overflow: ellipsis;
 }
 
-.chat button {
+.list-item button {
     height: inherit;
     line-height: .5;
     display: none;
 }
 
-.chat button:hover {
+.list-item button:hover {
     background-color: var(--btn-primary);
     border: none;
     border-radius: 20px;
@@ -582,7 +582,7 @@ img {
         margin: 0;
     }
 
-    .chat {
+    .list-item {
         width: auto;
     }
 }
