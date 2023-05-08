@@ -23,7 +23,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     <div id="left">
       <div class="user">
         <img src="https://cdn.discordapp.com/avatars/612355034419560449/ab133ea0a5a822d4a6fbbde202957206.webp?size=128" alt="">
-        <p style="display: inline-block;">Jonatan</p>
+        <p style="display: inline-block;"><?php echo "{$_SESSION['username']}" ?></p>
         <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
           settings
         </button>
@@ -296,5 +296,6 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   </html>
 <?php
 } else {
+  session_destroy();
   exit(header("Location: /login.php#login"));
 }

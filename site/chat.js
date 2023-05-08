@@ -161,3 +161,62 @@ window.addEventListener("contextmenu", e => {
 });
 
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
+
+
+
+
+
+
+
+
+
+let arrayLastMessages = new array();
+
+// update messages in current chat:
+function cartAction(action, chat_id) {
+    var queryString = 'action=' + action + '&id=' + chat_id;
+    console.log(queryString);
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            
+            
+            /*
+            $("#cart-list").html(response);
+            $.ajax({
+                url: "ajax_cart_data.php",
+                data: "extra=true",
+                type: "POST",
+                dataType: "json",
+                success: function (response) {
+                    // console.log(response);
+                    var table = document.getElementById("cart-list");
+                    if (response.cartCounter == 0) {
+                        table.innerHTML = "Nog geen smaken gekozen.";
+                        document.getElementById("cartCounter").innerHTML = "0";
+                        document.getElementById("cartCounter").style.display = "none";
+                    } else {
+                        document.getElementById("cartCounter").style.display = "inline-block";
+                        document.getElementById("cartCounter").innerHTML = response.cartCounter + " L";
+                    }
+                },
+                error: function (error) {
+                    document.getElementById("cartCounter").style.display = "inline-block";
+                    document.getElementById("cartCounter").innerHTML = "-";
+                }
+            });*/
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+}
+
+
+
+// reload everything else:
