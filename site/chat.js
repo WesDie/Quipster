@@ -165,7 +165,7 @@ document.addEventListener("click", () => contextMenu.style.visibility = "hidden"
 
 // send message
 function SendMessage() {
-    let input = document.querySelector("#newMessage input").value, chat_id='dsad';
+    let input = document.querySelector("#newMessage input").value, chat_id = 'dsad';
 
     var queryString = 'new=true' + '&input=' + input + '&chat_id=' + chat_id;
     console.log(queryString);
@@ -210,9 +210,11 @@ function UpdateMessages(lastLoaded, chat_id) {
         type: "POST",
         dataType: "json",
         success: function (response) {
-            console.log(response);
+            console.log("success");
+            console.log(response.newMsgs);
         },
         error: function (error) {
+            console.log("error");
             console.log(error);
         }
     });

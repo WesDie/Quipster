@@ -16,7 +16,7 @@ if ($_POST['new']) {
     }
 
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message) VALUES (:id, '6447906d0b6bx', '6447906d0b6be', :message)");
+    $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message) VALUES (:id, 'dev_chat', '645b6d4d40d17', :message)");
     $stmt->bindParam(':id', $id);
     // $stmt->bindParam(':chat', $id);
     $user = "6447906d0b6be";
@@ -34,16 +34,23 @@ if ($_POST['new']) {
     }
 } else {
 
+    $stmt = $conn->prepare("SELECT * FROM messages WHERE chat = 'dev_chat'");
 
-    $lastLoaded = $_POST['lastLoaded'];
+    if ($stmt->execute()) {
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $newMsgs = $stmt->fetchAll();
 
-    $sql = "SELECT * FROM messages WHERE sent >= '$lastLoaded'";
+
+        $lastLoaded = $_POST['lastLoaded'];
+
+        $sql = "SELECT * FROM messages WHERE sent >= '$lastLoaded'";
 
 
 
-    $newMsgs = array(
-        $sql
-    );
+        // $newMsgs = array(
+        //     $sql
+        // );
 
-    echo json_encode($newMsgs);
+        echo json_encode($newMsgs);
+    }
 }
