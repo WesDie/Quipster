@@ -163,18 +163,11 @@ window.addEventListener("contextmenu", e => {
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
 
+// send message
+function SendMessage() {
+    let input = document.querySelector("#newMessage input").value, chat_id='dsad';
 
-
-
-
-
-
-
-let arrayLastMessages = new array();
-
-// update messages in current chat:
-function cartAction(action, chat_id) {
-    var queryString = 'action=' + action + '&id=' + chat_id;
+    var queryString = 'new=true' + '&input=' + input + '&chat_id=' + chat_id;
     console.log(queryString);
     $.ajax({
         url: "dbquery.php",
@@ -183,32 +176,41 @@ function cartAction(action, chat_id) {
         dataType: "json",
         success: function (response) {
             console.log(response);
-            
-            
-            /*
-            $("#cart-list").html(response);
-            $.ajax({
-                url: "ajax_cart_data.php",
-                data: "extra=true",
-                type: "POST",
-                dataType: "json",
-                success: function (response) {
-                    // console.log(response);
-                    var table = document.getElementById("cart-list");
-                    if (response.cartCounter == 0) {
-                        table.innerHTML = "Nog geen smaken gekozen.";
-                        document.getElementById("cartCounter").innerHTML = "0";
-                        document.getElementById("cartCounter").style.display = "none";
-                    } else {
-                        document.getElementById("cartCounter").style.display = "inline-block";
-                        document.getElementById("cartCounter").innerHTML = response.cartCounter + " L";
-                    }
-                },
-                error: function (error) {
-                    document.getElementById("cartCounter").style.display = "inline-block";
-                    document.getElementById("cartCounter").innerHTML = "-";
-                }
-            });*/
+        },
+        error: function (error) {
+            console.log("error");
+            console.log(error);
+        }
+    });
+
+}
+// const vader = document.getElementById("newMessage");
+// console.log(vader);
+// console.log(vader.getElementsByTagName("button"));
+// document.querySelector("#newMessage\\\\button").onclick = function () {
+//     let input = document.querySelector("#newMessage\\\\input").value;
+//     alert(input);
+// };
+
+
+
+
+// update messages in current chat:
+
+let loadedMsgs = new array();
+
+
+
+function UpdateMessages(lastLoaded, chat_id) {
+    var queryString = 'new=false' + '&lastLoaded=' + lastLoaded + '&chat_id=' + chat_id;
+    console.log(queryString);
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
         },
         error: function (error) {
             console.log(error);

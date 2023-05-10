@@ -164,7 +164,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       </div>
       <div id="newMessage">
         <input type="text" placeholder="Message Wes...">
-        <button class="material-symbols-outlined">
+        <button onclick="SendMessage()" class="material-symbols-outlined">
           send
         </button>
       </div>
