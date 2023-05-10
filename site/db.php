@@ -1,10 +1,6 @@
 <?php
 
-    $servername = "mariadb";
-    $dbname = "database";
-    $username = "root";
-    $password = "password";
-
+if (require('db_credentials.php')) {
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         // set the PDO error mode to exception
@@ -12,5 +8,4 @@
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
-
-?>
+}
