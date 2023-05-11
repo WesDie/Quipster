@@ -2,7 +2,7 @@
 // need to check if the current logged in user has permission to the chat that they are trying to post messaage
 require_once('db.php');
 
-if ($_POST['new']) {
+if ($_POST['new'] == 'true') {
     // expect two variables:
 
     $id = uniqid();
@@ -28,9 +28,9 @@ if ($_POST['new']) {
     // $id = $key;
 
     if ($stmt->execute()) {
-        // set the resulting array to associative
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $product = $stmt->fetch();
+
+
+        echo json_encode(array("success"));
     }
 } else {
 
@@ -40,17 +40,13 @@ if ($_POST['new']) {
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $newMsgs = $stmt->fetchAll();
 
-
         $lastLoaded = $_POST['lastLoaded'];
 
         $sql = "SELECT * FROM messages WHERE sent >= '$lastLoaded'";
 
-
-
         // $newMsgs = array(
         //     $sql
         // );
-
         echo json_encode($newMsgs);
     }
 }

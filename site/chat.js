@@ -167,7 +167,7 @@ document.addEventListener("click", () => contextMenu.style.visibility = "hidden"
 function SendMessage() {
     let input = document.querySelector("#newMessage input").value, chat_id = 'dsad';
 
-    var queryString = 'new=true' + '&input=' + input + '&chat_id=' + chat_id;
+    let queryString = 'new=true' + '&chat_id=' + chat_id + '&input=' + input;
     console.log(queryString);
     $.ajax({
         url: "dbquery.php",
@@ -175,10 +175,11 @@ function SendMessage() {
         type: "POST",
         dataType: "json",
         success: function (response) {
+            console.log("post success");
             console.log(response);
         },
         error: function (error) {
-            console.log("error");
+            console.log("post error");
             console.log(error);
         }
     });
@@ -197,12 +198,12 @@ function SendMessage() {
 
 // update messages in current chat:
 
-let loadedMsgs = new array();
+// let loadedMsgs = new array();
 
 
 
 function UpdateMessages(lastLoaded, chat_id) {
-    var queryString = 'new=false' + '&lastLoaded=' + lastLoaded + '&chat_id=' + chat_id;
+    let queryString = 'new=' + 'false' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
     console.log(queryString);
     $.ajax({
         url: "dbquery.php",
@@ -210,15 +211,17 @@ function UpdateMessages(lastLoaded, chat_id) {
         type: "POST",
         dataType: "json",
         success: function (response) {
-            console.log("success");
-            console.log(response.newMsgs);
+            console.log("update success");
+            console.log(response);
+            response.forEach(element => {
+                console.log(element);
+            });
         },
         error: function (error) {
-            console.log("error");
+            console.log("update error");
             console.log(error);
         }
     });
-
 }
 
 
