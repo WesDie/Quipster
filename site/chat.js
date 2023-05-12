@@ -200,6 +200,7 @@ function SendMessage() {
 
 // let loadedMsgs = new array();
 
+// setInterval(UpdateMessages, 1000);
 
 
 function UpdateMessages(lastLoaded, chat_id) {
@@ -212,9 +213,28 @@ function UpdateMessages(lastLoaded, chat_id) {
         dataType: "json",
         success: function (response) {
             console.log("update success");
-            console.log(response);
+            // console.log(response);
+            const currentchat = document.getElementById("currentchat");
             response.forEach(element => {
                 console.log(element);
+                console.log(element.user);
+
+                const message = document.createElement("div");
+                const pfp = message.appendChild(document.createElement("img")).setAttribute("src", "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128");
+
+                const user = message.appendChild(document.createElement("div"))
+                user.classList.add("user");
+                user.appendChild(document.createElement("b")).innerHTML = element.user;
+                const details = user.appendChild(document.createElement("span"));
+                details.classList.add("timestamp");
+                details.innerHTML = element.sent;
+
+                const tekst = message.appendChild(document.createElement("p"))
+                tekst.innerHTML = element.message;
+                tekst.setAttribute("id", "message");
+
+                message.classList.add("message");
+                currentchat.appendChild(message);
             });
         },
         error: function (error) {

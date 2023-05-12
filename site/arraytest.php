@@ -8,7 +8,7 @@ if ($stmt->execute()) {
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $newMsgs = $stmt->fetchAll();
     foreach ($newMsgs as $post) {
-        echo $post;
+        // echo $post;
     }
     // $lastLoaded = $_POST['lastLoaded'];
 
