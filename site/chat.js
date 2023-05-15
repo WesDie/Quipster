@@ -185,23 +185,15 @@ function SendMessage() {
     });
 
 }
-// const vader = document.getElementById("newMessage");
-// console.log(vader);
-// console.log(vader.getElementsByTagName("button"));
-// document.querySelector("#newMessage\\\\button").onclick = function () {
-//     let input = document.querySelector("#newMessage\\\\input").value;
-//     alert(input);
-// };
-
-
 
 
 // update messages in current chat:
 
-// let loadedMsgs = new array();
+var lastLoadedX = "";
 
-// setInterval(UpdateMessages, 1000);
-
+setInterval(function () {
+    UpdateMessages(lastLoadedX, "dev_chat");
+}, 1000);
 
 function UpdateMessages(lastLoaded, chat_id) {
     let queryString = 'new=' + 'false' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
@@ -224,7 +216,7 @@ function UpdateMessages(lastLoaded, chat_id) {
 
                 const user = message.appendChild(document.createElement("div"))
                 user.classList.add("user");
-                user.appendChild(document.createElement("b")).innerHTML = element.user;
+                user.appendChild(document.createElement("b")).innerHTML = element.username;
                 const details = user.appendChild(document.createElement("span"));
                 details.classList.add("timestamp");
                 details.innerHTML = element.sent;
@@ -235,6 +227,13 @@ function UpdateMessages(lastLoaded, chat_id) {
 
                 message.classList.add("message");
                 currentchat.appendChild(message);
+                var objDiv = document.getElementById("currentchat");
+                objDiv.scrollTop = objDiv.scrollHeight;
+
+                console.log(lastLoaded);
+                console.log(lastLoadedX);
+                lastLoadedX = element.sent;
+                console.log(lastLoadedX);
             });
         },
         error: function (error) {
@@ -243,7 +242,6 @@ function UpdateMessages(lastLoaded, chat_id) {
         }
     });
 }
-
 
 
 // reload everything else:

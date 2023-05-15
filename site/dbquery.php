@@ -26,7 +26,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         $user = $_SESSION['id'];
         $stmt->bindParam(':user', $user);
         // $stmt->bindParam(':type', $id);
-        $stmt->bindParam(':message', $id);
+        $message = $_POST['input'];
+        $stmt->bindParam(':message', $message);
         // $stmt->bindParam(':replyto', $id);
 
         // $id = $key;
@@ -37,21 +38,23 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             echo json_encode(array("success"));
         }
     } else {
-
-        $stmt = $conn->prepare("SELECT * FROM messages WHERE chat = 'dev_chat'");
-
-        if ($stmt->execute()) {
-            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $newMsgs = $stmt->fetchAll();
-
+        if (strtotime($_POST['lastLoaded'])) {
             $lastLoaded = $_POST['lastLoaded'];
+            $chat = $_POST['chat_id'];
 
-            $sql = "SELECT * FROM messages WHERE sent >= '$lastLoaded'";
+            $stmt = $conn->prepare("SELECT messages.*, users.username
+            FROM messages LEFT JOIN users ON messages.user = users.id
+            WHERE chat = ':chat' AND sent > ':lastLoaded'");
 
-            // $newMsgs = array(
-            //     $sql
-            // );
-            echo json_encode($newMsgs);
+            $stmt->bindParam(':chat', $chat);
+            $stmt->bindParam(':lastLoaded', $lastLoaded);
+
+            if ($stmt->execute()) {
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $newMsgs = $stmt->fetchAll();
+
+                echo json_encode($newMsgs);
+            }
         }
     }
 }
