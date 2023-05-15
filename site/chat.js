@@ -189,7 +189,9 @@ function SendMessage() {
 
 // update messages in current chat:
 
-var lastLoadedX = "";
+// let loadedMsgs = new array();
+
+var lastLoadedX = "1999";
 
 setInterval(function () {
     UpdateMessages(lastLoadedX, "dev_chat");
@@ -239,9 +241,11 @@ function UpdateMessages(lastLoaded, chat_id) {
         error: function (error) {
             console.log("update error");
             console.log(error);
+            console.log(lastLoadedX);
         }
     });
 }
+
 
 
 // reload everything else:

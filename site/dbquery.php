@@ -40,14 +40,15 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     } else {
         if (strtotime($_POST['lastLoaded'])) {
             $lastLoaded = $_POST['lastLoaded'];
-            $chat = $_POST['chat_id'];
+            // $chat = $_POST['chat_id'];
+            $chat = "dev_chat";
 
             $stmt = $conn->prepare("SELECT messages.*, users.username
             FROM messages LEFT JOIN users ON messages.user = users.id
-            WHERE chat = ':chat' AND sent > ':lastLoaded'");
+            WHERE chat = '$chat' AND sent > '$lastLoaded'");
 
-            $stmt->bindParam(':chat', $chat);
-            $stmt->bindParam(':lastLoaded', $lastLoaded);
+            // $stmt->bindParam(':chat_id', $chat);
+            // $stmt->bindParam(':lastLoaded', $lastLoaded);
 
             if ($stmt->execute()) {
                 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
