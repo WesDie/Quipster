@@ -168,15 +168,16 @@ function SendMessage() {
     let input = document.querySelector("#newMessage input").value, chat_id = 'dsad';
 
     let queryString = 'new=true' + '&chat_id=' + chat_id + '&input=' + input;
-    console.log(queryString);
+    // console.log(queryString);
     $.ajax({
         url: "dbquery.php",
         data: queryString,
         type: "POST",
         dataType: "json",
         success: function (response) {
-            console.log("post success");
-            console.log(response);
+            // console.log("post success");
+            // console.log(response);
+            document.querySelector("#newMessage input").value = "";
         },
         error: function (error) {
             console.log("post error");
@@ -199,19 +200,19 @@ setInterval(function () {
 
 function UpdateMessages(lastLoaded, chat_id) {
     let queryString = 'new=' + 'false' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
-    console.log(queryString);
+    // console.log(queryString);
     $.ajax({
         url: "dbquery.php",
         data: queryString,
         type: "POST",
         dataType: "json",
         success: function (response) {
-            console.log("update success");
+            // console.log("update success");
             // console.log(response);
             const currentchat = document.getElementById("currentchat");
             response.forEach(element => {
-                console.log(element);
-                console.log(element.user);
+                // console.log(element);
+                // console.log(element.user);
 
                 const message = document.createElement("div");
                 const pfp = message.appendChild(document.createElement("img")).setAttribute("src", "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128");
@@ -219,29 +220,36 @@ function UpdateMessages(lastLoaded, chat_id) {
                 const user = message.appendChild(document.createElement("div"))
                 user.classList.add("user");
                 user.appendChild(document.createElement("b")).innerHTML = element.username;
-                const details = user.appendChild(document.createElement("span"));
-                details.classList.add("timestamp");
-                details.innerHTML = element.sent;
+                const details = user.appendChild(document.createElement("time"));
+                // details.classList.add("timestamp");
+
+                let now = new Date();
+                let date = new Date(element.sent);
+                // now.toDateString();
+                // return element.sent.toDateString() === now.toDateString()
+                //     ? "today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}"
+                //     : "${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}";
+
+                details.innerHTML = date.toDateString() === now.toDateString() ?
+                    `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`
+                    : `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`;
+
 
                 const tekst = message.appendChild(document.createElement("p"))
                 tekst.innerHTML = element.message;
-                tekst.setAttribute("id", "message");
 
                 message.classList.add("message");
                 currentchat.appendChild(message);
                 var objDiv = document.getElementById("currentchat");
                 objDiv.scrollTop = objDiv.scrollHeight;
 
-                console.log(lastLoaded);
-                console.log(lastLoadedX);
                 lastLoadedX = element.sent;
-                console.log(lastLoadedX);
             });
         },
         error: function (error) {
             console.log("update error");
             console.log(error);
-            console.log(lastLoadedX);
+            // console.log(lastLoadedX);
         }
     });
 }
