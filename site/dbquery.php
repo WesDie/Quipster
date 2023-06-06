@@ -18,6 +18,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $id = uniqid();
                 $stmtId = $conn->prepare("SELECT id FROM messages WHERE id = '$id'");
                 $stmtId->execute();
+                $stmtId->closeCursor();
             }
             $stmtId->closeCursor();
 
@@ -61,5 +62,5 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmt->closeCursor();
         }
     }
-    // }
+    $conn = null;
 }

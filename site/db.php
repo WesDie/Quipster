@@ -1,5 +1,4 @@
 <?php
-
 if (require('db_credentials.php')) {
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
