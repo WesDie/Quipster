@@ -223,6 +223,7 @@ function SendMessage() {
             // console.log("post success");
             // console.log(response);
             document.querySelector("#newMessage input").value = "";
+            // UpdateMessages(lastLoadedX, chat_id)
         },
         error: function (error) {
             console.log("post error");
@@ -230,17 +231,15 @@ function SendMessage() {
         }
     });
 }
-
-// send message when enter released:
-$("#inpurt").on("keyup", function (event) {
-    console.log(event);
+$(document).ready(function () {// when the dom is loaded
+    // send message when enter released:
+    $("#inpurt").on("keyup", function (event) {
+        if (event.which === 13) {
+            console.log(event);
+            SendMessage();
+        }
+    });
 });
-// document.querySelector("#newMessage input").bind('keyup', function (e) {
-//     if (e.keyCode === 13) { // 13 is enter key
-//         SendMessage();
-//     }
-// });
-
 // update messages in current chat:
 
 // let loadedMsgs = new array();
