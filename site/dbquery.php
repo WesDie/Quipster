@@ -19,6 +19,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmtId = $conn->prepare("SELECT id FROM messages WHERE id = '$id'");
                 $stmtId->execute();
             }
+            $stmtId->closeCursor();
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message) VALUES (:id, 'dev_chat', :user, :message)");
@@ -34,9 +35,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             // $id = $key;
 
             if ($stmt->execute()) {
-
-
                 echo json_encode(array("success"));
+                $stmt->closeCursor();
             }
         }
     } else {
@@ -57,6 +57,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $newMsgs = $stmt->fetchAll();
 
             echo json_encode($newMsgs);
+
+            $stmt->closeCursor();
         }
     }
     // }
