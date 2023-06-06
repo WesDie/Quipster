@@ -286,7 +286,7 @@ function UpdateMessages(lastLoaded, chat_id) {
 
 
                 const tekst = message.appendChild(document.createElement("p"))
-                tekst.innerHTML = element.message;
+                tekst.textContent = element.message;
 
                 message.classList.add("message");
                 currentchat.appendChild(message);
