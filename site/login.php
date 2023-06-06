@@ -28,6 +28,7 @@
                 $_SESSION['id'] = $user['id'];
                 $_SESSION['password'] = $user['password'];
                 $_SESSION['username'] = $user['username'];
+                $_SESSION['pfp'] = $user['pfp'];
                 
                 header('Location: chat.php');
             } else {
