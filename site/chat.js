@@ -223,7 +223,7 @@ function SendMessage() {
             // console.log("post success");
             // console.log(response);
             document.querySelector("#newMessage input").value = "";
-            // UpdateMessages(lastLoadedX, chat_id)
+            UpdateMessages(lastLoadedX, chat_id)
         },
         error: function (error) {
             console.log("post error");
@@ -235,7 +235,6 @@ $(document).ready(function () {// when the dom is loaded
     // send message when enter released:
     $("#inpurt").on("keyup", function (event) {
         if (event.which === 13) {
-            console.log(event);
             SendMessage();
         }
     });
