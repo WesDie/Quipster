@@ -8,15 +8,67 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   <html lang="en">
 
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Quipster APP</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="Quipster APP" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Quipster APP">
     <link rel="icon" href="assets/favicon.ico">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="chat.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <script src="chat.js"></script>
+    <script>
+      $(window).on('load', function() {
+        // $("#loader-wrapper").fadeOut(700);
+
+        if (window.innerWidth <= 800) {
+          console.log("hier a");
+          Small();
+        } else if (window.innerWidth >= 1800) {
+          console.log("hier c");
+          Large();
+        } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+          console.log("hier b");
+          Medium();
+        } else {
+          console.log("welp");
+        }
+
+        // when page first opened, check windows width:
+        if (window.innerWidth <= 800) {
+          Small();
+        } else if (window.innerWidth >= 1800) {
+          Large();
+        } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+          Medium();
+          console.log("dsad");
+        } else {
+          console.log("welp");
+        }
+
+        // same as above but everytime:
+        mqSmall.addEventListener('change', function(e) {
+          if (e.matches) {
+            Small();
+          }
+        });
+        mqMedium.addEventListener('change', function(e) {
+          if (e.matches) {
+            Medium();
+            console.log("dsa")
+          }
+        });
+        mqLarge.addEventListener('change', function(e) {
+          if (e.matches) {
+            Large();
+          }
+        });
+      });
+
+      setInterval(function() {
+        UpdateMessages(lastLoadedX, "dev_chat");
+      }, 1000);
+    </script>
   </head>
 
   <body>
@@ -47,9 +99,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         }
         ?>
       </div>
-      <div>
+      <button class="filled">
         Create new chat
-      </div>
+      </button>
     </div>
     <div id="middle">
       <div class="top">
@@ -66,7 +118,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div id="currentchat">
       </div>
       <div id="newMessage">
-        <input type="text" placeholder="Message Wes...">
+        <input id="inpurt" type="text" placeholder="Message Wes...">
         <button onclick="SendMessage()" class="material-symbols-outlined">
           send
         </button>
@@ -91,7 +143,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         }
         ?>
       </div>
-      <button>Invite members</button>
+      <button class="filled">
+        Invite members
+      </button>
     </div>
     <div id="settings" style="display: none">
       <div class="back">

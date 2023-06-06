@@ -45,6 +45,16 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: var(--btn-primary);
+}
+
+.filled {
+    background-color: var(--bg-secondary-action);
+    margin: 8px;
+    padding: 8px;
+}
+
 img {
     user-select: none;
 }
@@ -426,7 +436,7 @@ img {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 2em auto 2em;
+    grid-template-rows: 2em 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 }
@@ -491,7 +501,6 @@ img {
     margin: auto;
     justify-content: left;
 }
-
 
 #context-menu {
     display: none;

@@ -1,50 +1,82 @@
 var window = null;
 const mqSmall = window.matchMedia('(max-width: 800px)');
-const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1200px)');
-const mqLarge = window.matchMedia('(min-width: 1200px)');
-let leftOpen = true, rightOpen = true, left = "auto", right = "auto";
+const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1800px)');
+const mqLarge = window.matchMedia('(min-width: 1800px)');
+let leftOpen = true, rightOpen = false, left = "0", right = "0";
 
-mqSmall.addEventListener('change', function (e) {
-    if (e.matches) {
-        window = "small"; console.log('small');
-        document.getElementsByTagName("body")[0].style.gridTemplateColumns = 0 + " 1fr " + 0;
 
-        document.getElementById("toggleLeft").innerHTML = "chevron_right";
-        left = 0;
-        leftOpen = false;
+function Small() {
+    window = "small"; console.log('small');
+    document.getElementsByTagName("body")[0].style.gridTemplateColumns = 0 + " 1fr " + 0;
 
-        document.getElementById("toggleRight").innerHTML = "chevron_left";
-        right = 0;
-        rightOpen = false;
+    document.getElementById("toggleLeft").innerHTML = "chevron_right";
+    left = 0;
+    leftOpen = false;
 
-        document.getElementById("left").setAttribute("inert", "");
-        document.getElementById("right").setAttribute("inert", "");
-    }
-});
-mqMedium.addEventListener('change', function (e) {
-    if (e.matches) {
-        window = "medium"; console.log('medium');
-        document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + 0;
+    document.getElementById("toggleRight").innerHTML = "chevron_left";
+    right = 0;
+    rightOpen = false;
 
-        document.getElementById("toggleLeft").innerHTML = "chevron_left";
-        left = "auto";
-        leftOpen = true;
+    document.getElementById("left").setAttribute("inert", "");
+    document.getElementById("right").setAttribute("inert", "");
 
-        document.getElementById("toggleRight").innerHTML = "chevron_left";
-        right = 0;
-        rightOpen = false;
+    document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + 0;
+}
+function Medium() {
+    window = "medium"; console.log('medium');
 
-        document.getElementById("left").removeAttribute("inert", "");
-        document.getElementById("right").setAttribute("inert", "");
-    }
-});
-mqLarge.addEventListener('change', function (e) {
-    if (e.matches) {
-        window = "large"; console.log('large');
-        document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
-    }
-});
+    document.getElementById("toggleLeft").innerHTML = "chevron_left";
+    left = "auto";
+    leftOpen = true;
 
+    document.getElementById("toggleRight").innerHTML = "chevron_left";
+    right = 0;
+    rightOpen = false;
+
+    document.getElementById("left").removeAttribute("inert", "");
+    document.getElementById("right").setAttribute("inert", "");
+
+    document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
+}
+function Large() {
+    window = "large"; console.log('large');
+
+    document.getElementById("toggleLeft").innerHTML = "chevron_left";
+    left = "auto";
+    leftOpen = true;
+
+    document.getElementById("toggleRight").innerHTML = "chevron_right";
+    right = "auto";
+    rightOpen = true;
+
+    document.getElementById("left").removeAttribute("inert", "");
+    document.getElementById("right").removeAttribute("inert", "");
+
+    document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
+}
+
+// // when page first opened, check windows width:
+// if (window.innerWidth <= 800) {
+//     Small();
+// } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+//     Medium();
+//     console.log("dsad");
+// } else if (window.innerWidth >= 1800) {
+//     Large();
+// } else {
+//     console.log("welp");
+// }
+
+// // same as above but everytime:
+// mqSmall.addEventListener('change', function (e) {
+//     if (e.matches) { Small(); }
+// });
+// mqMedium.addEventListener('change', function (e) {
+//     if (e.matches) { Medium(); console.log("dsa")}
+// });
+// mqLarge.addEventListener('change', function (e) {
+//     if (e.matches) { Large(); }
+// });
 
 // document.getElementById("toggleLeft").addEventListener("click", Toggle(0));
 // document.getElementById("toggleRight").addEventListener("click", Toggle(1));
@@ -131,9 +163,22 @@ window.onload = function () {
         document.getElementById("fadein").remove();
     }, 1000);
 };
-$(window).on('load', function () {
-    $("#loader-wrapper").fadeOut(700);
-});
+// $(window).on('load', function () {
+//     // $("#loader-wrapper").fadeOut(700);
+
+//     if (window.innerWidth <= 800) {
+//         console.log("hier a");
+//         Small();
+//     } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+//         console.log("hier b");
+//         Medium();
+//     } else if (window.innerWidth >= 1800) {
+//         console.log("hier c");
+//         Large();
+//     } else {
+//         console.log("welp");
+//     }
+// });
 
 
 
@@ -184,9 +229,17 @@ function SendMessage() {
             console.log(error);
         }
     });
-
 }
 
+// send message when enter released:
+$("#inpurt").on("keyup", function (event) {
+    console.log(event);
+});
+// document.querySelector("#newMessage input").bind('keyup', function (e) {
+//     if (e.keyCode === 13) { // 13 is enter key
+//         SendMessage();
+//     }
+// });
 
 // update messages in current chat:
 
@@ -194,9 +247,9 @@ function SendMessage() {
 
 var lastLoadedX = "1999";
 
-setInterval(function () {
-    UpdateMessages(lastLoadedX, "dev_chat");
-}, 1000);
+// setInterval(function () {
+//     UpdateMessages(lastLoadedX, "dev_chat");
+// }, 1000);
 
 function UpdateMessages(lastLoaded, chat_id) {
     let queryString = 'new=' + 'false' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
