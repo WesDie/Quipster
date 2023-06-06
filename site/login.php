@@ -189,6 +189,25 @@
         </div>
         </div>
     </div>
+    <div id="forgotpass" class="mainContainer">
+        <div class="topTextRegister">
+            <div  class="textInfo">
+                <h1>Password reset</h1>
+                <a href="#login">back to login</a>
+            </div>
+            <div class="spacer wave"></div>
+        </div>
+        <div class="passwordForgotForm">
+            <form method="POST">
+                <label for="" class="inputLabel">EMAIL</label>
+                <br>
+                <input type="text" class="inputBox" name="email">
+                <br>
+                <input type="submit" value="SEND" class="submitBtn">
+            </form>
+        </div>
+        </div>
+    </div>
 </body>
 <script>
     const observer = new IntersectionObserver((entries) => {
