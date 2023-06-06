@@ -74,7 +74,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   <body>
     <div id="left">
       <div class="user">
-        <img src="https://cdn.discordapp.com/avatars/612355034419560449/ab133ea0a5a822d4a6fbbde202957206.webp?size=128" alt="">
+        <img src="<?php if($_SESSION['pfp'] != null){ echo "{$_SESSION['pfp']}"; } else { echo "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128"; } ?>" alt="">
         <p style="display: inline-block;"><?php echo "{$_SESSION['username']}" ?></p>
         <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
           settings

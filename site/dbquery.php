@@ -45,7 +45,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         // $chat = $_POST['chat_id'];
         $chat = "dev_chat";
 
-        $stmt = $conn->prepare("SELECT messages.*, users.username
+        $stmt = $conn->prepare("SELECT messages.*, users.username, users.pfp
             FROM messages LEFT JOIN users ON messages.user = users.id
             WHERE chat = '$chat' AND sent > '$lastLoaded'");
 

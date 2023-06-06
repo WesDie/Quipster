@@ -268,8 +268,7 @@ function UpdateMessages(lastLoaded, chat_id) {
                 // console.log(element.user);
 
                 const message = document.createElement("div");
-                const pfp = message.appendChild(document.createElement("img")).setAttribute("src", "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128");
-
+                const pfp = message.appendChild(document.createElement("img")).setAttribute("src", element.pfp);
                 const user = message.appendChild(document.createElement("div"))
                 user.classList.add("user");
                 user.appendChild(document.createElement("b")).innerHTML = element.username;
