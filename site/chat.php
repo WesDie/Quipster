@@ -134,7 +134,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           }
           ?>
         </div>
-        <button class="filled">
+        <button class="filled" onclick="CreateChat()">
           Create new chat
         </button>
       </div>
@@ -301,6 +301,49 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button>idk</button>
       </div>
     </div>
+    <dialog id="InviteMembersBox">
+      <form>
+        <p>
+          <label>Favorite animal:
+            <select>
+              <option value="default">Choose…</option>
+              <option>Brine shrimp</option>
+              <option>Red panda</option>
+              <option>Spider monkey</option>
+            </select>
+          </label>
+        </p>
+        <div>
+          <button value="cancel" formmethod="dialog">Cancel</button>
+          <button id="confirmBtn" value="default">Confirm</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="CreateChatBox">
+      <h1>Create chat</h1>
+      <form class="createChatContainer">
+        <p>
+          <label>Name:
+            <input type="text" name="name">
+          </label>
+        </p>
+        <p>
+          <label>Description:
+            <input type="text" name="description">
+          </label>
+        </p>
+        <p>
+          <label>Icon (url):
+            <input type="text" name="icon">
+          </label>
+        </p>
+        <div class="btnDialogSelection">
+          <button value="cancel" formmethod="dialog">Cancel</button>
+          <button id="confirmBtn" value="sumbit">Confirm</button>
+        </div>
+      </form>
+    </dialog>
     <script>
       const contextMenu = document.getElementById("context-menu");
 

@@ -70,6 +70,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         // $conn = null;
     }
 }
+
+
 if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 if(isset($_POST['name']) && isset($_POST['description']) && isset($_POST['icon'])){
     $name = $_POST['name'];

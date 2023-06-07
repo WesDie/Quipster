@@ -132,6 +132,16 @@ function Toggle(side) {
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
 }
 
+function InviteMembers(){
+    const inviteMembersBox = document.getElementById('InviteMembersBox');
+    inviteMembersBox.showModal();
+}
+function CreateChat(){
+    const createChatBox = document.getElementById('CreateChatBox');
+    createChatBox.showModal();
+}
+
+
 let requests;
 function LeftTabsToggle() {
     if (requests) {
