@@ -62,5 +62,5 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmt->closeCursor();
         }
     }
-    $conn = null;
+    // $conn = null;
 }
