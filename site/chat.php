@@ -80,63 +80,98 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     echo "https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg";
                   } ?>" alt="">
         <p style="display: inline-block;"><?php echo "{$_SESSION['username']}" ?></p>
-        <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
+        <button onclick="LeftTabsToggle()" id="requestToggle" class="material-symbols-outlined">
           notifications
         </button>
-        <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
+        <button onclick="SettingsToggle()" class="material-symbols-outlined">
           settings
         </button>
       </div>
       <div class="spacer wave"></div>
-      <div class="friends">
-        <button class="filled">
-          Friends requests
-        </button>
-        <button class="filled">
-          Chat requests
-        </button>
-      </div>
-      <div class="list">
-        <?php
-        if (!true) {
-          for ($i = 0; $i < 20; $i++) {
-        ?>
-            <div class="list-item<?php echo $i == 4 ? " selected" : "" ?>">
-              <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
-              <p>das ilad gfhadiygfadfiygasdsda</p>
-              <button class="material-symbols-outlined">
-                more_horiz
-              </button>
-            </div>
+      <div id="chats" class="chats tab open">
+        <div class="list">
           <?php
-          }
-        } else {
-          $user = $_SESSION["id"];
-          $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
-          $stmtChats->bindParam(':user', $user);
-          $stmtChats->execute();
-          $chats = $stmtChats->fetchAll();
-          foreach ($chats as $chat) {
-            $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-            $stmtChat->bindParam(':id', $chat["chat"]);
-            $stmtChat->execute();
-            $chat = $stmtChat->fetch();
+          if (!true) {
+            for ($i = 0; $i < 20; $i++) {
           ?>
-            <div class="list-item<?php echo true ? " selected" : "" ?>">
-              <img src="<?php echo $chat["icon"] ?>" alt="">
-              <p><?php echo $chat["name"] ?></p>
-              <button class="material-symbols-outlined">
-                more_horiz
-              </button>
-            </div>
-        <?php
+              <div class="list-item<?php echo $i == 4 ? " selected" : "" ?>">
+                <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
+                <p>das ilad gfhadiygfadfiygasdsda</p>
+                <button class="material-symbols-outlined">
+                  more_horiz
+                </button>
+              </div>
+            <?php
+            }
+          } else {
+            $user = $_SESSION["id"];
+            $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
+            $stmtChats->bindParam(':user', $user);
+            $stmtChats->execute();
+            $chats = $stmtChats->fetchAll();
+            foreach ($chats as $chat) {
+              $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+              $stmtChat->bindParam(':id', $chat["chat"]);
+              $stmtChat->execute();
+              $chat = $stmtChat->fetch();
+            ?>
+              <div class="list-item<?php echo true ? " selected" : "" ?>">
+                <img src="<?php echo $chat["icon"] ?>" alt="">
+                <p><?php echo $chat["name"] ?></p>
+                <button class="material-symbols-outlined">
+                  more_horiz
+                </button>
+              </div>
+          <?php
+            }
           }
-        }
-        ?>
+          ?>
+        </div>
+        <button class="filled">
+          Create new chat
+        </button>
       </div>
-      <button class="filled">
-        Create new chat
-      </button>
+      <div id="requests" class="requests tab">
+        <div id="switchSides">
+          <button onclick="LeftChildToggle(true)" class="filled selected">
+            Friends requests
+          </button>
+          <button onclick="LeftChildToggle(false)" class="filled">
+            Chat requests
+          </button>
+        </div>
+        <div id="tabFriend" class="tab open">
+          <div class="list">
+            <?php
+
+            ?>
+            <div class="list-item<?php echo !true ? " selected" : "" ?>">
+              <img src="<?php echo '$chat["icon"]' ?>" alt="">
+              <p><?php echo 'No friend requests' ?></p>
+              <!-- <button class="material-symbols-outlined">
+                more_horiz
+              </button> -->
+            </div>
+          </div>
+          <button class="filled">
+            Add friend
+          </button>
+        </div>
+        <div id="tabChat" class="tab">
+          <div class="list">
+            <div class="list-item<?php echo !true ? " selected" : "" ?>">
+              <img src="<?php echo '$chat["icon"]' ?>" alt="">
+              <p><?php echo 'No chat invites' ?></p>
+              <!-- <button class="material-symbols-outlined">
+                more_horiz
+              </button> -->
+            </div>
+          </div>
+          <!-- <button class="filled">
+            Create new chat
+          </button> -->
+        </div>
+      </div>
     </div>
     <div id="middle">
       <div class="top">

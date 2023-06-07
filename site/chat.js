@@ -132,6 +132,41 @@ function Toggle(side) {
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
 }
 
+let requests;
+function LeftTabsToggle() {
+    if (requests) {
+        requests = false
+        $("#requestToggle").removeClass("selected");
+        $("#chats").addClass("open");
+        $("#requests").removeClass("open");
+        $("chats").removeAttr("inert", "");
+        $("right").attr("inert", "");
+    } else {
+        requests = true;
+        $("#requestToggle").addClass("selected");
+        $("#chats").removeClass("open");
+        $("#requests").addClass("open");
+        $("chats").attr("inert", "");
+        $("right").removeAttr("inert", "");
+    }
+}
+function LeftChildToggle(side) {
+    if (side) {
+        $("#switchSides:nth-child(0)").addClass("selected");
+        $("#switchSides:nth-child(1)").removeClass("selected");
+        $("#tabFriend").addClass("open");
+        $("#tabChat").removeClass("open");
+        $("#tabFriend").removeAttr("inert", "");
+        $("#tabChat").attr("inert", "");
+    } else {
+        $("#switchSides:nth-child(0)").removeClass("selected");
+        $("#switchSides:nth-child(1)").addClass("selected");
+        $("#tabFriend").removeClass("open");
+        $("#tabChat").addClass("open");
+        $("#tabFriend").attr("inert", "");
+        $("#tabChat").removeAttr("inert", "");
+    }
+}
 
 
 
@@ -193,10 +228,10 @@ window.onload = function () {
 
 
 /*
-
+ 
 const contextMenu = document.getElementById("cmenu");
 console.log(contextMenu)
-
+ 
 window.addEventListener("contextmenu", e => {
     e.preventDefault();
     let x = e.offsetX, y = e.offsetY,
@@ -204,15 +239,15 @@ window.addEventListener("contextmenu", e => {
         winHeight = window.innerHeight,
         cmWidth = contextMenu.offsetWidth,
         cmHeight = contextMenu.offsetHeight;
-
+ 
     x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
     y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
-
+ 
     contextMenu.style.left = `${x}px`;
     contextMenu.style.top = `${y}px`;
     contextMenu.style.visibility = "visible";
 });
-
+ 
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
 
