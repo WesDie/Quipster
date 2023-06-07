@@ -6,6 +6,22 @@
         header("location: chat.php");
     }
 
+    $newTime = strtotime('-5 minutes'); 
+    $tenMinutesAgo = date('Y-m-d H:i:s', $newTime);
+
+    $stmt = $conn->prepare("SELECT * FROM password_reset WHERE creation_timestamp < '$tenMinutesAgo'");
+    $stmt->execute();
+    if($stmt->rowCount() > 0){
+        while ($rows= $stmt->fetchAll()) {
+            foreach($rows as $row){
+                $token = $row['token'];
+                $stmt = $conn->prepare("DELETE FROM password_reset WHERE token = :token");
+                $stmt->bindParam(":token", $token);
+                $stmt->execute();
+            }
+        }
+    }
+
     if(isset($_POST['email']) && isset($_POST['password']) && !isset($_POST['username'])){
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -33,6 +49,61 @@
                 header('Location: chat.php');
             } else {
                 header('Location: login.php?error=password incorrect');
+            }
+        }
+    }
+
+    if(isset($_POST['newPassword']) && isset($_POST['newPasswordCheck'])){
+        $id = $_POST['id'];
+        $password = $_POST['newPassword'];
+        $passwordCheck = $_POST['newPasswordCheck'];
+
+        
+        if(empty($id)){
+            header ("location: login.php?regerror=Id is not filled in!");
+        } else if(empty($password)){
+            header ("location: login.php?regerror=New password is not filled in!");
+        }else if(empty($passwordCheck)){
+            header ("location: login.php?regerror=New password check is not filled in!");
+        }
+        
+        else if($password == $passwordCheck){
+            $password =  password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+            $stmt = $conn->prepare("UPDATE users SET password = :password WHERE id = :id");
+            $stmt->bindParam(":password", $password);
+            $stmt->bindParam(":id", $id);
+            $stmt->execute();
+        }
+    }
+
+    if(isset($_POST['passForgetEmail'])){
+        $passForgetEmail = $_POST['passForgetEmail'];
+
+        
+        if(empty($passForgetEmail)){
+            header ("location: login.php?passwordNewError=Email is not filled in!");
+        } else{
+            $sthandler = $conn->prepare("SELECT email FROM users WHERE email = :email");
+            $sthandler->bindParam(':email', $passForgetEmail);
+            $sthandler->execute();
+
+            if($sthandler->rowCount() > 0){
+                $token = bin2hex(random_bytes(32));
+                $creation_timestamp = date('Y-m-d H:i:s');
+
+                $stmt = $conn->prepare("INSERT INTO password_reset (email, token, creation_timestamp) 
+                VALUES (:email, :token, :creation_timestamp)");
+                $stmt->bindParam(":email", $passForgetEmail);
+                $stmt->bindParam(":token", $token);
+                $stmt->bindParam(":creation_timestamp", $creation_timestamp);
+                $stmt->execute();
+
+                $resetLink = "http://localhost/login.php#forgotpass?token=$token";
+                $emailContent = "Click the following link to reset your password: $resetLink";
+                header("Location: login.php?passwordNewCode=Code is: $emailContent");
+
+            } else{
+                header ("location: login.php?passwordNewError=Email doesnt exist!");
             }
         }
     }
@@ -117,12 +188,12 @@
             <form method="POST">
                 <label for="" class="inputLabel">E-MAIL</label>
                 <br>
-                <input type="text" class="inputBox" name="email">
+                <input type="text" class="inputBox" name="email" id="email">
                 <br>
                 <br>
                 <label for="" class="inputLabel">PASSWORD</label>
                 <br>
-                <input type="text" class="inputBox" name="password">
+                <input type="password" class="inputBox" name="password" id="password">
                 <br>
                 <a href="#forgotpass" class="forgotPassLink">forgot password?</a>
                 <br>
@@ -158,17 +229,17 @@
             <form method="POST">
                 <label for="" class="inputLabel">USERNAME</label>
                 <br>
-                <input name="username" type="text" class="inputBox">
+                <input name="username" type="text" class="inputBox" id="username">
                 <br>
                 <br>
                 <label for="" class="inputLabel">E-MAIL</label>
                 <br>
-                <input name="email" type="text" class="inputBox">
+                <input name="email" type="text" class="inputBox" id="email">
                 <br>
                 <br>
                 <label for="" class="inputLabel">PASSWORD</label>
                 <br>
-                <input name="password" type="password" class="inputBox">
+                <input name="password" type="password" class="inputBox" id="password">
                 <br>
                 <input type="submit" value="LOGIN" class="submitBtn">
                 <?php 
@@ -201,7 +272,30 @@
             <form method="POST">
                 <label for="" class="inputLabel">EMAIL</label>
                 <br>
-                <input type="text" class="inputBox" name="email">
+                <input type="text" class="inputBox" name="passForgetEmail" id="email">
+                <br>
+                <input type="submit" value="SEND" class="submitBtn">
+            </form>
+        </div>
+        </div>
+    </div>
+    <div id="passchange" class="mainContainer">
+        <div class="topTextRegister">
+            <div  class="textInfo">
+                <h1>Password change</h1>
+                <!-- <a href="#login">back to login</a> -->
+            </div>
+            <div class="spacer wave"></div>
+        </div>
+        <div class="passwordForgotForm">
+            <form method="POST">
+                <input type="hidden" class="inputBox" name="id" value="645e00debcd23">
+                <label for="" class="inputLabel">NEW PASSWORD</label>
+                <br>
+                <input type="text" class="inputBox" name="newPassword">
+                <label for="" class="inputLabel">NEW PASSWORD CHECK</label>
+                <br>
+                <input type="text" class="inputBox" name="newPasswordCheck">
                 <br>
                 <input type="submit" value="SEND" class="submitBtn">
             </form>
