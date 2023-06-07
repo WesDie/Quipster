@@ -9,13 +9,20 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
   <head>
     <meta charset="UTF-8">
-    <title>Quipster APP</title>
+    <title>Chat | Quipster</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Quipster APP">
     <link rel="icon" href="assets/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="chat.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="manifest" href="assets/site.webmanifest">
+    <link rel="mask-icon" href="assets/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
     <script src="chat.js"></script>
     <script>
       $(window).on('load', function() {
