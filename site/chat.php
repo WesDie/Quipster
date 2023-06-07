@@ -21,25 +21,25 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       $(window).on('load', function() {
         // $("#loader-wrapper").fadeOut(700);
 
-        if (window.innerWidth <= 800) {
-          console.log("hier a");
-          Small();
-        } else if (window.innerWidth >= 1800) {
-          console.log("hier c");
-          Large();
-        } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
-          console.log("hier b");
-          Medium();
-        } else {
-          console.log("welp");
-        }
+        // if (window.innerWidth <= 800) {
+        //   console.log("hier a");
+        //   Small();
+        // } else if (window.outerWidth >= 1800) {
+        //   console.log("hier c");
+        //   Large();
+        // } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+        //   console.log("hier b");
+        //   Medium();
+        // } else {
+        //   console.log("welp");
+        // }
 
         // when page first opened, check windows width:
         if (window.innerWidth <= 800) {
           Small();
-        } else if (window.innerWidth >= 1800) {
+        } else if (window.outerWidth >= 1400) {
           Large();
-        } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+        } else if (window.innerWidth >= 800 && window.innerWidth <= 1400) {
           Medium();
           console.log("dsad");
         } else {
@@ -74,7 +74,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   <body>
     <div id="left">
       <div class="user">
-        <img src="<?php if($_SESSION['pfp'] != null){ echo "{$_SESSION['pfp']}"; } else { echo "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128"; } ?>" alt="">
+        <img src="<?php if ($_SESSION['pfp'] != null) {
+                    echo "{$_SESSION['pfp']}";
+                  } else {
+                    echo "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128";
+                  } ?>" alt="">
         <p style="display: inline-block;"><?php echo "{$_SESSION['username']}" ?></p>
         <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
           settings
@@ -130,11 +134,26 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       </div>
       <div class="list">
         <?php
-        for ($i = 0; $i < 10; $i++) {
+        $chat = "dev_chat";
+        // $chat = $_POST['chat_id'];
+        $user = $_SESSION["id"];
+        $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chat");
+        $stmtCheck->bindParam(':chat', $chat);
+        $stmtCheck->execute();
+        $members = $stmtCheck->fetchAll();
+        foreach ($members as $member) {
+          $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
+          $stmtUser->bindParam(':id', $member["user"]);
+          $stmtUser->execute();
+          $user = $stmtUser->fetch();
         ?>
           <div class="list-item">
-            <img src="/images/box.png" alt="">
-            <p>das</p>
+            <img src="<?php
+                      echo !empty($user['pfp']) ?
+                        $user['pfp'] :
+                        "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128";
+                      ?>" alt="">
+            <p><?php echo $user["username"] ?></p>
             <button class="material-symbols-outlined">
               more_horiz
             </button>
