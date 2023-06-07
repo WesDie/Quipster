@@ -6,22 +6,6 @@
         header("location: chat.php");
     }
 
-    $newTime = strtotime('-5 minutes'); 
-    $tenMinutesAgo = date('Y-m-d H:i:s', $newTime);
-
-    $stmt = $conn->prepare("SELECT * FROM password_reset WHERE creation_timestamp < '$tenMinutesAgo'");
-    $stmt->execute();
-    if($stmt->rowCount() > 0){
-        while ($rows= $stmt->fetchAll()) {
-            foreach($rows as $row){
-                $token = $row['token'];
-                $stmt = $conn->prepare("DELETE FROM password_reset WHERE token = :token");
-                $stmt->bindParam(":token", $token);
-                $stmt->execute();
-            }
-        }
-    }
-
     if(isset($_POST['email']) && isset($_POST['password']) && !isset($_POST['username'])){
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -54,25 +38,59 @@
     }
 
     if(isset($_POST['newPassword']) && isset($_POST['newPasswordCheck'])){
-        $id = $_POST['id'];
+
+        $newTime = strtotime('-5 minutes'); 
+        $tenMinutesAgo = date('Y-m-d H:i:s', $newTime);
+    
+        $stmt = $conn->prepare("SELECT * FROM password_reset WHERE creation_timestamp < '$tenMinutesAgo'");
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            while ($rows= $stmt->fetchAll()) {
+                foreach($rows as $row){
+                    $token = $row['token'];
+                    $stmt = $conn->prepare("DELETE FROM password_reset WHERE token = :token");
+                    $stmt->bindParam(":token", $token);
+                    $stmt->execute();
+                }
+            }
+        }
+
+        $token = $_GET['token'];
         $password = $_POST['newPassword'];
         $passwordCheck = $_POST['newPasswordCheck'];
+        
+        $stmt = $conn->prepare("SELECT * FROM password_reset WHERE token = :token");
+        $stmt->bindParam(":token", $token);
+        $stmt->execute();
+        if($stmt->rowCount() === 0){
+            header ("location: login.php?regerror=Token is nowwt vaild!");
+        } else{
+            if(empty($token)){
+                header ("location: login.php?regerror=Token is not vaild!");
+            } else if(empty($password)){
+                header ("location: login.php?regerror=New password is not filled in!");
+            }else if(empty($passwordCheck)){
+                header ("location: login.php?regerror=New password check is not filled in!");
+            } else if($password == $passwordCheck){
 
-        
-        if(empty($id)){
-            header ("location: login.php?regerror=Id is not filled in!");
-        } else if(empty($password)){
-            header ("location: login.php?regerror=New password is not filled in!");
-        }else if(empty($passwordCheck)){
-            header ("location: login.php?regerror=New password check is not filled in!");
-        }
-        
-        else if($password == $passwordCheck){
-            $password =  password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("UPDATE users SET password = :password WHERE id = :id");
-            $stmt->bindParam(":password", $password);
-            $stmt->bindParam(":id", $id);
-            $stmt->execute();
+                $sthandler = $conn->prepare("SELECT * FROM password_reset WHERE token = :token");
+                $sthandler->bindParam(':token', $token);
+                $sthandler->execute();
+
+                $tokenInfo= $sthandler->fetch();
+                $email = $tokenInfo['email'];
+
+                $password =  password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+                $stmt = $conn->prepare("UPDATE users SET password = :password WHERE email = :email");
+                $stmt->bindParam(":password", $password);
+                $stmt->bindParam(":email", $email);
+                $stmt->execute();
+
+                $stmt = $conn->prepare("DELETE FROM password_reset WHERE token = :token");
+                $stmt->bindParam(":token", $token);
+                $stmt->execute();
+                header ("location: login.php#login");
+            }
         }
     }
 
@@ -292,10 +310,10 @@
                 <input type="hidden" class="inputBox" name="id" value="645e00debcd23">
                 <label for="" class="inputLabel">NEW PASSWORD</label>
                 <br>
-                <input type="text" class="inputBox" name="newPassword">
+                <input type="password" class="inputBox" name="newPassword">
                 <label for="" class="inputLabel">NEW PASSWORD CHECK</label>
                 <br>
-                <input type="text" class="inputBox" name="newPasswordCheck">
+                <input type="password" class="inputBox" name="newPasswordCheck">
                 <br>
                 <input type="submit" value="SEND" class="submitBtn">
             </form>
