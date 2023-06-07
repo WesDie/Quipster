@@ -77,16 +77,24 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <img src="<?php if ($_SESSION['pfp'] != null) {
                     echo "{$_SESSION['pfp']}";
                   } else {
-                    echo "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128";
+                    echo "https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg";
                   } ?>" alt="">
         <p style="display: inline-block;"><?php echo "{$_SESSION['username']}" ?></p>
+        <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
+          notifications
+        </button>
         <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
           settings
         </button>
       </div>
       <div class="spacer wave"></div>
       <div class="friends">
-        Friend requests
+        <button class="filled">
+          Friends requests
+        </button>
+        <button class="filled">
+          Chat requests
+        </button>
       </div>
       <div class="list">
         <?php
