@@ -86,11 +86,13 @@ function Toggle(side) {
             document.getElementById("toggleLeft").innerHTML = "chevron_right";
             left = 0;
             leftOpen = false;
+            document.getElementById("left").setAttribute("inert", "");
         } else {
-            if (window == "large") {
+            if (window === "large") {
                 document.getElementById("toggleLeft").innerHTML = "chevron_left";
                 left = "auto";
                 leftOpen = true;
+                document.getElementById("left").removeAttribute("inert", "");
             } else {
                 console.log("yes");
                 document.getElementById("toggleLeft").innerHTML = "chevron_left";
@@ -99,6 +101,8 @@ function Toggle(side) {
                 document.getElementById("toggleRight").innerHTML = "chevron_left";
                 right = 0;
                 rightOpen = false;
+                document.getElementById("left").removeAttribute("inert", "");
+                document.getElementById("right").setAttribute("inert", "");
             }
         }
     } else {
@@ -106,11 +110,13 @@ function Toggle(side) {
             document.getElementById("toggleRight").innerHTML = "chevron_left";
             right = 0;
             rightOpen = false;
+            document.getElementById("right").setAttribute("inert", "");
         } else {
-            if (window == "large") {
+            if (window === "large") {
                 document.getElementById("toggleRight").innerHTML = "chevron_right";
                 right = "auto";
                 rightOpen = true;
+                document.getElementById("right").removeAttribute("inert", "");
             } else {
                 document.getElementById("toggleRight").innerHTML = "chevron_right";
                 right = "auto";
@@ -118,6 +124,8 @@ function Toggle(side) {
                 document.getElementById("toggleLeft").innerHTML = "chevron_right";
                 left = 0;
                 leftOpen = false;
+                document.getElementById("left").setAttribute("inert", "");
+                document.getElementById("right").removeAttribute("inert", "");
             }
         }
     }
