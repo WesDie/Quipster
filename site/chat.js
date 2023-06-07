@@ -210,7 +210,7 @@ document.addEventListener("click", () => contextMenu.style.visibility = "hidden"
 
 // send message
 function SendMessage() {
-    let input = document.querySelector("#newMessage input").value, chat_id = 'dsad';
+    let input = document.querySelector("#newMessage input").value, chat_id = 'dev_chat';
 
     let queryString = 'new=true' + '&chat_id=' + chat_id + '&input=' + input;
     // console.log(queryString);
