@@ -179,6 +179,16 @@ function ChangeSettingTab() {
 
 }
 
+function InviteMembers(){
+    const inviteMembersBox = document.getElementById('InviteMembersBox');
+    inviteMembersBox.showModal();
+}
+function CreateChat(){
+    const createChatBox = document.getElementById('CreateChatBox');
+    createChatBox.showModal();
+}
+
+
 var settingsOpen = false;
 function SettingsToggle() {
     if (settingsOpen) {

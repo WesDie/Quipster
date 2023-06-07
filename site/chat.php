@@ -95,90 +95,55 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         </button>
       </div>
       <div class="spacer wave"></div>
-      <div id="chats" class="chats tab open">
-        <div class="list">
-          <?php
-          if (!true) {
-            for ($i = 0; $i < 20; $i++) {
-          ?>
-              <div class="list-item<?php echo $i == 4 ? " selected" : "" ?>">
-                <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
-                <p>das ilad gfhadiygfadfiygasdsda</p>
-                <button class="material-symbols-outlined">
-                  more_horiz
-                </button>
-              </div>
-            <?php
-            }
-          } else {
-            $user = $_SESSION["id"];
-            $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
-            $stmtChats->bindParam(':user', $user);
-            $stmtChats->execute();
-            $chats = $stmtChats->fetchAll();
-            foreach ($chats as $chat) {
-              $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-              $stmtChat->bindParam(':id', $chat["chat"]);
-              $stmtChat->execute();
-              $chat = $stmtChat->fetch();
-            ?>
-              <div class="list-item<?php echo true ? " selected" : "" ?>">
-                <img src="<?php echo $chat["icon"] ?>" alt="">
-                <p><?php echo $chat["name"] ?></p>
-                <button class="material-symbols-outlined">
-                  more_horiz
-                </button>
-              </div>
-          <?php
-            }
-          }
-          ?>
-        </div>
+      <div class="friends">
         <button class="filled">
-          Create new chat
+          Friends requests
+        </button>
+        <button class="filled">
+          Chat requests
         </button>
       </div>
-      <div id="requests" class="requests tab">
-        <div id="switchSides">
-          <button onclick="LeftChildToggle(true)" class="filled selected">
-            Friends requests
-          </button>
-          <button onclick="LeftChildToggle(false)" class="filled">
-            Chat requests
-          </button>
-        </div>
-        <div id="tabFriend" class="tab open">
-          <div class="list">
-            <?php
-
-            ?>
-            <div class="list-item<?php echo !true ? " selected" : "" ?>">
-              <img src="<?php echo '$chat["icon"]' ?>" alt="">
-              <p><?php echo 'No friend requests' ?></p>
-              <!-- <button class="material-symbols-outlined">
+      <div class="list">
+        <?php
+        if (!true) {
+          for ($i = 0; $i < 20; $i++) {
+        ?>
+            <div class="list-item<?php echo $i == 4 ? " selected" : "" ?>">
+              <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
+              <p>das ilad gfhadiygfadfiygasdsda</p>
+              <button class="material-symbols-outlined">
                 more_horiz
-              </button> -->
+              </button>
             </div>
-          </div>
-          <button class="filled">
-            Add friend
-          </button>
-        </div>
-        <div id="tabChat" class="tab">
-          <div class="list">
-            <div class="list-item<?php echo !true ? " selected" : "" ?>">
-              <img src="<?php echo '$chat["icon"]' ?>" alt="">
-              <p><?php echo 'No chat invites' ?></p>
-              <!-- <button class="material-symbols-outlined">
+          <?php
+          }
+        } else {
+          $user = $_SESSION["id"];
+          $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
+          $stmtChats->bindParam(':user', $user);
+          $stmtChats->execute();
+          $chats = $stmtChats->fetchAll();
+          foreach ($chats as $chat) {
+            $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+            $stmtChat->bindParam(':id', $chat["chat"]);
+            $stmtChat->execute();
+            $chat = $stmtChat->fetch();
+          ?>
+            <div class="list-item<?php echo true ? " selected" : "" ?>">
+              <img src="<?php echo $chat["icon"] ?>" alt="">
+              <p><?php echo $chat["name"] ?></p>
+              <button class="material-symbols-outlined">
                 more_horiz
-              </button> -->
+              </button>
             </div>
-          </div>
-          <!-- <button class="filled">
-            Create new chat
-          </button> -->
-        </div>
+        <?php
+          }
+        }
+        ?>
       </div>
+      <button class="filled">
+        Create new chat
+      </button>
     </div>
     <div id="middle">
       <div class="top">
@@ -235,7 +200,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         }
         ?>
       </div>
-      <button class="filled">
+      <button class="filled" onclick="InviteMembers()">
         Invite members
       </button>
     </div>
@@ -301,6 +266,51 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button>idk</button>
       </div>
     </div>
+    
+
+    <dialog id="InviteMembersBox">
+      <form>
+        <p>
+          <label>Favorite animal:
+            <select>
+              <option value="default">Choose…</option>
+              <option>Brine shrimp</option>
+              <option>Red panda</option>
+              <option>Spider monkey</option>
+            </select>
+          </label>
+        </p>
+        <div>
+          <button value="cancel" formmethod="dialog">Cancel</button>
+          <button id="confirmBtn" value="default">Confirm</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="CreateChatBox">
+      <h1>Create chat</h1>
+      <form class="createChatContainer">
+        <p>
+          <label>Name:
+            <input type="text" name="name">
+          </label>
+        </p>
+        <p>
+          <label>Description:
+            <input type="text" name="description">
+          </label>
+        </p>
+        <p>
+          <label>Icon (url):
+            <input type="text" name="icon">
+          </label>
+        </p>
+        <div class="btnDialogSelection">
+          <button value="cancel" formmethod="dialog">Cancel</button>
+          <button id="confirmBtn" value="sumbit">Confirm</button>
+        </div>
+      </form>
+    </dialog>
     <script>
       const contextMenu = document.getElementById("context-menu");
 
