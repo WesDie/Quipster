@@ -186,7 +186,14 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           chevron_left
         </button>
         <p>
-          chat title
+          <?php
+          $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+          $chatr="dev_chat";
+          $stmtChatTitle->bindParam(':id', $chatr);
+          $stmtChatTitle->execute();
+          $user = $stmtChatTitle->fetch();
+          echo $user["name"];
+          ?>
         </p>
         <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
           chevron_right
