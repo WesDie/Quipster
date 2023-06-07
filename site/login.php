@@ -116,9 +116,8 @@
                 $stmt->bindParam(":creation_timestamp", $creation_timestamp);
                 $stmt->execute();
 
-                $resetLink = "http://localhost/login.php#forgotpass?token=$token";
-                $emailContent = "Click the following link to reset your password: $resetLink";
-                header("Location: login.php?passwordNewCode=Code is: $emailContent");
+                $resetLink = "http://localhost/login.php?token=$token#passchange";
+                header("Location: login.php?tokenlink=$resetLink");
 
             } else{
                 header ("location: login.php?passwordNewError=Email doesnt exist!");
