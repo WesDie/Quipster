@@ -148,7 +148,7 @@ img {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 3em 2em 2em 1fr;
+    grid-template-rows: 3em 2em 3.5em 1fr;
     grid-column-gap: 20px;
     grid-row-gap: 0px;
 }
@@ -162,7 +162,7 @@ img {
     background-color: #ffffff;
 
     display: grid;
-    grid-template-columns: 2em auto 2em;
+    grid-template-columns: 2em auto 2em 2em;
     grid-template-rows: 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
@@ -204,7 +204,7 @@ img {
 }
 
 .friends {
-    /* background-color: rgb(54, 54, 54); */
+
 }
 
 .list {
