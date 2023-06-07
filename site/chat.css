@@ -55,6 +55,14 @@ button:hover {
     padding: 8px;
 }
 
+.filled:hover {
+    color: var(--txt-primary) !important;
+}
+
+.filled.selected {
+    color: var(--txt-primary) !important;
+}
+
 img {
     user-select: none;
 }
@@ -148,7 +156,7 @@ img {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 3em 2em 3.5em 1fr;
+    grid-template-rows: 3em 2em 1fr;
     grid-column-gap: 20px;
     grid-row-gap: 0px;
 }
@@ -190,11 +198,7 @@ img {
     color: black;
 }
 
-.settings {
-    vertical-align: middle;
-}
-
-.settings:hover {
+.selected {
     font-variation-settings:
         'FILL' 1,
         'wght' 400,
@@ -203,9 +207,40 @@ img {
     cursor: pointer;
 }
 
-.friends {
 
+.chats {
+    grid-template-rows: 1fr auto;
 }
+
+.requests {
+    grid-template-rows: auto 1fr auto;
+}
+
+.requests #switchSides {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 8px;
+    padding: 8px;
+}
+
+.requests #switchSides button {
+    margin: 0;
+}
+
+.tab {
+    display: none;
+    height: 100%;
+}
+
+.open {
+    display: grid;
+}
+
+.requests .open {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
 
 .list {
     overflow-y: auto;

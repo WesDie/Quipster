@@ -87,10 +87,10 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     echo "https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg";
                   } ?>" alt="">
         <p style="display: inline-block;"><?php echo "{$_SESSION['username']}" ?></p>
-        <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
+        <button onclick="LeftTabsToggle()" id="requestToggle" class="material-symbols-outlined">
           notifications
         </button>
-        <button onclick="SettingsToggle()" class="settings material-symbols-outlined">
+        <button onclick="SettingsToggle()" class="material-symbols-outlined">
           settings
         </button>
       </div>
@@ -141,7 +141,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         }
         ?>
       </div>
-      <button class="filled" onclick="CreateChat()">
+      <button class="filled">
         Create new chat
       </button>
     </div>
