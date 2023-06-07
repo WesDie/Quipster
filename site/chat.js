@@ -210,7 +210,7 @@ document.addEventListener("click", () => contextMenu.style.visibility = "hidden"
 
 // send message
 function SendMessage() {
-    let input = document.querySelector("#newMessage input").value, chat_id = 'dsad';
+    let input = document.querySelector("#newMessage input").value, chat_id = 'dev_chat';
 
     let queryString = 'new=true' + '&chat_id=' + chat_id + '&input=' + input;
     // console.log(queryString);
@@ -286,7 +286,7 @@ function UpdateMessages(lastLoaded, chat_id) {
 
 
                 const tekst = message.appendChild(document.createElement("p"))
-                tekst.innerHTML = element.message;
+                tekst.textContent = element.message;
 
                 message.classList.add("message");
                 currentchat.appendChild(message);
