@@ -3,6 +3,22 @@ session_start();
 
 if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   require_once("db.php");
+
+
+  
+  if(isset($_GET['logout'])){
+    if($_GET['logout'] == 1){
+        session_destroy();
+        header("location: index.php");
+    }
+  }
+
+  $status = "online";
+  $id = $_SESSION['id'];
+  $stmt = $conn->prepare("UPDATE users SET status = :status WHERE id = :id");
+  $stmt->bindParam(':status', $status);
+  $stmt->bindParam(':id', $id);
+  $stmt->execute();
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -268,8 +284,17 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
          </div>
          <div id="Account">
             <div class="sectionSettingsTab">
-                <p>Change Password:</p>
+                <h3>Email:</h3>
+                <input type="text">
                 <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
+                <br>
+                <h3>Change Password:</h3>
+                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
+                <br>
+                <h3>2FA:</h3>
+                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Enable 2FA</button>
+                <br>
+                <button class="settingsButton settingsLogoutButton" onclick="logout()">Logout</button>
             </div>
          </div>
          <div id="Privacy">

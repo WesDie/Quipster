@@ -148,6 +148,10 @@ function ChangePasswordBoxModal(){
     changePasswordBox.showModal();
 }
 
+function logout(){
+    window.location.href = 'chat.php?logout=1';
+}
+
 
 let requests;
 function LeftTabsToggle() {
@@ -274,6 +278,29 @@ function SettingsTabToggle(tabName){
     document.getElementById(tabName).classList.add("showSettingsTab");
     $("button[onclick=\"SettingsTabToggle('" + tabName + "')\"]").addClass("selected");
 }
+
+//check if users leaves page
+$(window).on('beforeunload', function() {
+    let queryString = 'new=true' + '&action=' + "goOffline";
+    
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            console.log("leaving chat");
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+    
+    // You can optionally provide a custom message to be displayed in the browser dialog
+    return 'Are you sure you want to leave this page?';
+});
+
 // create chat
 function CreateChat() {
     let queryString = 'new=true' + '&descCreateChat=' + $('#descCreateChat').val() + '&nameCreateChat=' + $('#nameCreateChat').val() + '&iconCreateChat=' + $('#iconCreateChat').val();

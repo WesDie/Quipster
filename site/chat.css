@@ -604,6 +604,15 @@ dialog::backdrop {
     color: var(--txt-primary) !important;
 }
 
+.settingsLogoutButton {
+    background-color: rgb(151, 0, 33) !important;
+    margin-left: 0 !important;
+}
+
+.settingsLogoutButton:hover {
+    background-color: rgb(88, 0, 0) !important;
+}
+
 #settings button {
     outline: 2px solid transparent;
     border-radius: 0px 4px 4px 0px;
@@ -623,6 +632,12 @@ dialog::backdrop {
 
 #settings button:focus-visible {
     outline: 2px solid white;
+}
+
+#settings h3 {
+    margin-bottom: 0;
+    font-size: 1.5em;
+    display: inline;
 }
 
 .setting {
