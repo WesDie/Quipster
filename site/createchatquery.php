@@ -9,6 +9,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         $description = $_POST['descCreateChat'];
         $icon = $_POST['iconCreateChat'];
         $created = date('Y-m-d H:i:s');
+        $type = "group";
 
         $id = uniqid();
         $stmt = $conn->prepare("SELECT id FROM users WHERE id = :id");
@@ -40,15 +41,30 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             echo "name already exits";
           } else{
 
-            $stmt = $conn->prepare("INSERT INTO chats (id, name, description, created, icon) 
-            VALUES (:id, :name, :description, :created, :icon)");
+            $stmt = $conn->prepare("INSERT INTO chats (id, name, description, created, icon, type) 
+            VALUES (:id, :name, :description, :created, :icon, :type)");
             
             $stmt->bindParam(":id", $id);
             $stmt->bindParam(":name", $name);
             $stmt->bindParam(":description", $description);
             $stmt->bindParam(":created", $created);
             $stmt->bindParam(":icon", $icon);
+            $stmt->bindParam(":type", $type);
             $stmt->execute();
+
+
+            $role = "owner";
+            $user = $_SESSION['id'];
+            $joined = date('Y-m-d H:i:s');
+            $stmt = $conn->prepare("INSERT INTO chatmembers (chat, user, joined, role) 
+            VALUES (:chat, :user, :joined, :role)");
+            
+            $stmt->bindParam(":chat", $id);
+            $stmt->bindParam(":user", $user);
+            $stmt->bindParam(":joined", $joined);
+            $stmt->bindParam(":role", $role);
+            $stmt->execute();
+
           }
         }
 }
