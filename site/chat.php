@@ -72,9 +72,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         });
       });
 
-      setInterval(function() {
-        UpdateMessages(lastLoadedX, window.chat);
-      }, 1000);
+      // let intervalUpdateMessages = setInterval(function() {
+      //   UpdateMessages(lastLoadedX, window.chat);
+      // }, 1000);
     </script>
   </head>
 
@@ -98,9 +98,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div id="chats" class="chats tab open">
         <div class="list">
           <script>
-            setInterval(function() {
-              UpdateMessages(lastLoadedX, window.chat);
-            }, 1000);
+            // var intervalUpdateMessages = setInterval(function() {
+            //   UpdateMessages(lastLoadedX, window.chat);
+            // }, 1000);
           </script>
           <?php
           $user = $_SESSION["id"];

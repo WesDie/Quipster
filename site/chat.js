@@ -263,6 +263,24 @@ window.addEventListener("contextmenu", e => {
  
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
+// load chats
+function CreateChat() {
+    let queryString = 'action=uiLoadChats';
+    $.ajax({
+        url: "createchatquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            //succes
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
+
 // create chat
 function CreateChat() {
     let queryString = 'new=true' + '&descCreateChat=' + $('#descCreateChat').val() + '&nameCreateChat=' + $('#nameCreateChat').val() + '&iconCreateChat=' + $('#iconCreateChat').val();
@@ -281,19 +299,32 @@ function CreateChat() {
     });
 }
 
+// load chat
+$(window).on('load', function () {
+
+
+
+    let intervalUpdateMessages = setInterval(function () {
+        UpdateMessages(lastLoadedX, window.chat);
+    }, 1000);
+});
+
 // change chat
 function ChangeChat(nextChat) {
     window.chat = nextChat;
     $(".list .list-item").removeClass("selected");
     $("div[onclick=\"ChangeChat('" + nextChat + "')\"]").addClass("selected");
+    clearInterval(intervalUpdatemessages);
     lastLoadedX = 0
     document.getElementById("currentchat").innerHTML = '';
-
+    intervalUpdateMessages = setInterval(function () {
+        UpdateMessages(lastLoadedX, window.chat);
+    }, 1000);
 }
 
 // send message
 function SendMessage() {
-    let input = document.querySelector("#newMessage input").value, chat_id = 'dev_chat';
+    let input = document.querySelector("#newMessage input").value, chat_id = window.chat;
 
     let queryString = 'action=chatUpload' + '&chat_id=' + chat_id + '&input=' + input;
     // console.log(queryString);

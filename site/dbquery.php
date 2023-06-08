@@ -77,13 +77,20 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             }
         }
     } elseif ($_POST['action'] == 'uiLoadChats') {
-        $chat = "dev_chat";
-        $chat = $_POST['chat_id'];
         $user = $_SESSION["id"];
-        $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
-        $stmtCheck->bindParam(':chat', $chat);
+        $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
         $stmtCheck->bindParam(':user', $user);
         $stmtCheck->execute();
+        $memberat = $stmtCheck->fetchAll();
+
+        $chats = array();
+        foreach ($memberat as $chat) {
+            $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id = :id");
+            $stmtChat->bindParam(':id', $chat["id"]);
+            $stmtChat->execute();
+            array_push($chats, $stmtChat->fetch());
+        }
+
         if ($stmtCheck->rowCount() > 0) {
             // if (strtotime($_POST['lastLoaded'])) {
             $lastLoaded = $_POST['lastLoaded'];
@@ -102,5 +109,5 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmt->closeCursor();
             }
         }
-    }
+    } //elseif ($_POST['action'] == 'uiLoadChats') {}
 }
