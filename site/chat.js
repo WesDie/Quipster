@@ -1,4 +1,5 @@
 var windowD = null;
+window.chat;
 const mqSmall = window.matchMedia('(max-width: 800px)');
 const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1200px)');
 const mqLarge = window.matchMedia('(min-width: 1200px)');
