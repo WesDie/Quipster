@@ -283,7 +283,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         </button>
       </div>
       <div class="setting">
-        <p>Dummy setting</p>
+        <p>Setting</p>
       </div>
     </div>
 
