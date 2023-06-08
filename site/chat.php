@@ -109,7 +109,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmtChat->execute();
             $chat = $stmtChat->fetch();
           ?>
-            <div class="list-item<?php echo true ? " selected" : "" ?>">
+            <div onclick="ChangeChat('<?php echo $chat['id'] ?>')" class="list-item<?php echo !true ? " selected" : "" ?>">
               <img src="<?php echo $chat["icon"] ?>" alt="">
               <p><?php echo $chat["name"] ?></p>
               <button class="material-symbols-outlined">

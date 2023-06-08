@@ -76,5 +76,31 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmt->closeCursor();
             }
         }
-    } // elseif ($_POST['action'] == 'your action') {
+    } elseif ($_POST['action'] == 'uiLoadChats') {
+        $chat = "dev_chat";
+        $chat = $_POST['chat_id'];
+        $user = $_SESSION["id"];
+        $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
+        $stmtCheck->bindParam(':chat', $chat);
+        $stmtCheck->bindParam(':user', $user);
+        $stmtCheck->execute();
+        if ($stmtCheck->rowCount() > 0) {
+            // if (strtotime($_POST['lastLoaded'])) {
+            $lastLoaded = $_POST['lastLoaded'];
+
+            $stmt = $conn->prepare("SELECT name FROM chats WHERE id = :id");
+
+            // $stmt->bindParam(':chat_id', $chat);
+            // $stmt->bindParam(':lastLoaded', $lastLoaded);
+
+            if ($stmt->execute()) {
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $newMsgs = $stmt->fetchAll();
+
+                echo json_encode($newMsgs);
+
+                $stmt->closeCursor();
+            }
+        }
+    }
 }

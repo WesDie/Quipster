@@ -281,6 +281,14 @@ function CreateChat() {
     });
 }
 
+// change chat
+function ChangeChat(nextChat) {
+    window.chat = nextChat;
+    let children = $(".list .list-item");
+    children.removeClass("selected");
+    $("div[onclick=\"ChangeChat('dev_chat')\"]").addClass("selected");
+}
+
 // send message
 function SendMessage() {
     let input = document.querySelector("#newMessage input").value, chat_id = 'dev_chat';
