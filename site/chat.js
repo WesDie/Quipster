@@ -284,9 +284,8 @@ function CreateChat() {
 // change chat
 function ChangeChat(nextChat) {
     window.chat = nextChat;
-    let children = $(".list .list-item");
-    children.removeClass("selected");
-    $("div[onclick=\"ChangeChat('dev_chat')\"]").addClass("selected");
+    $(".list .list-item").removeClass("selected");
+    $("div[onclick=\"ChangeChat('"+nextChat+"')\"]").addClass("selected");
 }
 
 // send message
