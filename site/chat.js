@@ -136,7 +136,7 @@ function InviteMembers(){
     const inviteMembersBox = document.getElementById('InviteMembersBox');
     inviteMembersBox.showModal();
 }
-function CreateChat(){
+function CreateChatModal(){
     const createChatBox = document.getElementById('CreateChatBox');
     createChatBox.showModal();
 }
@@ -260,6 +260,23 @@ window.addEventListener("contextmenu", e => {
  
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
+// create chat
+function CreateChat() {
+    let queryString = 'new=true' + '&descCreateChat=' + $('#descCreateChat').val() + '&nameCreateChat=' + $('#nameCreateChat').val() +  '&iconCreateChat=' + $('#iconCreateChat').val();
+    $.ajax({
+        url: "createchatquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            //succes
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
 
 // send message
 function SendMessage() {

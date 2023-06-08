@@ -134,7 +134,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           }
           ?>
         </div>
-        <button class="filled" onclick="CreateChat()">
+        <button class="filled" onclick="CreateChatModal()">
           Create new chat
         </button>
       </div>
@@ -332,22 +332,22 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <form class="createChatContainer">
         <p>
           <label>Name:
-            <input type="text" name="name">
+            <input type="text" name="name" id="nameCreateChat">
           </label>
         </p>
         <p>
           <label>Description:
-            <input type="text" name="description">
+            <input type="text" name="description" id="descCreateChat">
           </label>
         </p>
         <p>
           <label>Icon (url):
-            <input type="text" name="icon">
+            <input type="text" name="icon" id="iconCreateChat">
           </label>
         </p>
         <div class="btnDialogSelection">
           <button value="cancel" formmethod="dialog">Cancel</button>
-          <button id="confirmBtn" value="sumbit">Confirm</button>
+          <button id="confirmBtn" type="button" onclick="CreateChat()">Confirm</button>
         </div>
       </form>
     </dialog>
