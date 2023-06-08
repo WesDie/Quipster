@@ -70,39 +70,3 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         // $conn = null;
     }
 }
-
-
-if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
-if(isset($_POST['name']) && isset($_POST['description']) && isset($_POST['icon'])){
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $icon = $_POST['icon'];
-    $created = date('Y-m-d H:i:s');
-    $id = uniqid();
-
-
-    $sthandler = $conn->prepare("SELECT name FROM chats WHERE name = :name");
-    $sthandler->bindParam(':name', $name);
-    $sthandler->execute();
-
-    if(empty($name)){
-
-    } else if(empty($description)){
-
-    }else if(empty($icon)){
-        if($sthandler->rowCount() > 0){
-          echo "name already exits";
-        } else{
-          $stmt = $conn->prepare("INSERT INTO chats (name, description, created, icon, id) 
-          VALUES (:email, :password, :created, :username, :id)");
-          
-          $stmt->bindParam(":id", $id);
-          $stmt->bindParam(":description", $description);
-          $stmt->bindParam(":created", $created);
-          $stmt->bindParam(":icon", $icon);
-          $stmt->bindParam(":id", $id);
-          $stmt->execute();
-        }
-    }
-  }
-}

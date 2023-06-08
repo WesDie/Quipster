@@ -134,7 +134,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           }
           ?>
         </div>
-        <button class="filled" onclick="CreateChat()">
+        <button class="filled" onclick="CreateChatModal()">
           Create new chat
         </button>
       </div>
@@ -186,7 +186,14 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           chevron_left
         </button>
         <p>
-          chat title
+          <?php
+          $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+          $chatr="dev_chat";
+          $stmtChatTitle->bindParam(':id', $chatr);
+          $stmtChatTitle->execute();
+          $user = $stmtChatTitle->fetch();
+          echo $user["name"];
+          ?>
         </p>
         <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
           chevron_right
@@ -325,22 +332,22 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <form class="createChatContainer">
         <p>
           <label>Name:
-            <input type="text" name="name">
+            <input type="text" name="name" id="nameCreateChat">
           </label>
         </p>
         <p>
           <label>Description:
-            <input type="text" name="description">
+            <input type="text" name="description" id="descCreateChat">
           </label>
         </p>
         <p>
           <label>Icon (url):
-            <input type="text" name="icon">
+            <input type="text" name="icon" id="iconCreateChat">
           </label>
         </p>
         <div class="btnDialogSelection">
           <button value="cancel" formmethod="dialog">Cancel</button>
-          <button id="confirmBtn" value="sumbit">Confirm</button>
+          <button id="confirmBtn" type="button" onclick="CreateChat()">Confirm</button>
         </div>
       </form>
     </dialog>
