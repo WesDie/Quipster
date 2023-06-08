@@ -1,12 +1,12 @@
-var window = null;
+var windowD = null;
 const mqSmall = window.matchMedia('(max-width: 800px)');
-const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1800px)');
-const mqLarge = window.matchMedia('(min-width: 1800px)');
+const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1200px)');
+const mqLarge = window.matchMedia('(min-width: 1200px)');
 let leftOpen = true, rightOpen = false, left = "0", right = "0";
 
 
 function Small() {
-    window = "small"; console.log('small');
+    windowD = "small"; console.log('small');
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = 0 + " 1fr " + 0;
 
     document.getElementById("toggleLeft").innerHTML = "chevron_right";
@@ -23,7 +23,7 @@ function Small() {
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + 0;
 }
 function Medium() {
-    window = "medium"; console.log('medium');
+    windowD = "medium"; console.log('medium');
 
     document.getElementById("toggleLeft").innerHTML = "chevron_left";
     left = "auto";
@@ -39,7 +39,7 @@ function Medium() {
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
 }
 function Large() {
-    window = "large"; console.log('large');
+    windowD = "large"; console.log('large');
 
     document.getElementById("toggleLeft").innerHTML = "chevron_left";
     left = "auto";
@@ -88,7 +88,8 @@ function Toggle(side) {
             leftOpen = false;
             document.getElementById("left").setAttribute("inert", "");
         } else {
-            if (window === "large") {
+            console.log(windowD);
+            if (windowD === "large") {
                 document.getElementById("toggleLeft").innerHTML = "chevron_left";
                 left = "auto";
                 leftOpen = true;
@@ -112,7 +113,8 @@ function Toggle(side) {
             rightOpen = false;
             document.getElementById("right").setAttribute("inert", "");
         } else {
-            if (window === "large") {
+            console.log(windowD);
+            if (windowD === "large") {
                 document.getElementById("toggleRight").innerHTML = "chevron_right";
                 right = "auto";
                 rightOpen = true;
@@ -132,11 +134,11 @@ function Toggle(side) {
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = left + " 1fr " + right;
 }
 
-function InviteMembers(){
+function InviteMembers() {
     const inviteMembersBox = document.getElementById('InviteMembersBox');
     inviteMembersBox.showModal();
 }
-function CreateChat(){
+function CreateChat() {
     const createChatBox = document.getElementById('CreateChatBox');
     createChatBox.showModal();
 }

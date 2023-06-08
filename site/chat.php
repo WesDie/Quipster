@@ -44,9 +44,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         // when page first opened, check windows width:
         if (window.innerWidth <= 800) {
           Small();
-        } else if (window.outerWidth >= 1400) {
+        } else if (window.outerWidth >= 1200) {
           Large();
-        } else if (window.innerWidth >= 800 && window.innerWidth <= 1400) {
+        } else if (window.innerWidth >= 800 && window.innerWidth <= 1200) {
           Medium();
           console.log("dsad");
         } else {
