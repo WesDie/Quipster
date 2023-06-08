@@ -98,39 +98,25 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div id="chats" class="chats tab open">
         <div class="list">
           <?php
-          if (!true) {
-            for ($i = 0; $i < 20; $i++) {
+          $user = $_SESSION["id"];
+          $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
+          $stmtChats->bindParam(':user', $user);
+          $stmtChats->execute();
+          $chats = $stmtChats->fetchAll();
+          foreach ($chats as $chat) {
+            $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+            $stmtChat->bindParam(':id', $chat["chat"]);
+            $stmtChat->execute();
+            $chat = $stmtChat->fetch();
           ?>
-              <div class="list-item<?php echo $i == 4 ? " selected" : "" ?>">
-                <img src="https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128" alt="">
-                <p>das ilad gfhadiygfadfiygasdsda</p>
-                <button class="material-symbols-outlined">
-                  more_horiz
-                </button>
-              </div>
-            <?php
-            }
-          } else {
-            $user = $_SESSION["id"];
-            $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
-            $stmtChats->bindParam(':user', $user);
-            $stmtChats->execute();
-            $chats = $stmtChats->fetchAll();
-            foreach ($chats as $chat) {
-              $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-              $stmtChat->bindParam(':id', $chat["chat"]);
-              $stmtChat->execute();
-              $chat = $stmtChat->fetch();
-            ?>
-              <div class="list-item<?php echo true ? " selected" : "" ?>">
-                <img src="<?php echo $chat["icon"] ?>" alt="">
-                <p><?php echo $chat["name"] ?></p>
-                <button class="material-symbols-outlined">
-                  more_horiz
-                </button>
-              </div>
+            <div onclick="ChangeChat('<?php echo $chat['id'] ?>')" class="list-item<?php echo !true ? " selected" : "" ?>">
+              <img src="<?php echo $chat["icon"] ?>" alt="">
+              <p><?php echo $chat["name"] ?></p>
+              <button class="material-symbols-outlined">
+                more_horiz
+              </button>
+            </div>
           <?php
-            }
           }
           ?>
         </div>
@@ -188,7 +174,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <p>
           <?php
           $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-          $chatr="dev_chat";
+          $chatr = "dev_chat";
           $stmtChatTitle->bindParam(':id', $chatr);
           $stmtChatTitle->execute();
           $user = $stmtChatTitle->fetch();

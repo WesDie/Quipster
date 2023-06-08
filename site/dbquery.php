@@ -5,15 +5,15 @@ require_once('db.php');
 session_start();
 
 if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
-    $chat = "dev_chat";
-    $chat = $_POST['chat_id'];
-    $user = $_SESSION["id"];
-    $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
-    $stmtCheck->bindParam(':chat', $chat);
-    $stmtCheck->bindParam(':user', $user);
-    $stmtCheck->execute();
-    if ($stmtCheck->rowCount() > 0) {
-        if ($_POST['new'] == 'true') {
+    if ($_POST['action'] == 'chatUpload') {
+        $chat = "dev_chat";
+        $chat = $_POST['chat_id'];
+        $user = $_SESSION["id"];
+        $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
+        $stmtCheck->bindParam(':chat', $chat);
+        $stmtCheck->bindParam(':user', $user);
+        $stmtCheck->execute();
+        if ($stmtCheck->rowCount() > 0) {
             if (!empty(trim($_POST['input']))) {
                 // expect two variables:
 
@@ -47,7 +47,16 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     $stmt->closeCursor();
                 }
             }
-        } else {
+        }
+    } elseif ($_POST['action'] == 'chatLoad') {
+        $chat = "dev_chat";
+        $chat = $_POST['chat_id'];
+        $user = $_SESSION["id"];
+        $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
+        $stmtCheck->bindParam(':chat', $chat);
+        $stmtCheck->bindParam(':user', $user);
+        $stmtCheck->execute();
+        if ($stmtCheck->rowCount() > 0) {
             // if (strtotime($_POST['lastLoaded'])) {
             $lastLoaded = $_POST['lastLoaded'];
 
@@ -67,6 +76,31 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmt->closeCursor();
             }
         }
-        // $conn = null;
+    } elseif ($_POST['action'] == 'uiLoadChats') {
+        $chat = "dev_chat";
+        $chat = $_POST['chat_id'];
+        $user = $_SESSION["id"];
+        $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
+        $stmtCheck->bindParam(':chat', $chat);
+        $stmtCheck->bindParam(':user', $user);
+        $stmtCheck->execute();
+        if ($stmtCheck->rowCount() > 0) {
+            // if (strtotime($_POST['lastLoaded'])) {
+            $lastLoaded = $_POST['lastLoaded'];
+
+            $stmt = $conn->prepare("SELECT name FROM chats WHERE id = :id");
+
+            // $stmt->bindParam(':chat_id', $chat);
+            // $stmt->bindParam(':lastLoaded', $lastLoaded);
+
+            if ($stmt->execute()) {
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $newMsgs = $stmt->fetchAll();
+
+                echo json_encode($newMsgs);
+
+                $stmt->closeCursor();
+            }
+        }
     }
 }

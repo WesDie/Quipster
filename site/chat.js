@@ -139,7 +139,7 @@ function InviteMembers() {
     const inviteMembersBox = document.getElementById('InviteMembersBox');
     inviteMembersBox.showModal();
 }
-function CreateChatModal(){
+function CreateChatModal() {
     const createChatBox = document.getElementById('CreateChatBox');
     createChatBox.showModal();
 }
@@ -276,7 +276,7 @@ function SettingsTabToggle(tabName){
 }
 // create chat
 function CreateChat() {
-    let queryString = 'new=true' + '&descCreateChat=' + $('#descCreateChat').val() + '&nameCreateChat=' + $('#nameCreateChat').val() +  '&iconCreateChat=' + $('#iconCreateChat').val();
+    let queryString = 'new=true' + '&descCreateChat=' + $('#descCreateChat').val() + '&nameCreateChat=' + $('#nameCreateChat').val() + '&iconCreateChat=' + $('#iconCreateChat').val();
     $.ajax({
         url: "createchatquery.php",
         data: queryString,
@@ -292,11 +292,18 @@ function CreateChat() {
     });
 }
 
+// change chat
+function ChangeChat(nextChat) {
+    window.chat = nextChat;
+    $(".list .list-item").removeClass("selected");
+    $("div[onclick=\"ChangeChat('"+nextChat+"')\"]").addClass("selected");
+}
+
 // send message
 function SendMessage() {
     let input = document.querySelector("#newMessage input").value, chat_id = 'dev_chat';
 
-    let queryString = 'new=true' + '&chat_id=' + chat_id + '&input=' + input;
+    let queryString = 'action=chatUpload' + '&chat_id=' + chat_id + '&input=' + input;
     // console.log(queryString);
     $.ajax({
         url: "dbquery.php",
@@ -334,7 +341,7 @@ var lastLoadedX = "1999";
 // }, 1000);
 
 function UpdateMessages(lastLoaded, chat_id) {
-    let queryString = 'new=' + 'false' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
+    let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
     // console.log(queryString);
     $.ajax({
         url: "dbquery.php",
