@@ -293,6 +293,7 @@ img {
 .list-item img {
     padding: 0;
     height: 2em;
+    width: 2em;
     border-radius: 40px;
 }
 
@@ -362,14 +363,14 @@ img {
     background-color: var(--btn-primary);
     border-radius: 20px;
 }
-#CreateChatBox{
+.CreateBox{
     width: fit-content;
     height: fit-content;
     border-radius: 2%;
     background-color: #5b4f64;
     border-width: 0px;
 }
-#CreateChatBox input{
+.CreateBox input{
     height: 100%;
     width: 300px;
     border: none;
@@ -380,13 +381,13 @@ img {
     font-size: 15px;
     display: block;
 }
-#CreateChatBox label {
+.CreateBox label {
     font-size: 16px;
 }
-#CreateChatBox input:focus {
+.CreateBox input:focus {
     outline: none;
   }
-#CreateChatBox h1{
+.CreateBox h1{
     margin-top: 0;
     text-align: center;
 }
@@ -546,26 +547,78 @@ dialog::backdrop {
     grid-template-rows: repeat(auto-fill, minmax(2em, 1fr));
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    padding-right: 10px;
+
+    border-right: 3px solid #3d34436e;
 }
 
 .catagory {
     display: -webkit-box;
 }
 
+.back button{
+    font-size: 2em !important;
+}
+
+.setting p{
+    font-size: 1.5em;
+}
+
+#settingTabContainer{
+    padding-inline: 20px;
+    overflow: hidden;
+}
+
+#settingTabContainer div{
+    display: none;
+}
+
+.showSettingsTab{
+    display: block !important;
+    width: 100%;
+    height: 100%;
+}
+
+.sectionSettingsTab{
+    width: 100%;
+    height: fit-content;
+    border-top: 2px solid #5c4e666e;
+    border-bottom: 2px solid #5c4e666e;
+    display: block !important;
+}
+
+.settingsButton {
+    background-color: rgb(0, 103, 151);
+    margin: 8px;
+    padding: 8px !important;
+    border-radius: 2px !important;
+}
+
+.settingsButton:hover {
+    outline: 1px solid #ffffff85 !important;
+    color: var(--txt-primary) !important;
+    background-color: rgb(0, 60, 88) !important;
+}
+
+.settingsButton.selected {
+    color: var(--txt-primary) !important;
+}
+
 #settings button {
     outline: 2px solid transparent;
-    border-radius: 10px;
-    margin: 4px;
+    border-radius: 0px 4px 4px 0px;
+    /* margin: 4px; */
     padding: 0;
+    font-size: 1em;
 }
 
 #settings button.selected {
-    background-color: red;
+    background-color: #5f5168;
 }
 
 #settings button:hover {
     outline: 2px solid white;
-    background-color: rgba(0, 0, 0, 0.255);
+    background-color: #382f3d;
 }
 
 #settings button:focus-visible {

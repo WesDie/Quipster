@@ -143,6 +143,10 @@ function CreateChatModal(){
     const createChatBox = document.getElementById('CreateChatBox');
     createChatBox.showModal();
 }
+function ChangePasswordBoxModal(){
+    const changePasswordBox = document.getElementById('changePasswordBox');
+    changePasswordBox.showModal();
+}
 
 
 let requests;
@@ -263,6 +267,13 @@ window.addEventListener("contextmenu", e => {
  
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
+//Toggle settings tab
+function SettingsTabToggle(tabName){
+    $("#catagories button").removeClass("selected");
+    $("#settingTabContainer div").removeClass("showSettingsTab");
+    document.getElementById(tabName).classList.add("showSettingsTab");
+    $("button[onclick=\"SettingsTabToggle('" + tabName + "')\"]").addClass("selected");
+}
 // create chat
 function CreateChat() {
     let queryString = 'new=true' + '&descCreateChat=' + $('#descCreateChat').val() + '&nameCreateChat=' + $('#nameCreateChat').val() +  '&iconCreateChat=' + $('#iconCreateChat').val();
