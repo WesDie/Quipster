@@ -73,7 +73,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       });
 
       setInterval(function() {
-        UpdateMessages(lastLoadedX, "dev_chat");
+        UpdateMessages(lastLoadedX, window.chat);
       }, 1000);
     </script>
   </head>
@@ -97,6 +97,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div class="spacer wave"></div>
       <div id="chats" class="chats tab open">
         <div class="list">
+          <script>
+            setInterval(function() {
+              UpdateMessages(lastLoadedX, window.chat);
+            }, 1000);
+          </script>
           <?php
           $user = $_SESSION["id"];
           $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");

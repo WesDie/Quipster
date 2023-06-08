@@ -285,7 +285,10 @@ function CreateChat() {
 function ChangeChat(nextChat) {
     window.chat = nextChat;
     $(".list .list-item").removeClass("selected");
-    $("div[onclick=\"ChangeChat('"+nextChat+"')\"]").addClass("selected");
+    $("div[onclick=\"ChangeChat('" + nextChat + "')\"]").addClass("selected");
+    lastLoadedX = 0
+    document.getElementById("currentchat").innerHTML = '';
+
 }
 
 // send message
@@ -383,6 +386,7 @@ function UpdateMessages(lastLoaded, chat_id) {
         }
     });
 }
+
 
 
 
