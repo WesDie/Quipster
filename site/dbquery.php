@@ -109,5 +109,12 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmt->closeCursor();
             }
         }
-    } //elseif ($_POST['action'] == 'uiLoadChats') {}
+    } elseif($_POST['action'] == 'goOffline'){
+        $status = "offline";
+        $id = $_SESSION['id'];
+        $stmt = $conn->prepare("UPDATE users SET status = :status WHERE id = :id");
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
 }

@@ -143,6 +143,14 @@ function CreateChatModal() {
     const createChatBox = document.getElementById('CreateChatBox');
     createChatBox.showModal();
 }
+function ChangePasswordBoxModal(){
+    const changePasswordBox = document.getElementById('changePasswordBox');
+    changePasswordBox.showModal();
+}
+
+function logout(){
+    window.location.href = 'chat.php?logout=1';
+}
 
 
 let requests;
@@ -263,23 +271,35 @@ window.addEventListener("contextmenu", e => {
  
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
-// load chats
-function CreateChat() {
-    let queryString = 'action=uiLoadChats';
+//Toggle settings tab
+function SettingsTabToggle(tabName){
+    $("#catagories button").removeClass("selected");
+    $("#settingTabContainer div").removeClass("showSettingsTab");
+    document.getElementById(tabName).classList.add("showSettingsTab");
+    $("button[onclick=\"SettingsTabToggle('" + tabName + "')\"]").addClass("selected");
+}
+
+//check if users leaves page
+$(window).on('beforeunload', function() {
+    let queryString = 'new=true' + '&action=' + "goOffline";
+    
     $.ajax({
-        url: "createchatquery.php",
+        url: "dbquery.php",
         data: queryString,
         type: "POST",
         dataType: "json",
         success: function (response) {
-            //succes
+            console.log("leaving chat");
         },
         error: function (error) {
             console.log("post error");
             console.log(error);
         }
     });
-}
+    
+    // You can optionally provide a custom message to be displayed in the browser dialog
+    return 'Are you sure you want to leave this page?';
+});
 
 // create chat
 function CreateChat() {

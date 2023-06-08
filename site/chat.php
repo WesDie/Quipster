@@ -3,6 +3,22 @@ session_start();
 
 if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   require_once("db.php");
+
+
+  
+  if(isset($_GET['logout'])){
+    if($_GET['logout'] == 1){
+        session_destroy();
+        header("location: index.php");
+    }
+  }
+
+  $status = "online";
+  $id = $_SESSION['id'];
+  $stmt = $conn->prepare("UPDATE users SET status = :status WHERE id = :id");
+  $stmt->bindParam(':status', $status);
+  $stmt->bindParam(':id', $id);
+  $stmt->execute();
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -242,39 +258,65 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button onclick="SettingsToggle()" class="material-symbols-outlined">close</button>
       </div>
       <div id="catagories">
-        <button class="catagory selected">
+        <button class="catagory selected" onclick="SettingsTabToggle('Profile')" id="profile">
           Profile
         </button>
-        <button class="catagory">
-          Privacy
-        </button>
-        <button class="catagory">
-          Notification
-        </button>
-        <button class="catagory">
-          Chat
-        </button>
-        <button class="catagory">
-          Media
-        </button>
-        <button class="catagory">
-          Security
-        </button>
-        <button class="catagory">
-          Language
-        </button>
-        <button class="catagory" inert>
-          Help and support
-        </button>
-        <button class="catagory">
+        <button class="catagory" onclick="SettingsTabToggle('Account')" id="account">
           Account
         </button>
-        <button class="catagory">
-          Logout
+        <button class="catagory" onclick="SettingsTabToggle('Privacy')" id="privacy">
+          Privacy
+        </button>
+        <button class="catagory" onclick="SettingsTabToggle('Notification')" id="notification">
+          Notification
+        </button>
+        <button class="catagory" onclick="SettingsTabToggle('Chat')" id="chat">
+          Chat
+        </button>
+        <button class="catagory" onclick="SettingsTabToggle('Security')" id="security">
+          Security
+        </button>
+        <button class="catagory" onclick="SettingsTabToggle('HelpAndSupport')" id="helpandsupport">
+          Help and support
         </button>
       </div>
       <div class="setting">
-        <p>Setting</p>
+        <p>Settings</p>
+      </div>
+      <div id="settingTabContainer">
+         <div id="Profile">
+            Profile
+         </div>
+         <div id="Account">
+            <div class="sectionSettingsTab">
+                <h3>Email:</h3>
+                <input type="text">
+                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
+                <br>
+                <h3>Change Password:</h3>
+                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
+                <br>
+                <h3>2FA:</h3>
+                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Enable 2FA</button>
+                <br>
+                <button class="settingsButton settingsLogoutButton" onclick="logout()">Logout</button>
+            </div>
+         </div>
+         <div id="Privacy">
+            Privacy
+         </div>
+         <div id="Notification">
+            Notification
+         </div>
+         <div id="Chat">
+            Chat
+         </div>
+         <div id="Security">
+            Security
+         </div>
+         <div id="HelpAndSupport">
+            HelpAndSupport
+         </div>
       </div>
     </div>
 
@@ -318,27 +360,51 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       </form>
     </dialog>
 
-    <dialog id="CreateChatBox">
+    <dialog id="CreateChatBox" class="CreateBox">
       <h1>Create chat</h1>
       <form class="createChatContainer">
         <p>
-          <label>Name:
+          <label>Name: *
             <input type="text" name="name" id="nameCreateChat">
           </label>
         </p>
         <p>
-          <label>Description:
+          <label>Description: *
             <input type="text" name="description" id="descCreateChat">
           </label>
         </p>
         <p>
-          <label>Icon (url):
+          <label>Icon (url): *
             <input type="text" name="icon" id="iconCreateChat">
           </label>
         </p>
         <div class="btnDialogSelection">
           <button value="cancel" formmethod="dialog">Cancel</button>
           <button id="confirmBtn" type="button" onclick="CreateChat()">Confirm</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="changePasswordBox" class="CreateBox">
+      <h1>Change password</h1>
+      <form class="createChatContainer">
+        <p>
+          <label>Current Password: *
+            <input type="text" name="name" id="nameCreateChat">
+          </label>
+        </p>
+        <p>
+          <label>New Password: *
+            <input type="text" name="description" id="descCreateChat">
+          </label>
+        </p>
+        <p>
+          <label>New Password check: *
+            <input type="text" name="icon" id="iconCreateChat">
+          </label>
+        </p>
+        <div class="btnDialogSelection">
+          <button value="cancel" formmethod="dialog">Cancel</button>
+          <button id="confirmBtn" type="button" onclick="">Confirm</button>
         </div>
       </form>
     </dialog>
