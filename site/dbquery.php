@@ -116,5 +116,22 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
+    } elseif($_POST['action'] == 'updateMembers'){
+        // $chat = "dev_chat";
+        $chat = $_POST['chat_id'];
+        $user = $_SESSION["id"];
+        $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chat");
+        $stmtCheck->bindParam(':chat', $chat);
+        $stmtCheck->execute();
+        $members = $stmtCheck->fetchAll();
+        $memberList = array(); 
+        foreach ($members as $member) {
+          $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
+          $stmtUser->bindParam(':id', $member["user"]);
+          $stmtUser->execute();
+          $user = $stmtUser->fetch();
+          array_push($memberList, $user);
+        }
+        echo json_encode($memberList);
     }
 }

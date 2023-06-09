@@ -296,6 +296,10 @@ img {
     width: 2em;
     border-radius: 40px;
 }
+.onlinePfp{
+    outline: #64e958 solid 2px;
+    outline-offset: 1px;
+}
 
 .list-item p {
     margin: 0;
