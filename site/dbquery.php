@@ -6,7 +6,7 @@ session_start();
 
 if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     if ($_POST['action'] == 'chatUpload') {
-        $chat = "dev_chat";
+        // $chat = "dev_chat";
         $chat = $_POST['chat_id'];
         $user = $_SESSION["id"];
         $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
@@ -30,9 +30,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmtId->closeCursor();
 
                 // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message) VALUES (:id, 'dev_chat', :user, :message)");
+                $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message) VALUES (:id, :chat, :user, :message)");
                 $stmt->bindParam(':id', $id);
-                // $stmt->bindParam(':chat', $id);
+                $stmt->bindParam(':chat', $chat);
                 $user = $_SESSION['id'];
                 $stmt->bindParam(':user', $user);
                 // $stmt->bindParam(':type', $id);
@@ -49,7 +49,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             }
         }
     } elseif ($_POST['action'] == 'chatLoad') {
-        $chat = "dev_chat";
+        // $chat = "dev_chat";
         $chat = $_POST['chat_id'];
         $user = $_SESSION["id"];
         $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
@@ -109,7 +109,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmt->closeCursor();
             }
         }
-    } elseif($_POST['action'] == 'goOffline'){
+    } elseif ($_POST['action'] == 'goOffline') {
         $status = "offline";
         $id = $_SESSION['id'];
         $stmt = $conn->prepare("UPDATE users SET status = :status WHERE id = :id");

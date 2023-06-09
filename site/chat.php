@@ -5,11 +5,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   require_once("db.php");
 
 
-  
-  if(isset($_GET['logout'])){
-    if($_GET['logout'] == 1){
-        session_destroy();
-        header("location: index.php");
+
+  if (isset($_GET['logout'])) {
+    if ($_GET['logout'] == 1) {
+      session_destroy();
+      header("location: index.php");
     }
   }
 
@@ -292,39 +292,39 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <p>Settings</p>
       </div>
       <div id="settingTabContainer">
-         <div id="Profile">
-            Profile
-         </div>
-         <div id="Account">
-            <div class="sectionSettingsTab">
-                <h3>Email:</h3>
-                <input type="text">
-                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
-                <br>
-                <h3>Change Password:</h3>
-                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
-                <br>
-                <h3>2FA:</h3>
-                <button class="settingsButton" onclick="ChangePasswordBoxModal()">Enable 2FA</button>
-                <br>
-                <button class="settingsButton settingsLogoutButton" onclick="logout()">Logout</button>
-            </div>
-         </div>
-         <div id="Privacy">
-            Privacy
-         </div>
-         <div id="Notification">
-            Notification
-         </div>
-         <div id="Chat">
-            Chat
-         </div>
-         <div id="Security">
-            Security
-         </div>
-         <div id="HelpAndSupport">
-            HelpAndSupport
-         </div>
+        <div id="Profile">
+          Profile
+        </div>
+        <div id="Account">
+          <div class="sectionSettingsTab">
+            <h3>Email:</h3>
+            <input type="text">
+            <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
+            <br>
+            <h3>Change Password:</h3>
+            <button class="settingsButton" onclick="ChangePasswordBoxModal()">Change</button>
+            <br>
+            <h3>2FA:</h3>
+            <button class="settingsButton" onclick="ChangePasswordBoxModal()">Enable 2FA</button>
+            <br>
+            <button class="settingsButton settingsLogoutButton" onclick="logout()">Logout</button>
+          </div>
+        </div>
+        <div id="Privacy">
+          Privacy
+        </div>
+        <div id="Notification">
+          Notification
+        </div>
+        <div id="Chat">
+          Chat
+        </div>
+        <div id="Security">
+          Security
+        </div>
+        <div id="HelpAndSupport">
+          HelpAndSupport
+        </div>
       </div>
     </div>
 
