@@ -143,12 +143,12 @@ function CreateChatModal() {
     const createChatBox = document.getElementById('CreateChatBox');
     createChatBox.showModal();
 }
-function ChangePasswordBoxModal(){
+function ChangePasswordBoxModal() {
     const changePasswordBox = document.getElementById('changePasswordBox');
     changePasswordBox.showModal();
 }
 
-function logout(){
+function logout() {
     window.location.href = 'chat.php?logout=1';
 }
 
@@ -272,7 +272,7 @@ window.addEventListener("contextmenu", e => {
 document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
 //Toggle settings tab
-function SettingsTabToggle(tabName){
+function SettingsTabToggle(tabName) {
     $("#catagories button").removeClass("selected");
     $("#settingTabContainer div").removeClass("showSettingsTab");
     document.getElementById(tabName).classList.add("showSettingsTab");
@@ -280,9 +280,9 @@ function SettingsTabToggle(tabName){
 }
 
 //check if users leaves page
-$(window).on('beforeunload', function() {
+$(window).on('beforeunload', function () {
     let queryString = 'new=true' + '&action=' + "goOffline";
-    
+
     $.ajax({
         url: "dbquery.php",
         data: queryString,
@@ -296,7 +296,7 @@ $(window).on('beforeunload', function() {
             console.log(error);
         }
     });
-    
+
     // You can optionally provide a custom message to be displayed in the browser dialog
     return 'Are you sure you want to leave this page?';
 });
@@ -318,13 +318,13 @@ function CreateChat() {
         }
     });
 }
-
+let intervalUpdateMessages;
 // load chat
 $(window).on('load', function () {
 
 
 
-    let intervalUpdateMessages = setInterval(function () {
+    intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
     }, 1000);
 });
@@ -334,9 +334,9 @@ function ChangeChat(nextChat) {
     window.chat = nextChat;
     $(".list .list-item").removeClass("selected");
     $("div[onclick=\"ChangeChat('" + nextChat + "')\"]").addClass("selected");
-    clearInterval(intervalUpdatemessages);
-    lastLoadedX = 0
+    clearInterval(intervalUpdateMessages);
     document.getElementById("currentchat").innerHTML = '';
+    lastLoadedX = 0;
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
     }, 1000);
