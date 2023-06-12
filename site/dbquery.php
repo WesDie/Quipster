@@ -127,14 +127,13 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmt->bindParam(':status', $status);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
+        } elseif ($_POST['action'] == 'getProfileData') {
+            $userid = $_POST['userid'];
+            $stmtCheck = $conn->prepare("SELECT * FROM users WHERE id=:id");
+            $stmtCheck->bindParam(':id', $userid);
+            $stmtCheck->execute();
+            $userinfo = $stmtCheck->fetch();
+            echo json_encode($userinfo);
         }
-        echo json_encode($memberList);
-    } elseif($_POST['action'] == 'getProfileData'){
-        $userid = $_POST['userid'];
-        $stmtCheck = $conn->prepare("SELECT * FROM users WHERE id=:id");
-        $stmtCheck->bindParam(':id', $userid);
-        $stmtCheck->execute();
-        $userinfo = $stmtCheck->fetch();
-        echo json_encode($userinfo);
     }
 }
