@@ -207,6 +207,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         </button>
       </div>
       <div id="currentchat">
+        <div class="begin">
+          <h1>start of chat</h1>
+        </div>
       </div>
       <div id="newMessage">
         <input id="inpurt" type="text" placeholder="Message Wes...">

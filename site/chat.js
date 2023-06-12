@@ -335,7 +335,9 @@ function ChangeChat(nextChat) {
     $(".list .list-item").removeClass("selected");
     $("div[onclick=\"ChangeChat('" + nextChat + "')\"]").addClass("selected");
     clearInterval(intervalUpdateMessages);
-    document.getElementById("currentchat").innerHTML = '';
+    // document.getElementById("currentchat").innerHTML = '';
+    $("#currentchat .message").remove();
+
     lastLoadedX = 0;
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);

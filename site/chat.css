@@ -363,14 +363,16 @@ img {
     background-color: var(--btn-primary);
     border-radius: 20px;
 }
-.CreateBox{
+
+.CreateBox {
     width: fit-content;
     height: fit-content;
     border-radius: 2%;
     background-color: #5b4f64;
     border-width: 0px;
 }
-.CreateBox input{
+
+.CreateBox input {
     height: 100%;
     width: 300px;
     border: none;
@@ -381,23 +383,29 @@ img {
     font-size: 15px;
     display: block;
 }
+
 .CreateBox label {
     font-size: 16px;
 }
+
 .CreateBox input:focus {
     outline: none;
-  }
-.CreateBox h1{
+}
+
+.CreateBox h1 {
     margin-top: 0;
     text-align: center;
 }
+
 dialog::backdrop {
     background: rgba(0, 0, 0, 0.486);
 }
-.btnDialogSelection{
+
+.btnDialogSelection {
     display: flex;
 }
-.btnDialogSelection button{
+
+.btnDialogSelection button {
     margin: auto;
     height: 40px;
     width: 100px;
@@ -426,6 +434,17 @@ dialog::backdrop {
 
 #currentchat .message:hover {
     background-color: #28232c;
+}
+
+#currentchat .begin {
+    padding: 8px;
+    height: 100dvh;
+
+    display: grid;
+    /* grid-template-columns: 2em auto;
+    grid-template-rows: auto auto auto; */
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
 
 #currentchat img {
@@ -556,30 +575,30 @@ dialog::backdrop {
     display: -webkit-box;
 }
 
-.back button{
+.back button {
     font-size: 2em !important;
 }
 
-.setting p{
+.setting p {
     font-size: 1.5em;
 }
 
-#settingTabContainer{
+#settingTabContainer {
     padding-inline: 20px;
     overflow: hidden;
 }
 
-#settingTabContainer div{
+#settingTabContainer div {
     display: none;
 }
 
-.showSettingsTab{
+.showSettingsTab {
     display: block !important;
     width: 100%;
     height: 100%;
 }
 
-.sectionSettingsTab{
+.sectionSettingsTab {
     width: 100%;
     height: fit-content;
     border-top: 2px solid #5c4e666e;
