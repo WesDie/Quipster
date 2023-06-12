@@ -194,12 +194,12 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         </button>
         <p>
           <?php
-            $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-            $chatr = "dev_chat";
-            $stmtChatTitle->bindParam(':id', $chatr);
-            $stmtChatTitle->execute();
-            $user = $stmtChatTitle->fetch();
-            echo $user["name"];
+          $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+          $chatr = "dev_chat";
+          $stmtChatTitle->bindParam(':id', $chatr);
+          $stmtChatTitle->execute();
+          $user = $stmtChatTitle->fetch();
+          echo $user["name"];
           ?>
         </p>
         <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
@@ -209,17 +209,18 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div id="currentchat">
         <div class="begin">
           <h1>start of chat</h1>
+          <button class="showProfile">asdasdsa</button>
         </div>
       </div>
       <div id="newMessage">
         <input id="inpurt" type="text" placeholder="Message in <?php
-            $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-            $chatr = "dev_chat";
-            $stmtChatTitle->bindParam(':id', $chatr);
-            $stmtChatTitle->execute();
-            $user = $stmtChatTitle->fetch();
-            echo $user["name"];
-          ?>..." autocomplete="off">
+                                                                $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+                                                                $chatr = "dev_chat";
+                                                                $stmtChatTitle->bindParam(':id', $chatr);
+                                                                $stmtChatTitle->execute();
+                                                                $user = $stmtChatTitle->fetch();
+                                                                echo $user["name"];
+                                                                ?>..." autocomplete="off">
         <button onclick="SendMessage()" class="material-symbols-outlined">
           send
         </button>
@@ -244,14 +245,15 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         //   $stmtUser->execute();
         //   $user = $stmtUser->fetch();
         ?>
-          <!-- <div class="list-item">
+        <!-- <div class="list-item">
             <img src="<?php
                       // echo !empty($user['pfp']) ?
                       //   $user['pfp'] :
                       //   "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128";
                       ?>" alt="">
-            <p><?php 
-            // echo $user["username"] ?></p>
+            <p><?php
+                // echo $user["username"] 
+                ?></p>
             <button class="material-symbols-outlined">
               more_horiz
             </button>
@@ -352,6 +354,29 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button>idk</button>
       </div>
     </div>
+
+    <div id="user-profile">
+      <div class="item">
+        <button>Emoji</button>
+      </div>
+      <div class="item">
+        <button>Reply</button>
+      </div>
+      <div class="item">
+        <button>Reply</button>
+      </div>
+      <div class="item">
+        <button>Reply</button>
+      </div>
+      <div class="item">
+        <button>Reply</button>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <button>idk</button>
+      </div>
+    </div>
+
     <dialog id="InviteMembersBox">
       <form>
         <p>
@@ -457,6 +482,40 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       }
 
       document.addEventListener("click", () => contextMenu.style.display = "none");
+
+
+      $(document).ready(function() {
+        $(document).on("click", ".showProfile", function(e) {
+          console.log('asd');
+          const buttonRect = $(this)[0].getBoundingClientRect();
+          const buttonWidth = buttonRect.width;
+
+          const x = buttonRect.left + buttonWidth + 5; // Adjust the value as needed
+          const y = buttonRect.top;
+
+          const popoverWidth = $("#user-profile").outerWidth();
+          const popoverHeight = $("#user-profile").outerHeight();
+          const screenWidth = $(window).width();
+          const screenHeight = $(window).height();
+
+          let newX = x;
+          if (x + popoverWidth > screenWidth) {
+            newX = x - popoverWidth - buttonWidth - 5;
+          }
+
+          let newY = y;
+          if (y + popoverHeight > screenHeight) {
+            newY = y - popoverHeight + buttonRect.height;
+          }
+
+          $("#user-profile").css({
+            "left": `${newX}px`,
+            "top": `${newY}px`
+          });
+
+          $("#user-profile").toggleClass("show");
+        });
+      });
     </script>
   </body>
 

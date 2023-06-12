@@ -428,38 +428,64 @@ function UpdateMessages(lastLoaded, chat_id) {
         success: function (response) {
             // console.log("update success");
             // console.log(response);
-            const currentchat = document.getElementById("currentchat");
+            /*  const currentchat = document.getElementById("currentchat");
+              response.forEach(element => {
+                  // console.log(element);
+                  // console.log(element.user);
+  
+                  const message = document.createElement("div");
+                  const pfp = message.appendChild(document.createElement("img")).setAttribute("src", element.pfp);
+                  const user = message.appendChild(document.createElement("div"))
+                  // user.attr('data-id','yoooos');
+                  user.classList.add("user");
+                  user.appendChild(document.createElement("b")).innerHTML = element.username;
+                  const details = user.appendChild(document.createElement("time"));
+                  // details.classList.add("timestamp");
+  
+                  let now = new Date();
+                  let date = new Date(element.sent);
+                  // now.toDateString();
+                  // return element.sent.toDateString() === now.toDateString()
+                  //     ? "today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}"
+                  //     : "${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}";
+  
+                  details.innerHTML = date.toDateString() === now.toDateString() ?
+                      `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`
+                      : `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`;
+  
+  
+                  const tekst = message.appendChild(document.createElement("p"))
+                  tekst.textContent = element.message;
+  
+                  message.classList.add("message");
+                  currentchat.appendChild(message);
+                  var objDiv = document.getElementById("currentchat");
+                  objDiv.scrollTop = objDiv.scrollHeight;
+  
+                  lastLoadedX = element.sent;
+              });*/
+            const currentchat = $("#currentchat");
             response.forEach(element => {
-                // console.log(element);
-                // console.log(element.user);
-
-                const message = document.createElement("div");
-                const pfp = message.appendChild(document.createElement("img")).setAttribute("src", element.pfp);
-                const user = message.appendChild(document.createElement("div"))
-                user.classList.add("user");
-                user.appendChild(document.createElement("b")).innerHTML = element.username;
-                const details = user.appendChild(document.createElement("time"));
-                // details.classList.add("timestamp");
+                const message = $("<div></div>");
+                message.attr('data-id', element.id);
+                const pfp = $("<img>").attr("src", element.pfp).appendTo(message);
+                pfp.addClass('showProfile');
+                const user = $("<div></div>").addClass("user").appendTo(message);
+                user.attr('data-id', element.user);
+                const name = $("<b></b>").html(element.username).appendTo(user);
+                name.addClass('showProfile');
+                const details = $("<time></time>").appendTo(user);
 
                 let now = new Date();
                 let date = new Date(element.sent);
-                // now.toDateString();
-                // return element.sent.toDateString() === now.toDateString()
-                //     ? "today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}"
-                //     : "${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}";
+                details.html(date.toDateString() === now.toDateString() ?
+                    `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}` :
+                    `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`);
 
-                details.innerHTML = date.toDateString() === now.toDateString() ?
-                    `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`
-                    : `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`;
-
-
-                const tekst = message.appendChild(document.createElement("p"))
-                tekst.textContent = element.message;
-
-                message.classList.add("message");
-                currentchat.appendChild(message);
-                var objDiv = document.getElementById("currentchat");
-                objDiv.scrollTop = objDiv.scrollHeight;
+                const tekst = $("<p></p>").text(element.message).appendTo(message);
+                message.addClass("message");
+                currentchat.append(message);
+                $("#currentchat").scrollTop($("#currentchat")[0].scrollHeight);
 
                 lastLoadedX = element.sent;
             });

@@ -296,7 +296,8 @@ img {
     width: 2em;
     border-radius: 40px;
 }
-.onlinePfp{
+
+.onlinePfp {
     outline: #64e958 solid 2px;
     outline-offset: 1px;
 }
@@ -456,6 +457,7 @@ dialog::backdrop {
     border-radius: 40px;
     grid-area: 1 / 1 / 3 / 2;
     user-select: none;
+    cursor: pointer;
 }
 
 #currentchat p {
@@ -709,6 +711,15 @@ dialog::backdrop {
     background-color: var(--bg-secondary);
 }
 
+
+#user-profile {
+    display: none;
+    position: absolute;
+}
+
+#user-profile.show {
+    display: grid;
+}
 
 
 
