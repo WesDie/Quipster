@@ -474,6 +474,7 @@ function UpdateMessages(lastLoaded, chat_id) {
                 const user = $("<div></div>").addClass("user").appendTo(message);
                 user.attr('data-id', element.user);
                 const name = $("<b></b>").html(element.username).appendTo(user);
+                name.attr("data-id", element.user);
                 name.addClass('showProfile');
                 const details = $("<time></time>").appendTo(user);
                 let now = new Date();

@@ -356,24 +356,21 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     </div>
 
     <div id="user-profile">
-      <div class="item">
-        <button>Emoji</button>
+      <div>
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
+        <h2>Username</h2>
       </div>
-      <div class="item">
-        <button>Reply</button>
+      <div>
+        <p>Status:</p>
+        <p2>Online</p2>
+        <p>Desciriotion:</p>
+        <p2>Ich bin very good at formatting</p2>
       </div>
-      <div class="item">
-        <button>Reply</button>
-      </div>
-      <div class="item">
-        <button>Reply</button>
-      </div>
-      <div class="item">
-        <button>Reply</button>
-      </div>
-      <div class="divider"></div>
-      <div class="item">
-        <button>idk</button>
+      <div>
+        <button>Send friend request</button>
+        <!-- if friend: -->
+        <!-- <button>Chat directly</button> -->
+        <button>Send invite</button>
       </div>
     </div>
 
@@ -520,6 +517,25 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           });
 
           $("#user-profile").addClass("show");
+
+          let userid = $(e).attr('data-id');
+          let queryString = 'action=getProfileData' + '&userid=' + userid;
+
+          $.ajax({
+            url: "dbquery.php",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                $("#user-profile").innerHTML = response.username;
+                console.log(response.username);
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+          });
+          
         });
       });
     </script>
