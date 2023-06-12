@@ -485,6 +485,12 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
 
       $(document).ready(function() {
+        $(document).on("click", function(e) {
+          if (!$(e.target).closest(".showProfile, #user-profile").length) {
+            $("#user-profile").removeClass("show");
+          }
+        });
+
         $(document).on("click", ".showProfile", function(e) {
           console.log('asd');
           const buttonRect = $(this)[0].getBoundingClientRect();
@@ -513,7 +519,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             "top": `${newY}px`
           });
 
-          $("#user-profile").toggleClass("show");
+          $("#user-profile").addClass("show");
         });
       });
     </script>

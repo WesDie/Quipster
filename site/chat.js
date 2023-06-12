@@ -396,6 +396,7 @@ function UpdateMembers(chat_id) {
                 console.log("added member");
                 const userProfile = document.createElement("div");
                 userProfile.setAttribute("class", "list-item");
+                userProfile.classList.add("showProfile");
                 const pfpProfile = userProfile.appendChild(document.createElement("img"));
                 pfpProfile.setAttribute("src", element.pfp);
                 const profileUsername = userProfile.appendChild(document.createElement("p"));
@@ -475,7 +476,6 @@ function UpdateMessages(lastLoaded, chat_id) {
                 const name = $("<b></b>").html(element.username).appendTo(user);
                 name.addClass('showProfile');
                 const details = $("<time></time>").appendTo(user);
-
                 let now = new Date();
                 let date = new Date(element.sent);
                 details.html(date.toDateString() === now.toDateString() ?
