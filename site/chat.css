@@ -716,7 +716,42 @@ dialog::backdrop {
 
 #user-profile {
     display: none;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 0.5fr 2fr 1fr;
+
     position: absolute;
+    width: 15em;
+    height: 17em;
+    background-color: #756a7e;
+    border-radius: 2%;
+    padding: 0.5em;
+}
+#user-profile img{
+    height: 3em;
+    margin: auto;
+    border-radius: 50%;
+}
+#user-profile h2{
+    margin-block: auto;
+    margin-left: 0.2em;
+}
+#user-profile p{
+    margin-block: auto;
+}
+#user-profile div:nth-child(1){
+    display: grid;
+    grid-template-columns: 0.2fr 1fr;
+    grid-template-rows: auto;
+}
+#user-profile div:nth-child(2){
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+#user-profile div:nth-child(3){
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
 }
 
 #user-profile.show {
