@@ -393,7 +393,7 @@ function UpdateMembers(chat_id) {
             document.getElementById("memberList").innerHTML = '';
             //succes
             response.forEach(element => {
-                console.log("added member");
+                // console.log("added member");
                 const userProfile = document.createElement("div");
                 userProfile.setAttribute("class", "list-item");
                 userProfile.classList.add("showProfile");
