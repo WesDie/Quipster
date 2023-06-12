@@ -194,12 +194,12 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         </button>
         <p>
           <?php
-          $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-          $chatr = "dev_chat";
-          $stmtChatTitle->bindParam(':id', $chatr);
-          $stmtChatTitle->execute();
-          $user = $stmtChatTitle->fetch();
-          echo $user["name"];
+            $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+            $chatr = "dev_chat";
+            $stmtChatTitle->bindParam(':id', $chatr);
+            $stmtChatTitle->execute();
+            $user = $stmtChatTitle->fetch();
+            echo $user["name"];
           ?>
         </p>
         <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
@@ -212,7 +212,14 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         </div>
       </div>
       <div id="newMessage">
-        <input id="inpurt" type="text" placeholder="Message Wes...">
+        <input id="inpurt" type="text" placeholder="Message in <?php
+            $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
+            $chatr = "dev_chat";
+            $stmtChatTitle->bindParam(':id', $chatr);
+            $stmtChatTitle->execute();
+            $user = $stmtChatTitle->fetch();
+            echo $user["name"];
+          ?>..." autocomplete="off">
         <button onclick="SendMessage()" class="material-symbols-outlined">
           send
         </button>
@@ -222,34 +229,35 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div class="top">
         Members
       </div>
-      <div class="list">
+      <div class="list" id="memberList">
         <?php
-        $chat = "dev_chat";
-        // $chat = $_POST['chat_id'];
-        $user = $_SESSION["id"];
-        $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chat");
-        $stmtCheck->bindParam(':chat', $chat);
-        $stmtCheck->execute();
-        $members = $stmtCheck->fetchAll();
-        foreach ($members as $member) {
-          $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
-          $stmtUser->bindParam(':id', $member["user"]);
-          $stmtUser->execute();
-          $user = $stmtUser->fetch();
+        // $chat = "dev_chat";
+        // // $chat = $_POST['chat_id'];
+        // $user = $_SESSION["id"];
+        // $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chat");
+        // $stmtCheck->bindParam(':chat', $chat);
+        // $stmtCheck->execute();
+        // $members = $stmtCheck->fetchAll();
+        // foreach ($members as $member) {
+        //   $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
+        //   $stmtUser->bindParam(':id', $member["user"]);
+        //   $stmtUser->execute();
+        //   $user = $stmtUser->fetch();
         ?>
-          <div class="list-item">
+          <!-- <div class="list-item">
             <img src="<?php
-                      echo !empty($user['pfp']) ?
-                        $user['pfp'] :
-                        "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128";
+                      // echo !empty($user['pfp']) ?
+                      //   $user['pfp'] :
+                      //   "https://cdn.discordapp.com/avatars/450354935901716481/35eb0ba4d3e6115a758c8a658317ce72.webp?size=128";
                       ?>" alt="">
-            <p><?php echo $user["username"] ?></p>
+            <p><?php 
+            // echo $user["username"] ?></p>
             <button class="material-symbols-outlined">
               more_horiz
             </button>
-          </div>
+          </div> -->
         <?php
-        }
+        // }
         ?>
       </div>
       <button class="filled">

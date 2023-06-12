@@ -189,13 +189,6 @@ function LeftChildToggle(side) {
     }
 }
 
-
-
-function ChangeChat() {
-
-}
-
-
 function ChangeSettingTab() {
 
 }
@@ -327,6 +320,10 @@ $(window).on('load', function () {
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
     }, 1000);
+
+    let intervalUpdateOtherInfo = setInterval(function () {
+        UpdateMembers(window.chat);
+    }, 2000);
 });
 
 // change chat
@@ -335,9 +332,9 @@ function ChangeChat(nextChat) {
     $(".list .list-item").removeClass("selected");
     $("div[onclick=\"ChangeChat('" + nextChat + "')\"]").addClass("selected");
     clearInterval(intervalUpdateMessages);
-    // document.getElementById("currentchat").innerHTML = '';
     $("#currentchat .message").remove();
-
+    document.getElementById("memberList").innerHTML = '';
+    UpdateMembers(window.chat);
     lastLoadedX = 0;
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
@@ -384,7 +381,42 @@ var lastLoadedX = "1999";
 // setInterval(function () {
 //     UpdateMessages(lastLoadedX, "dev_chat");
 // }, 1000);
+function UpdateMembers(chat_id) {
+    let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
 
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            document.getElementById("memberList").innerHTML = '';
+            //succes
+            response.forEach(element => {
+                console.log("added member");
+                const userProfile = document.createElement("div");
+                userProfile.setAttribute("class", "list-item");
+                const pfpProfile = userProfile.appendChild(document.createElement("img"));
+                pfpProfile.setAttribute("src", element.pfp);
+                const profileUsername = userProfile.appendChild(document.createElement("p"));
+                profileUsername.innerHTML = element.username;
+                const profileButton = userProfile.appendChild(document.createElement("button"));
+                profileButton.setAttribute("class", "material-symbols-outlined");
+                // profileButton.innerHTML = "more_horiz"
+
+                document.getElementById("memberList").appendChild(userProfile);
+
+                if (element.status == "online") {
+                    pfpProfile.setAttribute("class", "onlinePfp");
+                }
+            });
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
 function UpdateMessages(lastLoaded, chat_id) {
     let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
     // console.log(queryString);
