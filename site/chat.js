@@ -5,7 +5,6 @@ const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1200px)')
 const mqLarge = window.matchMedia('(min-width: 1200px)');
 let leftOpen = true, rightOpen = false, left = "0", right = "0";
 
-
 function Small() {
     windowD = "small"; console.log('small');
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = 0 + " 1fr " + 0;
@@ -519,7 +518,6 @@ function UpdateMessages(lastLoaded, chat_id) {
         }
     });
 }
-
 
 
 

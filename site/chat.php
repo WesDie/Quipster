@@ -227,7 +227,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     </div>
     <div id="right">
       <div class="top">
-        Members
+        <div></div>
+        <p2>Members - 5</p2>
       </div>
       <div class="list" id="memberList">
         <?php
