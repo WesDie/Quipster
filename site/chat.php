@@ -567,7 +567,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
               $("#user-profile div:nth-child(3) p2").text(response.description);
               $("#user-profile div:nth-child(1) p").text("Created: " + response.created);
-              console.log(response.type);
+              console.log(response);
               if (response.type == "request") {
                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
                 $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");

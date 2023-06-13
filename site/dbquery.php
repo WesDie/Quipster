@@ -136,12 +136,14 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmtCheck->execute();
             $userinfo = $stmtCheck->fetch();
 
-            $stmtFriend = $conn->prepare("SELECT type FROM friendships WHERE userid=:user1");
+            $stmtFriend = $conn->prepare("SELECT * FROM friendships WHERE user2 = :userid");
             $stmtFriend->bindParam(':userid', $userid);
             $stmtFriend->execute();
             $friendinfo = $stmtFriend->fetch();
 
-            array_push($userinfo, $friendinfo);
+            if ($friendinfo != false) {
+                array_merge($userinfo, $friendinfo);
+            }
 
             echo json_encode($userinfo);
         } elseif ($_POST['action'] == 'getProfileAwardsData') {
