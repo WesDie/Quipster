@@ -675,6 +675,7 @@ dialog::backdrop {
 #context-menu {
     display: none;
     position: absolute;
+    z-index: 9192;
     background-color: var(--bg-primary);
     border-radius: 6px;
     color: var(--txt-primary);

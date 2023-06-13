@@ -106,7 +106,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button onclick="LeftTabsToggle()" id="requestToggle" class="material-symbols-outlined">
           notifications
         </button>
-        <button id="testyxd" onclick="SettingsToggle()" class="material-symbols-outlined">
+        <button onclick="SettingsToggle()" class="material-symbols-outlined">
           settings
         </button>
       </div>
@@ -451,6 +451,12 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       document.addEventListener("DOMContentLoaded", function() {
         const contextMenu = document.getElementById("context-menu");
 
+        function FillContextMenu(data) {
+          console.log(data);
+
+          let asd = data.attr("data-id");
+        }
+
         window.addEventListener("contextmenu", e => {
           e.preventDefault();
           contextMenu.style.display = "none";
@@ -463,6 +469,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
           x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
           y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+
+          FillContextMenu(e);
 
           contextMenu.style.left = `${x}px`;
           contextMenu.style.top = `${y}px`;
@@ -488,15 +496,21 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           x = x > winWidth - cmWidth ? buttonRect.left - cmWidth - 5 : x;
           y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
 
+          FillContextMenu(e);
+
           contextMenu.style.left = `${x}px`;
           contextMenu.style.top = `${y}px`;
           contextMenu.style.display = "grid";
         }
-        document.getElementById("testyxd").addEventListener("click", function(e) {
+        $(document).on("click", function(event) {
+          if (!$(event.target).closest(".list-item button").length) {
+            contextMenu.style.display = "none";
+          }
+        });
+        $(".list-item button").on("click", function(e) {
           ContextMenu(e);
         });
 
-        document.addEventListener("click", () => contextMenu.style.display = "none");
 
 
         $(document).on("click", function(e) {
@@ -544,19 +558,19 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             dataType: "json",
             success: function(response) {
               $("#user-profile div h2").text(response.username);
-                $("#user-profile div:nth-child(1) img").attr("src", response.pfp);
-                if(response.status == "online"){
-                  $("#user-profile div:nth-child(1) img").addClass("onlinePfp");
-                } else if($("#user-profile div:nth-child(1) img").hasClass("onlinePfp")){
-                  $("#user-profile div:nth-child(1) img").removeClass("onlinePfp");
-                }
+              $("#user-profile div:nth-child(1) img").attr("src", response.pfp);
+              if (response.status == "online") {
+                $("#user-profile div:nth-child(1) img").addClass("onlinePfp");
+              } else if ($("#user-profile div:nth-child(1) img").hasClass("onlinePfp")) {
+                $("#user-profile div:nth-child(1) img").removeClass("onlinePfp");
+              }
 
-                $("#user-profile div:nth-child(3) p2").text(response.description);
-                $("#user-profile div:nth-child(1) p").text("Created: " +  response.created);
-          },
-            error: function (error) {
-                console.log("post error");
-                console.log(error);
+              $("#user-profile div:nth-child(3) p2").text(response.description);
+              $("#user-profile div:nth-child(1) p").text("Created: " + response.created);
+            },
+            error: function(error) {
+              console.log("post error");
+              console.log(error);
             }
           });
 
@@ -567,7 +581,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             data: queryString,
             type: "POST",
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
               for (let index = 0; index < 5; index++) {
                 $("#user-profile div:nth-child(2) img:nth-child(" + index + ")").attr("src", "https://www.freepnglogos.com/uploads/circle-png/circle-outline-blank-png-icon-download-16.png");
               }
