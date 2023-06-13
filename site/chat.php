@@ -448,46 +448,71 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       </form>
     </dialog>
     <script>
-      const contextMenu = document.getElementById("context-menu");
+      document.addEventListener("DOMContentLoaded", function() {
+        const contextMenu = document.getElementById("context-menu");
 
-      window.addEventListener("contextmenu", e => {
-        e.preventDefault();
-        contextMenu.style.display = "none";
-        let x = e.clientX,
-          y = e.clientY,
-          winWidth = window.innerWidth,
-          winHeight = window.innerHeight,
-          cmWidth = contextMenu.offsetWidth,
-          cmHeight = contextMenu.offsetHeight;
+        function FillContextMenu(data) {
+          console.log(data);
 
-        x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
-        y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+          let asd = data.attr("data-id");
+        }
 
-        contextMenu.style.left = `${x}px`;
-        contextMenu.style.top = `${y}px`;
-        contextMenu.style.display = "grid";
-      });
+        window.addEventListener("contextmenu", e => {
+          e.preventDefault();
+          contextMenu.style.display = "none";
+          let x = e.clientX,
+            y = e.clientY,
+            winWidth = window.innerWidth,
+            winHeight = window.innerHeight,
+            cmWidth = contextMenu.offsetWidth,
+            cmHeight = contextMenu.offsetHeight;
 
-      function ContextMenu() {
-        let x = e.clientX,
-          y = e.clientY,
-          winWidth = window.innerWidth,
-          winHeight = window.innerHeight,
-          cmWidth = contextMenu.offsetWidth,
-          cmHeight = contextMenu.offsetHeight;
+          x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
+          y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
 
-        x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
-        y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+          FillContextMenu(e);
 
-        contextMenu.style.left = `${x}px`;
-        contextMenu.style.top = `${y}px`;
-        contextMenu.style.display = "grid";
-      }
+          contextMenu.style.left = `${x}px`;
+          contextMenu.style.top = `${y}px`;
+          contextMenu.style.display = "grid";
+        });
 
-      document.addEventListener("click", () => contextMenu.style.display = "none");
+        function ContextMenu(e) {
+          console.log('das');
+          // e.preventDefault();
+          contextMenu.style.display = "none";
+
+          const buttonRect = e.target.getBoundingClientRect();
+          const buttonWidth = buttonRect.width;
+
+          let x = buttonRect.left + buttonWidth + 5;
+          let y = buttonRect.top;
+
+          const winWidth = window.innerWidth;
+          const winHeight = window.innerHeight;
+          const cmWidth = contextMenu.offsetWidth;
+          const cmHeight = contextMenu.offsetHeight;
+
+          x = x > winWidth - cmWidth ? buttonRect.left - cmWidth - 5 : x;
+          y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+
+          FillContextMenu(e);
+
+          contextMenu.style.left = `${x}px`;
+          contextMenu.style.top = `${y}px`;
+          contextMenu.style.display = "grid";
+        }
+        $(document).on("click", function(event) {
+          if (!$(event.target).closest(".list-item button").length) {
+            contextMenu.style.display = "none";
+          }
+        });
+        $(".list-item button").on("click", function(e) {
+          ContextMenu(e);
+        });
 
 
-      $(document).ready(function() {
+
         $(document).on("click", function(e) {
           if (!$(e.target).closest(".showProfile, #user-profile").length) {
             $("#user-profile").removeClass("show");
@@ -583,7 +608,6 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
               console.log(error);
             }
           });
-
         });
       });
     </script>

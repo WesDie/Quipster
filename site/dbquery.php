@@ -82,6 +82,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     array_push($memberList, $user);
                 }
                 echo json_encode($memberList);
+            } elseif ($_POST['action'] == 'pinMessage') {
+                //echo json_encode($);
             }
         }
     } else {
@@ -128,99 +130,6 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmt->bindParam(':id', $id);
             $stmt->execute();
         } elseif ($_POST['action'] == 'getProfileData') {
-            $userid = $_POST['userid'];
-            $stmtCheck = $conn->prepare("SELECT * FROM users WHERE id=:id");
-            $stmtCheck->bindParam(':id', $userid);
-            $stmtCheck->execute();
-            $userinfo = $stmtCheck->fetch();
-            echo json_encode($userinfo);
-        } elseif ($_POST['action'] == 'chatLoad') {
-            // $chat = "dev_chat";
-            $chat = $_POST['chat_id'];
-            $user = $_SESSION["id"];
-            $stmtCheck = $conn->prepare("SELECT chat, user FROM chatmembers WHERE chat=:chat AND user=:user");
-            $stmtCheck->bindParam(':chat', $chat);
-            $stmtCheck->bindParam(':user', $user);
-            $stmtCheck->execute();
-            if ($stmtCheck->rowCount() > 0) {
-                // if (strtotime($_POST['lastLoaded'])) {
-                $lastLoaded = $_POST['lastLoaded'];
-
-                $stmt = $conn->prepare("SELECT messages.*, users.username, users.pfp
-            FROM messages LEFT JOIN users ON messages.user = users.id
-            WHERE chat = '$chat' AND sent > '$lastLoaded'");
-
-                // $stmt->bindParam(':chat_id', $chat);
-                // $stmt->bindParam(':lastLoaded', $lastLoaded);
-
-                if ($stmt->execute()) {
-                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                    $newMsgs = $stmt->fetchAll();
-
-                    echo json_encode($newMsgs);
-
-                    $stmt->closeCursor();
-                }
-            }
-        } elseif ($_POST['action'] == 'uiLoadChats') {
-            $user = $_SESSION["id"];
-            $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
-            $stmtCheck->bindParam(':user', $user);
-            $stmtCheck->execute();
-            $memberat = $stmtCheck->fetchAll();
-
-            $chats = array();
-            foreach ($memberat as $chat) {
-                $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id = :id");
-                $stmtChat->bindParam(':id', $chat["id"]);
-                $stmtChat->execute();
-                array_push($chats, $stmtChat->fetch());
-            }
-
-            if ($stmtCheck->rowCount() > 0) {
-                // if (strtotime($_POST['lastLoaded'])) {
-                $lastLoaded = $_POST['lastLoaded'];
-
-                $stmt = $conn->prepare("SELECT name FROM chats WHERE id = :id");
-
-                // $stmt->bindParam(':chat_id', $chat);
-                // $stmt->bindParam(':lastLoaded', $lastLoaded);
-
-                if ($stmt->execute()) {
-                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                    $newMsgs = $stmt->fetchAll();
-
-                    echo json_encode($newMsgs);
-
-                    $stmt->closeCursor();
-                }
-            }
-        } elseif ($_POST['action'] == 'goOffline') {
-            $status = "offline";
-            $id = $_SESSION['id'];
-            $stmt = $conn->prepare("UPDATE users SET status = :status WHERE id = :id");
-            $stmt->bindParam(':status', $status);
-            $stmt->bindParam(':id', $id);
-            $stmt->execute();
-        } elseif ($_POST['action'] == 'updateMembers') {
-            // $chat = "dev_chat";
-            $chat = $_POST['chat_id'];
-            $user = $_SESSION["id"];
-            $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chat");
-            $stmtCheck->bindParam(':chat', $chat);
-            $stmtCheck->execute();
-            $members = $stmtCheck->fetchAll();
-            $memberList = array();
-            foreach ($members as $member) {
-                $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
-                $stmtUser->bindParam(':id', $member["user"]);
-                $stmtUser->execute();
-                $user = $stmtUser->fetch();
-                array_push($memberList, $user);
-            }
-            echo json_encode($memberList);
-        } elseif ($_POST['action'] == 'getProfileData') {
-
             $userid = $_POST['userid'];
             $stmtCheck = $conn->prepare("SELECT * FROM users WHERE id=:id");
             $stmtCheck->bindParam(':id', $userid);
