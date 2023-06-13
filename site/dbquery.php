@@ -134,11 +134,32 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         }
         echo json_encode($memberList);
     } elseif($_POST['action'] == 'getProfileData'){
+
         $userid = $_POST['userid'];
         $stmtCheck = $conn->prepare("SELECT * FROM users WHERE id=:id");
         $stmtCheck->bindParam(':id', $userid);
         $stmtCheck->execute();
         $userinfo = $stmtCheck->fetch();
         echo json_encode($userinfo);
+
+    } elseif($_POST['action'] == 'getProfileAwardsData'){
+
+        $userid = $_POST['userid'];
+        $stmtCheck = $conn->prepare("SELECT * FROM user_awards WHERE userid=:userid");
+        $stmtCheck->bindParam(':userid', $userid);
+        $stmtCheck->execute();
+        $awardsinfo = $stmtCheck->fetchAll();
+        
+        $awardsList = array(); 
+        foreach ($awardsinfo as $awardinfo){
+            if($awardinfo['pinned'] == 1){
+                $stmtChat = $conn->prepare("SELECT * FROM awards WHERE id = :id");
+                $stmtChat->bindParam(':id', $awardinfo["trophyid"]);
+                $stmtChat->execute();
+                $awardsinfo = $stmtChat->fetch();
+                array_push($awardsList, $awardsinfo);
+            }
+        }
+        echo json_encode($awardsList);
     }
 }
