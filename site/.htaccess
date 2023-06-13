@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Block direct access to home.php
+RewriteCond %{THE_REQUEST} /home\.php [NC]
+RewriteRule ^ - [R=404,L]

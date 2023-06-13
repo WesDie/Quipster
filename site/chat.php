@@ -106,7 +106,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button onclick="LeftTabsToggle()" id="requestToggle" class="material-symbols-outlined">
           notifications
         </button>
-        <button onclick="SettingsToggle()" class="material-symbols-outlined">
+        <button id="testyxd" onclick="SettingsToggle()" class="material-symbols-outlined">
           settings
         </button>
       </div>
@@ -441,46 +441,57 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       </form>
     </dialog>
     <script>
-      const contextMenu = document.getElementById("context-menu");
+      document.addEventListener("DOMContentLoaded", function() {
+        const contextMenu = document.getElementById("context-menu");
 
-      window.addEventListener("contextmenu", e => {
-        e.preventDefault();
-        contextMenu.style.display = "none";
-        let x = e.clientX,
-          y = e.clientY,
-          winWidth = window.innerWidth,
-          winHeight = window.innerHeight,
-          cmWidth = contextMenu.offsetWidth,
-          cmHeight = contextMenu.offsetHeight;
+        window.addEventListener("contextmenu", e => {
+          e.preventDefault();
+          contextMenu.style.display = "none";
+          let x = e.clientX,
+            y = e.clientY,
+            winWidth = window.innerWidth,
+            winHeight = window.innerHeight,
+            cmWidth = contextMenu.offsetWidth,
+            cmHeight = contextMenu.offsetHeight;
 
-        x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
-        y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+          x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
+          y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
 
-        contextMenu.style.left = `${x}px`;
-        contextMenu.style.top = `${y}px`;
-        contextMenu.style.display = "grid";
-      });
+          contextMenu.style.left = `${x}px`;
+          contextMenu.style.top = `${y}px`;
+          contextMenu.style.display = "grid";
+        });
 
-      function ContextMenu() {
-        let x = e.clientX,
-          y = e.clientY,
-          winWidth = window.innerWidth,
-          winHeight = window.innerHeight,
-          cmWidth = contextMenu.offsetWidth,
-          cmHeight = contextMenu.offsetHeight;
+        function ContextMenu(e) {
+          console.log('das');
+          // e.preventDefault();
+          contextMenu.style.display = "none";
 
-        x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
-        y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+          const buttonRect = e.target.getBoundingClientRect();
+          const buttonWidth = buttonRect.width;
 
-        contextMenu.style.left = `${x}px`;
-        contextMenu.style.top = `${y}px`;
-        contextMenu.style.display = "grid";
-      }
+          let x = buttonRect.left + buttonWidth + 5;
+          let y = buttonRect.top;
 
-      document.addEventListener("click", () => contextMenu.style.display = "none");
+          const winWidth = window.innerWidth;
+          const winHeight = window.innerHeight;
+          const cmWidth = contextMenu.offsetWidth;
+          const cmHeight = contextMenu.offsetHeight;
+
+          x = x > winWidth - cmWidth ? buttonRect.left - cmWidth - 5 : x;
+          y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
+
+          contextMenu.style.left = `${x}px`;
+          contextMenu.style.top = `${y}px`;
+          contextMenu.style.display = "grid";
+        }
+        document.getElementById("testyxd").addEventListener("click", function(e) {
+          ContextMenu(e);
+        });
+
+        document.addEventListener("click", () => contextMenu.style.display = "none");
 
 
-      $(document).ready(function() {
         $(document).on("click", function(e) {
           if (!$(e.target).closest(".showProfile, #user-profile").length) {
             $("#user-profile").removeClass("show");
@@ -525,16 +536,15 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             data: queryString,
             type: "POST",
             dataType: "json",
-            success: function (response) {
-                $("#user-profile").innerHTML = response.username;
-                console.log(response.username);
+            success: function(response) {
+              $("#user-profile").innerHTML = response.username;
+              console.log(response.username);
             },
-            error: function (error) {
-                console.log("post error");
-                console.log(error);
+            error: function(error) {
+              console.log("post error");
+              console.log(error);
             }
           });
-          
         });
       });
     </script>

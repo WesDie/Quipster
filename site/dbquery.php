@@ -82,6 +82,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     array_push($memberList, $user);
                 }
                 echo json_encode($memberList);
+            } elseif ($_POST['action'] == 'pinMessage') {
+                //echo json_encode($);
             }
         }
     } else {
