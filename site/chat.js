@@ -403,7 +403,9 @@ function UpdateMembers(chat_id) {
                 const profileUsername = userProfile.appendChild(document.createElement("p"));
                 profileUsername.innerHTML = element.username;
                 const profileButton = userProfile.appendChild(document.createElement("button"));
-                profileButton.setAttribute("class", "material-symbols-outlined");
+                profileButton.setAttribute("class", "material-symbols-outlined showProfile");
+                profileButton.setAttribute("data-id", element.id);
+                profileButton.innerHTML = "more_horiz";
 
                 // profileButton.innerHTML = "more_horiz"
 

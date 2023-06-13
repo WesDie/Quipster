@@ -716,21 +716,23 @@ dialog::backdrop {
 
 
 #user-profile {
+    z-index: 999;
     display: none;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: 0.5fr 1fr 2fr 1fr;
 
     position: absolute;
-    width: 15em;
-    height: 17em;
+    width: 18em;
+    height: 19em;
     background-color: #756a7e;
+    border: 1px solid #837d7d;
     border-radius: 2%;
     padding: 0.5em;
 
     -webkit-box-shadow: 0px 0px 15px 5px #181818;
     box-shadow: 0px 0px 15px 5px #181818;
-
 }
+
 
 #user-profile div:nth-child(1) img {
     height: 3em;
@@ -792,6 +794,7 @@ dialog::backdrop {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: 1fr 2fr;
+    overflow: hidden;
 }
 
 #user-profile div:nth-child(3) p {
@@ -803,12 +806,16 @@ dialog::backdrop {
 #user-profile div:nth-child(3) p2 {
     color: #ffffff83;
     font-size: 0.8em;
+    overflow: hidden;
+    overflow: scroll;
+    padding: 0 !important;
 }
 
 #user-profile div:nth-child(4) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(1, 1fr);
+    grid-gap: 10px;
 }
 
 #user-profile.show {
@@ -856,5 +863,13 @@ dialog::backdrop {
 
     .list-item {
         width: auto;
+    }
+    #user-profile{
+        top: auto !important;
+        left: auto !important;
+        
+        position: absolute;
+        bottom: 0 !important;
+        width: 95%;
     }
 }
