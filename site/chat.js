@@ -420,6 +420,23 @@ function UpdateMembers(chat_id) {
         }
     });
 }
+function sendFriendRequest(userid){
+    let queryString = 'action=friendRequest' + '&userid=' + userid;
+    // console.log(queryString);
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
 function UpdateMessages(lastLoaded, chat_id) {
     let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
     // console.log(queryString);

@@ -765,6 +765,11 @@ dialog::backdrop {
     background-color: #28222c;
 }
 
+#user-profile div:nth-child(4) button:disabled {
+    background-color: rgba(41, 35, 46, 0.212);
+    cursor: no-drop;
+}
+
 #user-profile h2 {
     margin-block: auto;
     margin-left: 0.5em;

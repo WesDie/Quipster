@@ -226,6 +226,14 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmtCheck->bindParam(':id', $userid);
             $stmtCheck->execute();
             $userinfo = $stmtCheck->fetch();
+
+            $stmtFriend = $conn->prepare("SELECT type FROM friendships WHERE userid=:user1");
+            $stmtFriend->bindParam(':userid', $userid);
+            $stmtFriend->execute();
+            $friendinfo = $stmtFriend->fetch();
+
+            array_push($userinfo, $friendinfo);
+
             echo json_encode($userinfo);
         } elseif ($_POST['action'] == 'getProfileAwardsData') {
 
@@ -245,7 +253,18 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     array_push($awardsList, $awardsinfo);
                 }
             }
+
             echo json_encode($awardsList);
+        } elseif ($_POST['action'] == 'friendRequest') {
+            $user1 = $_SESSION['id'];
+            $userid = $_POST['userid'];
+            $type = "request";
+            $stmt = $conn->prepare("INSERT INTO friendships (user1, user2, type) 
+            VALUES (:user1, :userid, :type)");
+            $stmt->bindParam(':user1', $user1);
+            $stmt->bindParam(':userid', $userid);
+            $stmt->bindParam(':type', $type);
+            $stmt->execute();
         }
     }
 }
