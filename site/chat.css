@@ -424,6 +424,7 @@ dialog::backdrop {
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
@@ -464,6 +465,7 @@ dialog::backdrop {
     grid-area: 2 / 2 / 4 / 3;
     margin: 0;
     padding-left: 8px;
+    overflow-wrap: anywhere;
 }
 
 #currentchat .user {
