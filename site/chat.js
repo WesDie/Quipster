@@ -396,6 +396,7 @@ function UpdateMembers(chat_id) {
                 // console.log("added member");
                 const userProfile = document.createElement("div");
                 userProfile.setAttribute("class", "list-item");
+                userProfile.setAttribute("data-id", element.id);
                 userProfile.classList.add("showProfile");
                 const pfpProfile = userProfile.appendChild(document.createElement("img"));
                 pfpProfile.setAttribute("src", element.pfp);
@@ -403,6 +404,7 @@ function UpdateMembers(chat_id) {
                 profileUsername.innerHTML = element.username;
                 const profileButton = userProfile.appendChild(document.createElement("button"));
                 profileButton.setAttribute("class", "material-symbols-outlined");
+
                 // profileButton.innerHTML = "more_horiz"
 
                 document.getElementById("memberList").appendChild(userProfile);

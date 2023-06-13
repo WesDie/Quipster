@@ -357,13 +357,20 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     <div id="user-profile">
       <div>
         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
-        <h2>Username</h2>
+        <div>
+          <h2>Username</h2>
+          <p>Created: 00-00-0000</p>
+        </div>
       </div>
       <div>
-        <p>Status:</p>
-        <p2>Online</p2>
-        <p>Desciriotion:</p>
-        <p2>Ich bin very good at formatting</p2>
+        <img src="https://static.vecteezy.com/system/resources/previews/009/315/016/original/winner-trophy-in-flat-style-free-png.png" alt="">
+        <img src="https://static.vecteezy.com/system/resources/previews/009/315/016/original/winner-trophy-in-flat-style-free-png.png" alt="">
+        <img src="https://static.vecteezy.com/system/resources/previews/009/315/016/original/winner-trophy-in-flat-style-free-png.png" alt="">
+        <img src="https://static.vecteezy.com/system/resources/previews/009/315/016/original/winner-trophy-in-flat-style-free-png.png" alt="">
+      </div>
+      <div>
+        <p>ABOUT ME:</p>
+        <p2>This is a about me only me the best me have very good at chatting me on top JEEJ!</p2>
       </div>
       <div>
         <button>Send friend request</button>
@@ -499,7 +506,6 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         });
 
         $(document).on("click", ".showProfile", function(e) {
-          console.log('asd');
           const buttonRect = $(this)[0].getBoundingClientRect();
           const buttonWidth = buttonRect.width;
 
@@ -528,7 +534,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
           $("#user-profile").addClass("show");
 
-          let userid = $(e).attr('data-id');
+          let userid = $(this).attr('data-id');
           let queryString = 'action=getProfileData' + '&userid=' + userid;
 
           $.ajax({
@@ -537,8 +543,39 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             type: "POST",
             dataType: "json",
             success: function(response) {
-              $("#user-profile").innerHTML = response.username;
-              console.log(response.username);
+              $("#user-profile div h2").text(response.username);
+                $("#user-profile div:nth-child(1) img").attr("src", response.pfp);
+                if(response.status == "online"){
+                  $("#user-profile div:nth-child(1) img").addClass("onlinePfp");
+                } else if($("#user-profile div:nth-child(1) img").hasClass("onlinePfp")){
+                  $("#user-profile div:nth-child(1) img").removeClass("onlinePfp");
+                }
+
+                $("#user-profile div:nth-child(3) p2").text(response.description);
+                $("#user-profile div:nth-child(1) p").text("Created: " +  response.created);
+          },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+          });
+
+          queryString = 'action=getProfileAwardsData' + '&userid=' + userid;
+
+          $.ajax({
+            url: "dbquery.php",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+              for (let index = 0; index < 5; index++) {
+                $("#user-profile div:nth-child(2) img:nth-child(" + index + ")").attr("src", "https://www.freepnglogos.com/uploads/circle-png/circle-outline-blank-png-icon-download-16.png");
+              }
+              let count = 1;
+              response.forEach(element => {
+                $("#user-profile div:nth-child(2) img:nth-child(" + count + ")").attr("src", element.icon);
+                count++;
+              });
             },
             error: function(error) {
               console.log("post error");
