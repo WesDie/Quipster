@@ -5,7 +5,6 @@ const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1200px)')
 const mqLarge = window.matchMedia('(min-width: 1200px)');
 let leftOpen = true, rightOpen = false, left = "0", right = "0";
 
-
 function Small() {
     windowD = "small"; console.log('small');
     document.getElementsByTagName("body")[0].style.gridTemplateColumns = 0 + " 1fr " + 0;
@@ -403,7 +402,9 @@ function UpdateMembers(chat_id) {
                 const profileUsername = userProfile.appendChild(document.createElement("p"));
                 profileUsername.innerHTML = element.username;
                 const profileButton = userProfile.appendChild(document.createElement("button"));
-                profileButton.setAttribute("class", "material-symbols-outlined");
+                profileButton.setAttribute("class", "material-symbols-outlined showProfile");
+                profileButton.setAttribute("data-id", element.id);
+                profileButton.innerHTML = "more_horiz";
 
                 // profileButton.innerHTML = "more_horiz"
 
@@ -413,6 +414,23 @@ function UpdateMembers(chat_id) {
                     pfpProfile.setAttribute("class", "onlinePfp");
                 }
             });
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
+function sendFriendRequest(userid){
+    let queryString = 'action=friendRequest' + '&userid=' + userid;
+    // console.log(queryString);
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            
         },
         error: function (error) {
             console.log("post error");
@@ -500,7 +518,6 @@ function UpdateMessages(lastLoaded, chat_id) {
         }
     });
 }
-
 
 
 

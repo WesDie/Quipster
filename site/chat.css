@@ -348,15 +348,22 @@ img {
     grid-row-gap: 0px;
 
     padding: 8px;
-    /* height: 3em; */
+    height: 3em;
     /* box-shadow: 0px 0px 50px 10px #1F1B22; */
     z-index: 2;
+
+    border-bottom: 0.3em solid #242029;
 }
 
 .top p {
     display: inline-block;
     margin: auto;
     margin-left: 8px;
+}
+.top p2 {
+    display: inline-block;
+    margin: auto;
+    width: fit-content;
 }
 
 .top button {
@@ -539,9 +546,12 @@ dialog::backdrop {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 2em 1fr;
+    grid-template-rows: auto 1fr;
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+
+    min-width: 18em;
+    max-width: 18em;
 }
 
 .members {}
@@ -716,21 +726,23 @@ dialog::backdrop {
 
 
 #user-profile {
+    z-index: 999;
     display: none;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: 0.5fr 1fr 2fr 1fr;
 
     position: absolute;
-    width: 15em;
-    height: 17em;
+    width: 18em;
+    height: 19em;
     background-color: #756a7e;
+    border: 1px solid #837d7d;
     border-radius: 2%;
     padding: 0.5em;
 
     -webkit-box-shadow: 0px 0px 15px 5px #181818;
     box-shadow: 0px 0px 15px 5px #181818;
-
 }
+
 
 #user-profile div:nth-child(1) img {
     height: 3em;
@@ -766,6 +778,11 @@ dialog::backdrop {
     background-color: #28222c;
 }
 
+#user-profile div:nth-child(4) button:disabled {
+    background-color: rgba(41, 35, 46, 0.212);
+    cursor: no-drop;
+}
+
 #user-profile h2 {
     margin-block: auto;
     margin-left: 0.5em;
@@ -792,6 +809,7 @@ dialog::backdrop {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: 1fr 2fr;
+    overflow: hidden;
 }
 
 #user-profile div:nth-child(3) p {
@@ -803,12 +821,16 @@ dialog::backdrop {
 #user-profile div:nth-child(3) p2 {
     color: #ffffff83;
     font-size: 0.8em;
+    overflow: hidden;
+    overflow: scroll;
+    padding: 0 !important;
 }
 
 #user-profile div:nth-child(4) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(1, 1fr);
+    grid-gap: 10px;
 }
 
 #user-profile.show {
@@ -856,5 +878,22 @@ dialog::backdrop {
 
     .list-item {
         width: auto;
+    }
+    #user-profile{
+        top: auto !important;
+        left: auto !important;
+        
+        position: absolute;
+        bottom: 0 !important;
+        width: 95%;
+    }
+
+    #right{
+        min-width: auto;
+        max-width: auto;
+    }
+
+    #middle{
+        border-inline: 0.2em solid #242029;
     }
 }

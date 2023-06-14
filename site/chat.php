@@ -227,7 +227,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     </div>
     <div id="right">
       <div class="top">
-        Members
+        <div></div>
+        <p2>Members - 5</p2>
       </div>
       <div class="list" id="memberList">
         <?php
@@ -373,10 +374,10 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <p2>This is a about me only me the best me have very good at chatting me on top JEEJ!</p2>
       </div>
       <div>
-        <button>Send friend request</button>
+        <button onclick="">Send friend request</button>
         <!-- if friend: -->
         <!-- <button>Chat directly</button> -->
-        <button>Send invite</button>
+        <button onclick="">Send invite</button>
       </div>
     </div>
 
@@ -567,6 +568,18 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
               $("#user-profile div:nth-child(3) p2").text(response.description);
               $("#user-profile div:nth-child(1) p").text("Created: " + response.created);
+              console.log(response);
+              if (response.type == "request") {
+                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
+                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
+              } else if (response.type == "friends") {
+                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
+                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already friends!");
+              } else if (response.type == "block") {
+                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Unblock");
+              } else {
+                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'sendFriendRequest(' + '"' + response.id + '"' + ')');
+              }
             },
             error: function(error) {
               console.log("post error");
