@@ -850,6 +850,19 @@ dialog::backdrop {
     background-color: #9e180091 !important;
 }
 
+.emptyListItem {
+    width: 100%;
+    text-align: center;
+}
+
+.friendRequestDivider {
+    width: 80%;
+    margin-inline: auto;
+    height: 0.2em;
+    margin-block: auto;
+    background-color: #473850;
+}
+
 
 
 
