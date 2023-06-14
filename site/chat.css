@@ -200,10 +200,10 @@ img {
 
 .selected {
     font-variation-settings:
-        'FILL'1,
-        'wght'400,
-        'GRAD'0,
-        'opsz'24;
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
     cursor: pointer;
 }
 
@@ -351,8 +351,6 @@ img {
     height: 3em;
     /* box-shadow: 0px 0px 50px 10px #1F1B22; */
     z-index: 2;
-
-    border-bottom: 0.3em solid #242029;
 }
 
 .top p {
@@ -702,7 +700,7 @@ dialog::backdrop {
     text-align: left;
 }
 
-#context-menu > div {
+#context-menu>div {
     width: 100%;
     height: 2em;
 }
@@ -901,12 +899,18 @@ dialog::backdrop {
         width: 95%;
     }
 
+    #left {
+        border-right: 0.3em solid var(--bg-primary);
+    }
+
     #right {
         min-width: auto;
         max-width: auto;
+
+        border-left: 0.3em solid var(--bg-primary);
     }
 
     #middle {
-        border-inline: 0.2em solid #242029;
+        /* border-inline: 0.2em solid #242029; */
     }
 }
