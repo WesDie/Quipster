@@ -474,6 +474,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Edit": "EditChat",
                 "Delete": "DeleteChat",
             },
+            "chat-induvidual": {
+                "Unfriend": "Unfriend",
+                "Block": "Block",
+            },
             "message": {
                 "Emoji": "EmojiMessage",
                 "Reply": "ReplyMessage",

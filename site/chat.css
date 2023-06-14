@@ -900,14 +900,14 @@ dialog::backdrop {
     }
 
     #left {
-        border-right: 0.3em solid var(--bg-primary);
+        border-right: 0.2em solid var(--bg-primary);
     }
 
     #right {
         min-width: auto;
         max-width: auto;
 
-        border-left: 0.3em solid var(--bg-primary);
+        border-left: 0.2em solid var(--bg-primary);
     }
 
     #middle {
