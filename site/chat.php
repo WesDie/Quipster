@@ -454,7 +454,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         function FillContextMenu(data) {
           console.log(data);
 
-          let asd = data.attr("data-id");
+          // let asd = data.attr("data-id");
         }
 
         window.addEventListener("contextmenu", e => {
