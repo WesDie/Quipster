@@ -192,6 +192,59 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmt->bindParam(':type', $type);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
+
+            //Make new private chat
+
+            $id = uniqid();
+            while ($stmt->rowCount() > 0) {
+                $id = uniqid();
+                $stmt = $conn->prepare("SELECT id FROM users WHERE id = :id");
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+                $stmt->closeCursor();
+            }
+            $stmt->closeCursor();
+
+            
+            $name = "private-chat-";
+            $name .= $id;
+            $description = "private-chat";
+            $icon = "https://cdn4.iconfinder.com/data/icons/social-network-61/32/07_-_Private_Chat-512.png";
+            $created = date('Y-m-d H:i:s');
+            $type = "duo";
+
+            $stmt = $conn->prepare("INSERT INTO chats (id, name, description, created, icon, type) 
+            VALUES (:id, :name, :description, :created, :icon, :type)");
+            $stmt->bindParam(":id", $id);
+            $stmt->bindParam(":name", $name);
+            $stmt->bindParam(":description", $description);
+            $stmt->bindParam(":created", $created);
+            $stmt->bindParam(":icon", $icon);
+            $stmt->bindParam(":type", $type);
+            $stmt->execute();
+
+            $role = "memeber";
+            $joined = date('Y-m-d H:i:s');
+
+            $user = $_SESSION['id'];
+            $stmt = $conn->prepare("INSERT INTO chatmembers (chat, user, joined, role) 
+            VALUES (:chat, :user, :joined, :role)");
+            $stmt->bindParam(":chat", $id);
+            $stmt->bindParam(":user", $user);
+            $stmt->bindParam(":joined", $joined);
+            $stmt->bindParam(":role", $role);
+            $stmt->execute();
+
+
+            $user = $_POST['userid'];
+            $stmt = $conn->prepare("INSERT INTO chatmembers (chat, user, joined, role) 
+            VALUES (:chat, :user, :joined, :role)");
+            $stmt->bindParam(":chat", $id);
+            $stmt->bindParam(":user", $user);
+            $stmt->bindParam(":joined", $joined);
+            $stmt->bindParam(":role", $role);
+            $stmt->execute();
+
             echo json_encode("succes");
         } elseif ($_POST['action'] == 'declineFriendRequest') {
             $id = $_POST['userid'];

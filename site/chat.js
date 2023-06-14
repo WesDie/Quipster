@@ -663,15 +663,17 @@ document.addEventListener("DOMContentLoaded", function () {
                             $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
                             $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
                             $("#user-profile div:nth-child(4) button:nth-child(1)").text("(-X-)");
+                            $("#user-profile div:nth-child(4) button:nth-child(1)").addClass("hide");
                         } else {
+                            $("#user-profile div:nth-child(4) button:nth-child(1)").removeClass("hide");
                             if (response2.type == "request") {
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'cancelFriendRequest(' + '"' + response.id + '"' + ')');
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").text("Cancel friend request");
                             } else if (response2.type == "friends") {
-                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
-                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
-                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already friends!");
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'ChangeChat(' + '"' + response.id + '"' + ')');
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Chat with friend (doesnt work)");
                             } else if (response2.type == "block") {
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);

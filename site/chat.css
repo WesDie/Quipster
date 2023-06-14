@@ -66,6 +66,9 @@ button:hover {
 img {
     user-select: none;
 }
+.hide{
+    display: none;
+}
 
 
 
@@ -827,8 +830,8 @@ dialog::backdrop {
 
 #user-profile div:nth-child(4) {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(1, 1fr);
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
     grid-gap: 10px;
 }
 

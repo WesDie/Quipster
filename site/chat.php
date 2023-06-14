@@ -174,7 +174,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     <div id="right">
       <div class="top">
         <div></div>
-        <p2>Members - 5</p2>
+        <p2>Members</p2>
       </div>
       <div class="list" id="memberList">
         <?php
@@ -323,7 +323,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button onclick="">Send friend request</button>
         <!-- if friend: -->
         <!-- <button>Chat directly</button> -->
-        <button onclick="">Send invite</button>
+        <!-- <button onclick="">Send invite</button> -->
       </div>
     </div>
 
