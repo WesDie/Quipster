@@ -278,6 +278,8 @@ function CreateChat() {
 let intervalUpdateMessages;
 // load chat
 document.addEventListener("DOMContentLoaded", function () {
+
+    // UpdateNotifications();
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
     }, 1000);
@@ -636,6 +638,8 @@ document.addEventListener("DOMContentLoaded", function () {
             type: "POST",
             dataType: "json",
             success: function (response) {
+                $("#user-profile").attr('data-id', response.id);
+
                 $("#user-profile div h2").text(response.username);
                 $("#user-profile div:nth-child(1) img").attr("src", response.pfp);
                 if (response.status == "online") {
@@ -661,9 +665,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             $("#user-profile div:nth-child(4) button:nth-child(1)").text("(-X-)");
                         } else {
                             if (response2.type == "request") {
-                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
-                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
-                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'cancelFriendRequest(' + '"' + response.id + '"' + ')');
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Cancel friend request");
                             } else if (response2.type == "friends") {
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
@@ -722,7 +726,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function UpdateNotifications() {
 
     //friend Request notifications
-    let queryStringFriendRequests = 'action=UpdateNotifications';
+    let queryStringFriendRequests = 'action=UpdateFriendRequest';
     $.ajax({
         url: "dbquery",
         data: queryStringFriendRequests,
@@ -736,6 +740,7 @@ function UpdateNotifications() {
             friendTab.appendChild(listFriends);
             if ($.trim(response) == '') {
                 const emptyFriends = document.createElement("p");
+                emptyFriends.setAttribute("class", "emptyListItem");
                 emptyFriends.innerHTML = "No friend requests";
                 listFriends.appendChild(emptyFriends);
             }
@@ -761,6 +766,41 @@ function UpdateNotifications() {
 
                 listFriends.appendChild(friendRequest);
             });
+
+            const friendNotificationDevider = document.createElement("div");
+            friendNotificationDevider.setAttribute("class", "friendRequestDivider");
+            listFriends.appendChild(friendNotificationDevider);
+
+            let queryStringSentFriendRequests = 'action=UpdateSentFriendRequest';
+            $.ajax({
+                url: "dbquery",
+                data: queryStringSentFriendRequests,
+                type: "POST",
+                dataType: "json",
+                success: function (response2) {
+                    response2.forEach(element => {
+                        const friendRequest = document.createElement("div");
+                        friendRequest.setAttribute("class", "list-item notifications");
+                        friendRequest.setAttribute("data-id", element.id);
+        
+                        const pfpRequest = friendRequest.appendChild(document.createElement("img"));
+                        pfpRequest.setAttribute("src", element.pfp);
+                        const friendRequestName = friendRequest.appendChild(document.createElement("p"));
+                        friendRequestName.innerHTML = element.username;
+        
+                        const declineButton = friendRequest.appendChild(document.createElement("button"));
+                        declineButton.setAttribute("class", "material-symbols-outlined declineButton");
+                        declineButton.setAttribute("onclick", 'cancelFriendRequest(' + '"' + element.id + '"' + ')');
+                        declineButton.innerHTML = "close";
+        
+                        listFriends.appendChild(friendRequest);
+                    });
+                },
+                error: function (error) {
+                    console.log("post error");
+                    console.log(error);
+                }
+            });
         },
         error: function (error) {
             console.log("post error");
@@ -778,17 +818,18 @@ function sendFriendRequest(userid) {
         type: "POST",
         dataType: "json",
         success: function (response) {
-
+            UpdateNotifications();
         },
         error: function (error) {
             console.log("post error");
             console.log(error);
+            UpdateNotifications();
         }
     });
 
-    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
-    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
-    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
+    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'cancelFriendRequest(' + '"' + $("#user-profile").attr('data-id') + '"' + ')');
+    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Cancel friend request");
 }
 function acceptFriendRequest(userid) {
     let queryString = 'action=acceptFriendRequest' + '&userid=' + userid;
@@ -817,6 +858,31 @@ function declineFriendRequest(userid) {
         dataType: "json",
         success: function (response) {
             UpdateNotifications();
+
+            $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+            $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'sendFriendRequest(' + '"' + $("#user-profile").attr('data-id') + '"' + ')');
+            $("#user-profile div:nth-child(4) button:nth-child(1)").text("Send friend request");
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
+function cancelFriendRequest(userid) {
+    let queryString = 'action=cancelFriendRequest' + '&userid=' + userid;
+
+    $.ajax({
+        url: "dbquery",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            UpdateNotifications();
+
+            $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+            $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'sendFriendRequest(' + '"' + $("#user-profile").attr('data-id') + '"' + ')');
+            $("#user-profile div:nth-child(4) button:nth-child(1)").text("Send friend request");
         },
         error: function (error) {
             console.log("post error");
