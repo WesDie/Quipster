@@ -315,7 +315,7 @@ function CreateChat() {
 }
 let intervalUpdateMessages;
 // load chat
-$(window).on('load', function () {
+document.addEventListener("DOMContentLoaded", function () {
 
 
 
@@ -327,6 +327,213 @@ $(window).on('load', function () {
         UpdateMembers(window.chat);
         UpdateNotifications();
     }, 2000);
+
+
+
+    $(document).on("click", function (e) {
+        let object = $(e.target);
+        if (object.closest("#chats .list-item img, #chats .list-item p").length) {
+            ChangeChat(object.parent().attr("data-id"));
+        } else if (object.closest("#chats .list-item").length && !object.closest("#chats .list-item button").length) {
+            // console.log(e.getAttribute("data-id"));
+            ChangeChat(object.attr("data-id"));
+        }
+    });
+
+    // change chat
+    function ChangeChat(nextChat) {
+        console.log("hey " + nextChat);
+        window.chat = nextChat;
+        $(".list .list-item").removeClass("selected");
+        $("div[onclick=\"ChangeChat('" + nextChat + "')\"]").addClass("selected");
+        clearInterval(intervalUpdateMessages);
+        $("#currentchat .message").remove();
+        document.getElementById("memberList").innerHTML = '';
+        UpdateMembers(window.chat);
+        lastLoadedX = 0;
+        intervalUpdateMessages = setInterval(function () {
+            UpdateMessages(lastLoadedX, window.chat);
+        }, 1000);
+    }
+
+    // send message
+    function SendMessage() {
+        let input = document.querySelector("#newMessage input").value, chat_id = window.chat;
+
+        let queryString = 'action=chatUpload' + '&chat_id=' + chat_id + '&input=' + input;
+        // console.log(queryString);
+        $.ajax({
+            url: "dbquery.php",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                // console.log("post success");
+                // console.log(response);
+                document.querySelector("#newMessage input").value = "";
+                UpdateMessages(lastLoadedX, chat_id)
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
+    }
+    $(document).ready(function () {// when the dom is loaded
+        // send message when enter released:
+        $("#inpurt").on("keyup", function (event) {
+            if (event.which === 13) {
+                SendMessage();
+            }
+        });
+    });
+    // update messages in current chat:
+
+    // let loadedMsgs = new array();
+
+    var lastLoadedX = "1999";
+
+    // setInterval(function () {
+    //     UpdateMessages(lastLoadedX, "dev_chat");
+    // }, 1000);
+    function UpdateMembers(chat_id) {
+        let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
+
+        $.ajax({
+            url: "dbquery.php",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                document.getElementById("memberList").innerHTML = '';
+                //succes
+                response.forEach(element => {
+                    // console.log("added member");
+                    const userProfile = document.createElement("div");
+                    userProfile.setAttribute("class", "list-item");
+                    userProfile.setAttribute("data-id", element.id);
+                    userProfile.classList.add("showProfile");
+                    const pfpProfile = userProfile.appendChild(document.createElement("img"));
+                    pfpProfile.setAttribute("src", element.pfp);
+                    const profileUsername = userProfile.appendChild(document.createElement("p"));
+                    profileUsername.innerHTML = element.username;
+                    const profileButton = userProfile.appendChild(document.createElement("button"));
+                    profileButton.setAttribute("class", "material-symbols-outlined showProfile");
+                    profileButton.setAttribute("data-id", element.id);
+                    profileButton.innerHTML = "more_horiz";
+
+                    // profileButton.innerHTML = "more_horiz"
+
+                    document.getElementById("memberList").appendChild(userProfile);
+
+                    if (element.status == "online") {
+                        pfpProfile.setAttribute("class", "onlinePfp");
+                    }
+                });
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
+    }
+    function sendFriendRequest(userid) {
+        let queryString = 'action=friendRequest' + '&userid=' + userid;
+        // console.log(queryString);
+        $.ajax({
+            url: "dbquery.php",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
+    }
+    function UpdateMessages(lastLoaded, chat_id) {
+        let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
+        // console.log(queryString);
+        $.ajax({
+            url: "dbquery.php",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                // console.log("update success");
+                // console.log(response);
+                /*  const currentchat = document.getElementById("currentchat");
+                  response.forEach(element => {
+                      // console.log(element);
+                      // console.log(element.user);
+      
+                      const message = document.createElement("div");
+                      const pfp = message.appendChild(document.createElement("img")).setAttribute("src", element.pfp);
+                      const user = message.appendChild(document.createElement("div"))
+                      // user.attr('data-id','yoooos');
+                      user.classList.add("user");
+                      user.appendChild(document.createElement("b")).innerHTML = element.username;
+                      const details = user.appendChild(document.createElement("time"));
+                      // details.classList.add("timestamp");
+      
+                      let now = new Date();
+                      let date = new Date(element.sent);
+                      // now.toDateString();
+                      // return element.sent.toDateString() === now.toDateString()
+                      //     ? "today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}"
+                      //     : "${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}";
+      
+                      details.innerHTML = date.toDateString() === now.toDateString() ?
+                          `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`
+                          : `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`;
+      
+      
+                      const tekst = message.appendChild(document.createElement("p"))
+                      tekst.textContent = element.message;
+      
+                      message.classList.add("message");
+                      currentchat.appendChild(message);
+                      var objDiv = document.getElementById("currentchat");
+                      objDiv.scrollTop = objDiv.scrollHeight;
+      
+                      lastLoadedX = element.sent;
+                  });*/
+                const currentchat = $("#currentchat");
+                response.forEach(element => {
+                    const message = $("<div></div>");
+                    message.attr('data-id', element.id);
+                    const pfp = $("<img>").attr("src", element.pfp).appendTo(message);
+                    pfp.addClass('showProfile');
+                    const user = $("<div></div>").addClass("user").appendTo(message);
+                    user.attr('data-id', element.user);
+                    const name = $("<b></b>").html(element.username).appendTo(user);
+                    name.attr("data-id", element.user);
+                    name.addClass('showProfile');
+                    const details = $("<time></time>").appendTo(user);
+                    let now = new Date();
+                    let date = new Date(element.sent);
+                    details.html(date.toDateString() === now.toDateString() ?
+                        `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}` :
+                        `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`);
+
+                    const tekst = $("<p></p>").text(element.message).appendTo(message);
+                    message.addClass("message");
+                    currentchat.append(message);
+                    $("#currentchat").scrollTop($("#currentchat")[0].scrollHeight);
+
+                    lastLoadedX = element.sent;
+                });
+            },
+            error: function (error) {
+                console.log("update error");
+                console.log(error);
+                // console.log(lastLoadedX);
+            }
+        });
+    }
 });
 
 // change chat
