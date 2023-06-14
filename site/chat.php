@@ -130,7 +130,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmtChat->execute();
             $chat = $stmtChat->fetch();
           ?>
-            <div onclick="ChangeChat('<?php echo $chat['id'] ?>')" class="list-item<?php echo !true ? " selected" : "" ?>">
+            <div data-id="<?php echo $chat['id'] ?>" class="list-item<?php echo !true ? " selected" : "" ?>">
               <img src="<?php echo $chat["icon"] ?>" alt="">
               <p><?php echo $chat["name"] ?></p>
               <button class="material-symbols-outlined">
@@ -452,8 +452,9 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       document.addEventListener("DOMContentLoaded", function() {
         const contextMenu = document.getElementById("context-menu");
 
-        function FillContextMenu(data) {
-          console.log(data);
+        function FillContextMenu(e) {
+          console.log(e);
+          // console.log(e.getAttribute("data-id"));
 
           // let asd = data.attr("data-id");
         }
@@ -517,6 +518,10 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         $(document).on("click", function(e) {
           if (!$(e.target).closest(".showProfile, #user-profile").length) {
             $("#user-profile").removeClass("show");
+          } else if (!$(e.target).closest("#chats .list-item button").length) {
+            console.log(e.getAttribute("data-id"));
+          } else if (!$(e.target).closest("#chats .list-item, #chats .list-item img, #chats .list-item p").length) {
+            ChangeChat(e.getAttribute("data-id"));
           }
         });
 
