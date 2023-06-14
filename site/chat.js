@@ -318,16 +318,13 @@ function CreateChat() {
 let intervalUpdateMessages;
 // load chat
 document.addEventListener("DOMContentLoaded", function () {
-
-    UpdateNotifications();
-
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
     }, 1000);
 
     let intervalUpdateOtherInfo = setInterval(function () {
         UpdateMembers(window.chat);
-        // UpdateNotifications();
+        UpdateNotifications();
     }, 2000);
 
 
@@ -438,27 +435,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log(error);
             }
         });
-    }
-    function sendFriendRequest(userid) {
-        let queryString = 'action=friendRequest' + '&userid=' + userid;
-
-        $.ajax({
-            url: "dbquery.php",
-            data: queryString,
-            type: "POST",
-            dataType: "json",
-            success: function (response) {
-
-            },
-            error: function (error) {
-                console.log("post error");
-                console.log(error);
-            }
-        });
-
-        $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
-        $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
-        $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
     }
     function UpdateMessages(lastLoaded, chat_id) {
         let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
@@ -754,27 +730,81 @@ function UpdateNotifications() {
 
             response.forEach(element => {
                 const friendRequest = document.createElement("div");
-                friendRequest.setAttribute("class", "list-item");
+                friendRequest.setAttribute("class", "list-item notifications");
                 friendRequest.setAttribute("data-id", element.id);
 
                 const pfpRequest = friendRequest.appendChild(document.createElement("img"));
                 pfpRequest.setAttribute("src", element.pfp);
                 const friendRequestName = friendRequest.appendChild(document.createElement("p"));
                 friendRequestName.innerHTML = element.username;
-                const profileButton = friendRequest.appendChild(document.createElement("button"));
-                profileButton.setAttribute("class", "material-symbols-outlined");
-                profileButton.setAttribute("data-id", element.id);
-                profileButton.innerHTML = "more_horiz";
+                const acceptButton = friendRequest.appendChild(document.createElement("button"));
+                acceptButton.setAttribute("class", "material-symbols-outlined acceptButton");
+                acceptButton.setAttribute("onclick", 'acceptFriendRequest(' + '"' + element.id + '"' + ')');
+                acceptButton.innerHTML = "done";
 
-                const profileButton2 = friendRequest.appendChild(document.createElement("button"));
-                profileButton2.setAttribute("class", "material-symbols-outlined");
-                profileButton2.setAttribute("data-id", element.id);
-                profileButton2.innerHTML = "more_horiz";
-
-                profileButton.innerHTML = "more_horiz"
+                const declineButton = friendRequest.appendChild(document.createElement("button"));
+                declineButton.setAttribute("class", "material-symbols-outlined declineButton");
+                declineButton.setAttribute("onclick", 'declineFriendRequest(' + '"' + element.id + '"' + ')');
+                declineButton.innerHTML = "close";
 
                 listFriends.appendChild(friendRequest);
             });
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
+
+function sendFriendRequest(userid) {
+    let queryString = 'action=friendRequest' + '&userid=' + userid;
+
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+
+    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
+    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
+    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
+}
+function acceptFriendRequest(userid) {
+    let queryString = 'action=acceptFriendRequest' + '&userid=' + userid;
+
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            UpdateNotifications();
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
+function declineFriendRequest(userid) {
+    let queryString = 'action=declineFriendRequest' + '&userid=' + userid;
+
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            UpdateNotifications();
         },
         error: function (error) {
             console.log("post error");
