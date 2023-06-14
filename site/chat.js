@@ -317,7 +317,7 @@ let intervalUpdateMessages;
 // load chat
 document.addEventListener("DOMContentLoaded", function () {
 
-
+    UpdateNotifications();
 
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let intervalUpdateOtherInfo = setInterval(function () {
         UpdateMembers(window.chat);
-        UpdateNotifications();
+        // UpdateNotifications();
     }, 2000);
 
 
@@ -855,6 +855,11 @@ function UpdateNotifications() {
                 profileButton.setAttribute("class", "material-symbols-outlined");
                 profileButton.setAttribute("data-id", element.id);
                 profileButton.innerHTML = "more_horiz";
+
+                const profileButton2 = friendRequest.appendChild(document.createElement("button"));
+                profileButton2.setAttribute("class", "material-symbols-outlined");
+                profileButton2.setAttribute("data-id", element.id);
+                profileButton2.innerHTML = "more_horiz";
 
                 profileButton.innerHTML = "more_horiz"
 

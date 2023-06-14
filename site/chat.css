@@ -360,6 +360,7 @@ img {
     margin: auto;
     margin-left: 8px;
 }
+
 .top p2 {
     display: inline-block;
     margin: auto;
@@ -837,6 +838,9 @@ dialog::backdrop {
     display: grid;
 }
 
+.notifications {
+    grid-template-columns: .0fr 1fr .0fr .0fr !important;
+}
 
 
 
@@ -879,21 +883,22 @@ dialog::backdrop {
     .list-item {
         width: auto;
     }
-    #user-profile{
+
+    #user-profile {
         top: auto !important;
         left: auto !important;
-        
+
         position: absolute;
         bottom: 0 !important;
         width: 95%;
     }
 
-    #right{
+    #right {
         min-width: auto;
         max-width: auto;
     }
 
-    #middle{
+    #middle {
         border-inline: 0.2em solid #242029;
     }
 }
