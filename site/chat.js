@@ -1,6 +1,6 @@
 var windowD = null;
 window.chat;
-if(!window.chat){
+if (!window.chat) {
     window.chat = "dev_chat";
 }
 const mqSmall = window.matchMedia('(max-width: 800px)');
@@ -345,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("hey " + nextChat);
         window.chat = nextChat;
         $(".list .list-item").removeClass("selected");
-        $("div[onclick=\"ChangeChat('" + nextChat + "')\"]").addClass("selected");
+        $("div[data-id='" + nextChat + "']").addClass("selected");
         clearInterval(intervalUpdateMessages);
         $("#currentchat .message").remove();
         document.getElementById("memberList").innerHTML = '';
@@ -648,7 +648,7 @@ function UpdateNotifications() {
             const listFriends = document.createElement("div");
             listFriends.setAttribute("class", "list");
             friendTab.appendChild(listFriends);
-            if($.trim(response) == ''){
+            if ($.trim(response) == '') {
                 const emptyFriends = document.createElement("p");
                 emptyFriends.innerHTML = "No friend requests";
                 listFriends.appendChild(emptyFriends);
@@ -685,7 +685,7 @@ function UpdateNotifications() {
     });
 }
 
-function sendFriendRequest(userid){
+function sendFriendRequest(userid) {
     let queryString = 'action=friendRequest' + '&userid=' + userid;
 
     $.ajax({
@@ -707,7 +707,7 @@ function sendFriendRequest(userid){
     $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
 }
 function UpdateMessages(lastLoaded, chat_id) {
-    if(chat_id ){
+    if (chat_id) {
         chat_id = "dev_chat";
     }
     let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
