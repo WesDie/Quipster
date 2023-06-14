@@ -149,19 +149,35 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             echo json_encode($friendinfo);
         } elseif ($_POST['action'] == 'UpdateNotifications') {
             $id = $_SESSION['id'];
-            $stmtCheck = $conn->prepare("SELECT * FROM friendships WHERE user2=:id");
+            $type = "request";
+            $stmtCheck = $conn->prepare("SELECT * FROM friendships WHERE user2=:id AND type=:type");
             $stmtCheck->bindParam(':id', $id);
+            $stmtCheck->bindParam(':type', $type);
             $stmtCheck->execute();
-            $members = $stmtCheck->fetchAll();
-            $memberList = array();
-            foreach ($members as $member) {
+            $friendRequest = $stmtCheck->fetchAll();
+            $friendRequestList = array();
+            foreach ($friendRequest as $fRequest) {
                 $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
-                $stmtUser->bindParam(':id', $member["user1"]);
+                $stmtUser->bindParam(':id', $fRequest["user1"]);
                 $stmtUser->execute();
                 $user = $stmtUser->fetch();
-                array_push($memberList, $user);
+                array_push($friendRequestList, $user);
             }
-            echo json_encode($memberList);
+            echo json_encode($friendRequestList);
+        } elseif ($_POST['action'] == 'acceptFriendRequest') {
+            $type = "friends";
+            $id = $_POST['userid'];
+            $stmt = $conn->prepare("UPDATE friendships SET type = :type WHERE user1 = :id");
+            $stmt->bindParam(':type', $type);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            echo json_encode("succes");
+        } elseif ($_POST['action'] == 'declineFriendRequest') {
+            $id = $_POST['userid'];
+            $stmt = $conn->prepare("DELETE FROM friendships WHERE user1=:id");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            echo json_encode("succes");
         } elseif ($_POST['action'] == 'getProfileAwardsData') {
 
             $userid = $_POST['userid'];
@@ -192,6 +208,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmt->bindParam(':userid', $userid);
             $stmt->bindParam(':type', $type);
             $stmt->execute();
+            echo json_encode("succes");
         }
     }
 }
