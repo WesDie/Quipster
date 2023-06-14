@@ -560,7 +560,11 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).on("click", function (e) {
         if (!$(e.target).closest(".showProfile, #user-profile").length) {
             $("#user-profile").removeClass("show");
-        } else if (!$(e.target).closest("#chats .list-item button").length) {
+        }
+    });
+
+    $("#chats").on("click", function (e) {
+        if (!$(e.target).closest("#chats .list-item button").length) {
             console.log(e.getAttribute("data-id"));
         } else if (!$(e.target).closest("#chats .list-item, #chats .list-item img, #chats .list-item p").length) {
             ChangeChat(e.getAttribute("data-id"));
