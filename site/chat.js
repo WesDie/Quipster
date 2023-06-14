@@ -444,62 +444,87 @@ document.addEventListener("DOMContentLoaded", function () {
     const contextMenu = document.getElementById("context-menu");
 
     function FillContextMenu(e) {
-        let id = $(e.target).parent().attr("data-id");
+        let object = $(e.target);
+        let what = "";
+        if (object.hasClass("chat")) {
+            what = "chat";
+        } else if (object.parent().hasClass("chat")) {
+            what = "chat";
+        } else if (object.hasClass("message")) {
+            what = "message";
+        } else if (object.parent().hasClass("message")) {
+            what = "message";
+        } else if (object.parent().parent().hasClass("message")) {
+            what = "message";
+        } else if (object.parent().hasClass("showProfile")) {
+            what = "user";
+        }
+        let id = object.parent().attr("data-id");
         if (id == null) {
-            id = $(e.target).attr("data-id");
+            id = object.attr("data-id");
         }
         console.log(id);
 
         let possibilities = {
             "chat": {
-                "leave": "LeaveChat",
-                "mute": "MuteChat",
-                "favourite": "FavouriteChat",
-                "invite": "InviteToChat"
+                "Leave": "LeaveChat",
+                "Mute": "MuteChat",
+                "Favourite": "FavouriteChat",
+                "Invite": "InviteToChat"
             },
             "chat-owner": {
-                "edit": "EditChat",
-                "delete": "DeleteChat",
+                "Edit": "EditChat",
+                "Delete": "DeleteChat",
             },
             "message": {
-                "emoji": "EmojiMessage",
-                "reply": "ReplyMessage",
-                "pin": "PinMessage",
+                "Emoji": "EmojiMessage",
+                "Reply": "ReplyMessage",
+                "Pin": "PinMessage",
             },
             "message-owner": {
-                "delete": "DeleteMessage"
+                "Delete": "DeleteMessage"
             },
             "message-chat-owner": {
-                "delete": "DeleteMessage",
-                "pin": "PinMessage",
+                "Delete": "DeleteMessage",
+                "Pin": "PinMessage",
             },
             "user": {
-                "friend": "SendFriendRequest",
-                "block": "BlockUser",
-                "message": "MessageUser",
+                "Friend": "SendFriendRequest",
+                "Block": "BlockUser",
+                "Message": "MessageUser",
             },
             "user-chat-owner": {
-                "kick": "KickUser",
-                "ban": "BanUser",
+                "Kick": "KickUser",
+                "Ban": "BanUser",
             },
         }
 
-        let what = "chat";
+        // for (let catagory in possibilities) {
+        //     console.log("Catagory:", catagory);
 
-        for (let key in possibilities) {
-            console.log("Key:", key);
+        //     for (let name in possibilities[catagory]) {
+        //         console.log("Visible name:", name);
+        //         console.log("Function name:", possibilities[catagory][name]);
+        //     }
+        // }
 
-            for (let innerKey in possibilities[key]) {
-                console.log("Inner Key:", innerKey);
-                console.log("Value:", possibilities[key][innerKey]);
-            }
+        contextMenu.innerHTML = "";
+        contextMenu.style.display
+
+        for (let name in possibilities[what]) {
+            let item = document.createElement("div");
+            item.setAttribute("data-function", possibilities[what][name]);
+            let button = document.createElement("button");
+            button.innerHTML = name;
+
+            contextMenu.appendChild(item);
+            item.appendChild(button);
+
+            // console.log("Visible name:", name);
+            // console.log("Function name:", possibilities[what][name]);
         }
 
-
-
-        // console.log(e.getAttribute("data-id"));
-
-        // let asd = data.attr("data-id");
+        if (what) contextMenu.style.display = "grid"; else contextMenu.style.display = "none";
     }
 
     window.addEventListener("contextmenu", e => {
@@ -519,7 +544,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         contextMenu.style.left = `${x}px`;
         contextMenu.style.top = `${y}px`;
-        contextMenu.style.display = "grid";
     });
 
     function ContextMenu(e) {
@@ -544,7 +568,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         contextMenu.style.left = `${x}px`;
         contextMenu.style.top = `${y}px`;
-        contextMenu.style.display = "grid";
     }
 
 
@@ -632,11 +655,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     type: "POST",
                     dataType: "json",
                     success: function (response2) {
-                        if(response2.isYou == "Yes"){
+                        if (response2.isYou == "Yes") {
                             $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
                             $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
                             $("#user-profile div:nth-child(4) button:nth-child(1)").text("(-X-)");
-                        } else{
+                        } else {
                             if (response2.type == "request") {
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
                                 $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'cancelFriendRequest(' + '"' + response.id + '"' + ')');
