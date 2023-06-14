@@ -282,10 +282,10 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
 
 
-    <!-- <div id="fadein"></div>
+    <div id="fadein"></div>
   <div id="loader-wrapper">
     <div class="loader"></div>
-  </div> -->
+  </div>
 
 
     <div id="context-menu">

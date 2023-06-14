@@ -240,7 +240,7 @@ $(window).on('beforeunload', function () {
     let queryString = 'new=true' + '&action=' + "goOffline";
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=chatUpload' + '&chat_id=' + chat_id + '&input=' + input;
         // console.log(queryString);
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
 
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
         // console.log(queryString);
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -600,7 +600,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=getProfileData' + '&userid=' + userid;
 
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -619,7 +619,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let queryString2 = 'action=getFriendshipStatus' + '&userid=' + userid;
                 $.ajax({
-                    url: "dbquery.php",
+                    url: "dbquery",
                     data: queryString2,
                     type: "POST",
                     dataType: "json",
@@ -658,7 +658,7 @@ document.addEventListener("DOMContentLoaded", function () {
         queryString = 'action=getProfileAwardsData' + '&userid=' + userid;
 
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -687,7 +687,7 @@ function UpdateNotifications() {
     //friend Request notifications
     let queryStringFriendRequests = 'action=UpdateNotifications';
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryStringFriendRequests,
         type: "POST",
         dataType: "json",
@@ -736,7 +736,7 @@ function sendFriendRequest(userid) {
     let queryString = 'action=friendRequest' + '&userid=' + userid;
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
@@ -757,7 +757,7 @@ function acceptFriendRequest(userid) {
     let queryString = 'action=acceptFriendRequest' + '&userid=' + userid;
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
@@ -774,7 +774,7 @@ function declineFriendRequest(userid) {
     let queryString = 'action=declineFriendRequest' + '&userid=' + userid;
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
