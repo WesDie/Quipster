@@ -278,14 +278,14 @@ function CreateChat() {
 let intervalUpdateMessages;
 // load chat
 document.addEventListener("DOMContentLoaded", function () {
-
+    UpdateMembers(window.chat);
     // UpdateNotifications();
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
     }, 1000);
 
     let intervalUpdateOtherInfo = setInterval(function () {
-        UpdateMembers(window.chat);
+        // UpdateMembers(window.chat);
         UpdateNotifications();
     }, 2000);
 
@@ -370,29 +370,47 @@ document.addEventListener("DOMContentLoaded", function () {
             success: function (response) {
                 document.getElementById("memberList").innerHTML = '';
                 //succes
-                response.forEach(element => {
-                    // console.log("added member");
-                    const userProfile = document.createElement("div");
-                    userProfile.setAttribute("class", "list-item");
-                    userProfile.setAttribute("data-id", element.id);
-                    userProfile.classList.add("showProfile");
-                    const pfpProfile = userProfile.appendChild(document.createElement("img"));
-                    pfpProfile.setAttribute("src", element.pfp);
-                    const profileUsername = userProfile.appendChild(document.createElement("p"));
-                    profileUsername.innerHTML = element.username;
-                    const profileButton = userProfile.appendChild(document.createElement("button"));
-                    profileButton.setAttribute("class", "material-symbols-outlined showProfile");
-                    profileButton.setAttribute("data-id", element.id);
-                    profileButton.innerHTML = "more_horiz";
+                if(response.isPrivate == "Yes"){
+                    console.log(response);
+                        $("#memberList-uppertext").text("Private chat");
+                        const privatChatInfoContainer = document.createElement("div");
+                        privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
 
-                    // profileButton.innerHTML = "more_horiz"
+                        document.getElementById("memberList").appendChild(privatChatInfoContainer);
 
-                    document.getElementById("memberList").appendChild(userProfile);
+                        const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
+                        const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
+                        pfpProfile.setAttribute("src", response[0].pfp);
+                        if (element.status == "online") {
+                            pfpProfile.setAttribute("class", "onlinePfp");
+                        }
 
-                    if (element.status == "online") {
-                        pfpProfile.setAttribute("class", "onlinePfp");
-                    }
-                });
+                } else{
+                    $("#memberList-uppertext").text("Members - " + response.length);
+                    response.forEach(element => {
+                        // console.log("added member");
+                        const userProfile = document.createElement("div");
+                        userProfile.setAttribute("class", "list-item");
+                        userProfile.setAttribute("data-id", element.id);
+                        userProfile.classList.add("showProfile");
+                        const pfpProfile = userProfile.appendChild(document.createElement("img"));
+                        pfpProfile.setAttribute("src", element.pfp);
+                        const profileUsername = userProfile.appendChild(document.createElement("p"));
+                        profileUsername.innerHTML = element.username;
+                        const profileButton = userProfile.appendChild(document.createElement("button"));
+                        profileButton.setAttribute("class", "material-symbols-outlined showProfile");
+                        profileButton.setAttribute("data-id", element.id);
+                        profileButton.innerHTML = "more_horiz";
+    
+                        // profileButton.innerHTML = "more_horiz"
+    
+                        document.getElementById("memberList").appendChild(userProfile);
+    
+                        if (element.status == "online") {
+                            pfpProfile.setAttribute("class", "onlinePfp");
+                        }
+                    });
+                }
             },
             error: function (error) {
                 console.log("post error");

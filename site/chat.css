@@ -301,8 +301,8 @@ img {
 }
 
 .onlinePfp {
-    outline: #64e958 solid 2px;
-    outline-offset: 1px;
+    outline: #64e958 solid 2px !important;
+    outline-offset: 1px !important;
 }
 
 .list-item p {
@@ -552,7 +552,7 @@ dialog::backdrop {
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 
-    min-width: 18em;
+    min-width: 20em;
     max-width: 18em;
 }
 
@@ -863,7 +863,30 @@ dialog::backdrop {
     margin-block: auto;
     background-color: #473850;
 }
+.privateChatInfoContainer{
+    width: 95%;
+    height: 30em;
+    background-color: #514259;
+    margin-inline: auto;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    overflow: hidden;
+}
+.privateChatInfoContainer div:nth-child(1){
+    width: 100%;
+    height: auto;
+    background: linear-gradient(180deg, rgb(228 229 231) -30%, rgba(255,0,0,0) 90%);
+    display: flex;
 
+}
+.privateChatInfoContainer img:nth-child(1){
+    margin: auto;
+    border-radius: 50%;
+    height: 7em;
+    outline: rgba(0, 0, 0, 0.397) solid 3px;
+}
 
 
 

@@ -174,7 +174,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     <div id="right">
       <div class="top">
         <div></div>
-        <p2>Members</p2>
+        <p2 id="memberList-uppertext">Members</p2>
       </div>
       <div class="list" id="memberList">
         <?php
