@@ -1,2 +1,2 @@
 <?php
-exit(header("Location: land.php"));
+exit(header("Location: land"));

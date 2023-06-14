@@ -153,7 +153,7 @@ function ChangePasswordBoxModal() {
 }
 
 function logout() {
-    window.location.href = 'chat.php?logout=1';
+    window.location.href = 'chat?logout=1';
 }
 
 
@@ -449,53 +449,49 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(id);
 
         let possibilities = {
-            "chat": [
-                {
-                    "leave": "LeaveChat",
-                    "mute": "MuteChat",
-                    "favourite": "FavouriteChat",
-                    "invite": "InviteToChat"
-                }
-            ],
-            "chat-owner": [
-                {
-                    "edit": "EditChat",
-                    "delete": "DeleteChat",
-                }
-            ],
-            "message": [
-                {
-                    "emoji": "EmojiMessage",
-                    "reply": "ReplyMessage",
-                    "pin": "PinMessage",
-                }
-            ],
-            "message-owner": [
-                {
-                    "delete": "DeleteMessage"
-                }
-            ],
-            "message-chat-owner": [
-                {
-                    "delete": "DeleteMessage",
-                    "pin": "PinMessage",
-                }
-            ],
-            "user": [
-                {
-                    "friend": "SendFriendRequest",
-                    "block": "BlockUser",
-                    "message": "MessageUser",
-                }
-            ],
-            "user-chat-owner": [
-                {
-                    "kick": "KickUser",
-                    "ban": "BanUser",
-                }
-            ],
+            "chat": {
+                "leave": "LeaveChat",
+                "mute": "MuteChat",
+                "favourite": "FavouriteChat",
+                "invite": "InviteToChat"
+            },
+            "chat-owner": {
+                "edit": "EditChat",
+                "delete": "DeleteChat",
+            },
+            "message": {
+                "emoji": "EmojiMessage",
+                "reply": "ReplyMessage",
+                "pin": "PinMessage",
+            },
+            "message-owner": {
+                "delete": "DeleteMessage"
+            },
+            "message-chat-owner": {
+                "delete": "DeleteMessage",
+                "pin": "PinMessage",
+            },
+            "user": {
+                "friend": "SendFriendRequest",
+                "block": "BlockUser",
+                "message": "MessageUser",
+            },
+            "user-chat-owner": {
+                "kick": "KickUser",
+                "ban": "BanUser",
+            },
         }
 
+        let what = "chat";
+
+        for (let key in possibilities) {
+            console.log("Key:", key);
+
+            for (let innerKey in possibilities[key]) {
+                console.log("Inner Key:", innerKey);
+                console.log("Value:", possibilities[key][innerKey]);
+            }
+        }
 
 
 
@@ -791,3 +787,56 @@ function declineFriendRequest(userid) {
         }
     });
 }
+
+
+
+$(window).on('load', function () {
+    // $("#loader-wrapper").fadeOut(700);
+
+    // if (window.innerWidth <= 800) {
+    //   console.log("hier a");
+    //   Small();
+    // } else if (window.outerWidth >= 1800) {
+    //   console.log("hier c");
+    //   Large();
+    // } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+    //   console.log("hier b");
+    //   Medium();
+    // } else {
+    //   console.log("welp");
+    // }
+
+    // when page first opened, check windows width:
+    if (window.innerWidth <= 800) {
+        Small();
+    } else if (window.outerWidth >= 1200) {
+        Large();
+    } else if (window.innerWidth >= 800 && window.innerWidth <= 1200) {
+        Medium();
+        console.log("dsad");
+    } else {
+        console.log("welp");
+    }
+
+    // same as above but everytime:
+    mqSmall.addEventListener('change', function (e) {
+        if (e.matches) {
+            Small();
+        }
+    });
+    mqMedium.addEventListener('change', function (e) {
+        if (e.matches) {
+            Medium();
+            console.log("dsa")
+        }
+    });
+    mqLarge.addEventListener('change', function (e) {
+        if (e.matches) {
+            Large();
+        }
+    });
+});
+
+  // let intervalUpdateMessages = setInterval(function() {
+  //   UpdateMessages(lastLoadedX, window.chat);
+  // }, 1000);

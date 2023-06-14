@@ -1,5 +1,8 @@
-#RewriteEngine On
-#
-## Block direct access to home.php
-#RewriteCond %{THE_REQUEST} /home\.php [NC]
-#RewriteRule ^ - [R=404,L]
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+RewriteCond %{THE_REQUEST} \.php[\s?] [NC]
+RewriteRule ^ - [R=404,L]

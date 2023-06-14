@@ -9,7 +9,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
   if (isset($_GET['logout'])) {
     if ($_GET['logout'] == 1) {
       session_destroy();
-      header("location: index.php");
+      header("location: index");
     }
   }
 
@@ -41,56 +41,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     <meta name="theme-color" content="#ffffff">
     <script src="chat.js"></script>
     <script>
-      $(window).on('load', function() {
-        // $("#loader-wrapper").fadeOut(700);
 
-        // if (window.innerWidth <= 800) {
-        //   console.log("hier a");
-        //   Small();
-        // } else if (window.outerWidth >= 1800) {
-        //   console.log("hier c");
-        //   Large();
-        // } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
-        //   console.log("hier b");
-        //   Medium();
-        // } else {
-        //   console.log("welp");
-        // }
-
-        // when page first opened, check windows width:
-        if (window.innerWidth <= 800) {
-          Small();
-        } else if (window.outerWidth >= 1200) {
-          Large();
-        } else if (window.innerWidth >= 800 && window.innerWidth <= 1200) {
-          Medium();
-          console.log("dsad");
-        } else {
-          console.log("welp");
-        }
-
-        // same as above but everytime:
-        mqSmall.addEventListener('change', function(e) {
-          if (e.matches) {
-            Small();
-          }
-        });
-        mqMedium.addEventListener('change', function(e) {
-          if (e.matches) {
-            Medium();
-            console.log("dsa")
-          }
-        });
-        mqLarge.addEventListener('change', function(e) {
-          if (e.matches) {
-            Large();
-          }
-        });
-      });
-
-      // let intervalUpdateMessages = setInterval(function() {
-      //   UpdateMessages(lastLoadedX, window.chat);
-      // }, 1000);
     </script>
   </head>
 
@@ -449,5 +400,5 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 <?php
 } else {
   session_destroy();
-  exit(header("Location: /login.php#login"));
+  exit(header("Location: /login#login"));
 }

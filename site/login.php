@@ -3,7 +3,7 @@
     session_start();
 
     if (isset($_SESSION['logedin']) && $_SESSION['logedin'] === true) {
-        header("location: chat.php");
+        header("location: chat");
     }
 
     if(isset($_POST['email']) && isset($_POST['password']) && !isset($_POST['username'])){
@@ -20,7 +20,7 @@
         
 
         if($stmt->rowCount() == 0){
-            header('Location: login.php?error=email doesnt exits');
+            header('Location: login?error=email doesnt exits');
         } else{ 
             if(password_verify($password, $user['password'])){
                 $_SESSION['logedin'] = true;
@@ -30,9 +30,9 @@
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['pfp'] = $user['pfp'];
                 
-                header('Location: chat.php');
+                header('Location: chat');
             } else {
-                header('Location: login.php?error=password incorrect');
+                header('Location: login?error=password incorrect');
             }
         }
     }
@@ -63,14 +63,14 @@
         $stmt->bindParam(":token", $token);
         $stmt->execute();
         if($stmt->rowCount() === 0){
-            header ("location: login.php?regerror=Token is nowwt vaild!");
+            header ("location: login?regerror=Token is nowwt vaild!");
         } else{
             if(empty($token)){
-                header ("location: login.php?regerror=Token is not vaild!");
+                header ("location: login?regerror=Token is not vaild!");
             } else if(empty($password)){
-                header ("location: login.php?regerror=New password is not filled in!");
+                header ("location: login?regerror=New password is not filled in!");
             }else if(empty($passwordCheck)){
-                header ("location: login.php?regerror=New password check is not filled in!");
+                header ("location: login?regerror=New password check is not filled in!");
             } else if($password == $passwordCheck){
 
                 $sthandler = $conn->prepare("SELECT * FROM password_reset WHERE token = :token");
@@ -89,7 +89,7 @@
                 $stmt = $conn->prepare("DELETE FROM password_reset WHERE token = :token");
                 $stmt->bindParam(":token", $token);
                 $stmt->execute();
-                header ("location: login.php#login");
+                header ("location: login#login");
             }
         }
     }
@@ -99,7 +99,7 @@
 
         
         if(empty($passForgetEmail)){
-            header ("location: login.php?passwordNewError=Email is not filled in!");
+            header ("location: login?passwordNewError=Email is not filled in!");
         } else{
             $sthandler = $conn->prepare("SELECT email FROM users WHERE email = :email");
             $sthandler->bindParam(':email', $passForgetEmail);
@@ -116,11 +116,11 @@
                 $stmt->bindParam(":creation_timestamp", $creation_timestamp);
                 $stmt->execute();
 
-                $resetLink = "http://localhost/login.php?token=$token#passchange";
-                header("Location: login.php?tokenlink=$resetLink");
+                $resetLink = "http://localhost/login?token=$token#passchange";
+                header("Location: login?tokenlink=$resetLink");
 
             } else{
-                header ("location: login.php?passwordNewError=Email doesnt exist!");
+                header ("location: login?passwordNewError=Email doesnt exist!");
             }
         }
     }
@@ -132,11 +132,11 @@
         $created = date('Y-m-d H:i:s');
 
         if (empty($username)){
-            header ("location: login.php?regerror=username is not filled in");
+            header ("location: login?regerror=username is not filled in");
         } else if (empty($email)){
-            header ("location: login.php?regerror=email is not filled in");
+            header ("location: login?regerror=email is not filled in");
         } else if (empty($password)){
-            header ("location: login.php?regerror=password is not filled in");
+            header ("location: login?regerror=password is not filled in");
         } else {
 
             $password =  password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -145,7 +145,7 @@
             $sthandler->execute();
 
             if($sthandler->rowCount() > 0){
-                header('Location: login.php?regerror=email already exists');
+                header('Location: login?regerror=email already exists');
             } else {
 
                 $sthandler = $conn->prepare("SELECT username FROM users WHERE username = :username");
@@ -153,7 +153,7 @@
                 $sthandler->execute();
 
                 if($sthandler->rowCount() > 0){
-                    header('Location: login.php?regerror=username already exists');
+                    header('Location: login?regerror=username already exists');
                 } else{
                     $id = uniqid();
 
@@ -177,7 +177,7 @@
                     $stmt->bindParam(":username", $username);
                     $stmt->bindParam(":created", $created);
                     $stmt->execute();
-                    header('Location: login.php?regaccept=register succes!');
+                    header('Location: login?regaccept=register succes!');
                 }
             }
         }
