@@ -38,15 +38,15 @@
     <img src="https://cdn.discordapp.com/attachments/953594570518691900/1097267231500546068/logoQuipster.png" alt="" class="logoImg">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png" alt="" class="navIcon">
     <nav class="navbar">
-        <a href="land.php">HOME</a>
-        <a href="download.php">DOWNLOAD</a>
-        <a href="about.php">ABOUT</a>
-        <a href="contact.php">CONTACT</a>
+        <a href="land">HOME</a>
+        <a href="download">DOWNLOAD</a>
+        <a href="about">ABOUT</a>
+        <a href="contact">CONTACT</a>
         <?php      
             if (isset($_SESSION['logedin']) && $_SESSION['logedin'] === true) {
-                ?>  <a class="loginBtn" href="chat.php">OPEN</a> <?php
+                ?>  <a class="loginBtn" href="chat">OPEN</a> <?php
             } else{
-                ?>  <a class="loginBtn" href="login.php#login">LOGIN</a> <?php
+                ?>  <a class="loginBtn" href="login#login">LOGIN</a> <?php
             }
         ?>
     </nav>

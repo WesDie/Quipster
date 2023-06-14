@@ -94,7 +94,7 @@ function Toggle(side) {
             leftOpen = false;
             document.getElementById("left").setAttribute("inert", "");
         } else {
-            console.log(windowD);
+            // console.log(windowD);
             if (windowD === "large") {
                 document.getElementById("toggleLeft").innerHTML = "chevron_left";
                 left = "auto";
@@ -118,7 +118,7 @@ function Toggle(side) {
             rightOpen = false;
             document.getElementById("right").setAttribute("inert", "");
         } else {
-            console.log(windowD);
+            // console.log(windowD);
             if (windowD === "large") {
                 document.getElementById("toggleRight").innerHTML = "chevron_right";
                 right = "auto";
@@ -153,7 +153,7 @@ function ChangePasswordBoxModal() {
 }
 
 function logout() {
-    window.location.href = 'chat.php?logout=1';
+    window.location.href = 'chat?logout=1';
 }
 
 
@@ -224,49 +224,7 @@ window.onload = function () {
         document.getElementById("fadein").remove();
     }, 1000);
 };
-// $(window).on('load', function () {
-//     // $("#loader-wrapper").fadeOut(700);
 
-//     if (window.innerWidth <= 800) {
-//         console.log("hier a");
-//         Small();
-//     } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
-//         console.log("hier b");
-//         Medium();
-//     } else if (window.innerWidth >= 1800) {
-//         console.log("hier c");
-//         Large();
-//     } else {
-//         console.log("welp");
-//     }
-// });
-
-
-
-
-
-/*
- 
-const contextMenu = document.getElementById("cmenu");
-console.log(contextMenu)
- 
-window.addEventListener("contextmenu", e => {
-    e.preventDefault();
-    let x = e.offsetX, y = e.offsetY,
-        winWidth = window.innerWidth,
-        winHeight = window.innerHeight,
-        cmWidth = contextMenu.offsetWidth,
-        cmHeight = contextMenu.offsetHeight;
- 
-    x = x > winWidth - cmWidth ? winWidth - cmWidth - 5 : x;
-    y = y > winHeight - cmHeight ? winHeight - cmHeight - 5 : y;
- 
-    contextMenu.style.left = `${x}px`;
-    contextMenu.style.top = `${y}px`;
-    contextMenu.style.visibility = "visible";
-});
- 
-document.addEventListener("click", () => contextMenu.style.visibility = "hidden");*/
 
 //Toggle settings tab
 function SettingsTabToggle(tabName) {
@@ -276,12 +234,13 @@ function SettingsTabToggle(tabName) {
     $("button[onclick=\"SettingsTabToggle('" + tabName + "')\"]").addClass("selected");
 }
 
+
 //check if users leaves page
 $(window).on('beforeunload', function () {
     let queryString = 'new=true' + '&action=' + "goOffline";
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
@@ -297,6 +256,7 @@ $(window).on('beforeunload', function () {
     // You can optionally provide a custom message to be displayed in the browser dialog
     return 'Are you sure you want to leave this page?';
 });
+
 
 // create chat
 function CreateChat() {
@@ -336,6 +296,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (object.closest("#chats .list-item").length && !object.closest("#chats .list-item button").length) {
             // console.log(e.getAttribute("data-id"));
             ChangeChat(object.attr("data-id"));
+        } else if (object.closest("#chats .list-item button").length) {
+            //
         }
     });
 
@@ -362,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=chatUpload' + '&chat_id=' + chat_id + '&input=' + input;
         // console.log(queryString);
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -399,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
 
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -440,49 +402,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
         // console.log(queryString);
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
             success: function (response) {
-                // console.log("update success");
-                // console.log(response);
-                /*  const currentchat = document.getElementById("currentchat");
-                  response.forEach(element => {
-                      // console.log(element);
-                      // console.log(element.user);
-      
-                      const message = document.createElement("div");
-                      const pfp = message.appendChild(document.createElement("img")).setAttribute("src", element.pfp);
-                      const user = message.appendChild(document.createElement("div"))
-                      // user.attr('data-id','yoooos');
-                      user.classList.add("user");
-                      user.appendChild(document.createElement("b")).innerHTML = element.username;
-                      const details = user.appendChild(document.createElement("time"));
-                      // details.classList.add("timestamp");
-      
-                      let now = new Date();
-                      let date = new Date(element.sent);
-                      // now.toDateString();
-                      // return element.sent.toDateString() === now.toDateString()
-                      //     ? "today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}"
-                      //     : "${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}";
-      
-                      details.innerHTML = date.toDateString() === now.toDateString() ?
-                          `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`
-                          : `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`;
-      
-      
-                      const tekst = message.appendChild(document.createElement("p"))
-                      tekst.textContent = element.message;
-      
-                      message.classList.add("message");
-                      currentchat.appendChild(message);
-                      var objDiv = document.getElementById("currentchat");
-                      objDiv.scrollTop = objDiv.scrollHeight;
-      
-                      lastLoadedX = element.sent;
-                  });*/
                 const currentchat = $("#currentchat");
                 response.forEach(element => {
                     const message = $("<div></div>");
@@ -512,14 +436,65 @@ document.addEventListener("DOMContentLoaded", function () {
             error: function (error) {
                 console.log("update error");
                 console.log(error);
-                // console.log(lastLoadedX);
             }
         });
     }
     const contextMenu = document.getElementById("context-menu");
 
     function FillContextMenu(e) {
-        console.log(e);
+        let id = $(e.target).parent().attr("data-id");
+        if (id == null) {
+            id = $(e.target).attr("data-id");
+        }
+        console.log(id);
+
+        let possibilities = {
+            "chat": {
+                "leave": "LeaveChat",
+                "mute": "MuteChat",
+                "favourite": "FavouriteChat",
+                "invite": "InviteToChat"
+            },
+            "chat-owner": {
+                "edit": "EditChat",
+                "delete": "DeleteChat",
+            },
+            "message": {
+                "emoji": "EmojiMessage",
+                "reply": "ReplyMessage",
+                "pin": "PinMessage",
+            },
+            "message-owner": {
+                "delete": "DeleteMessage"
+            },
+            "message-chat-owner": {
+                "delete": "DeleteMessage",
+                "pin": "PinMessage",
+            },
+            "user": {
+                "friend": "SendFriendRequest",
+                "block": "BlockUser",
+                "message": "MessageUser",
+            },
+            "user-chat-owner": {
+                "kick": "KickUser",
+                "ban": "BanUser",
+            },
+        }
+
+        let what = "chat";
+
+        for (let key in possibilities) {
+            console.log("Key:", key);
+
+            for (let innerKey in possibilities[key]) {
+                console.log("Inner Key:", innerKey);
+                console.log("Value:", possibilities[key][innerKey]);
+            }
+        }
+
+
+
         // console.log(e.getAttribute("data-id"));
 
         // let asd = data.attr("data-id");
@@ -576,8 +551,8 @@ document.addEventListener("DOMContentLoaded", function () {
             contextMenu.style.display = "none";
         }
     });
-    $(".list-item button").on("click", function (e) {
-        ContextMenu(e);
+    $("#chats .list-item button").on("click", function (e) {
+        ContextMenu(e, "chats");
     });
 
 
@@ -625,7 +600,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let queryString = 'action=getProfileData' + '&userid=' + userid;
 
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -644,7 +619,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let queryString2 = 'action=getFriendshipStatus' + '&userid=' + userid;
                 $.ajax({
-                    url: "dbquery.php",
+                    url: "dbquery",
                     data: queryString2,
                     type: "POST",
                     dataType: "json",
@@ -689,7 +664,7 @@ document.addEventListener("DOMContentLoaded", function () {
         queryString = 'action=getProfileAwardsData' + '&userid=' + userid;
 
         $.ajax({
-            url: "dbquery.php",
+            url: "dbquery",
             data: queryString,
             type: "POST",
             dataType: "json",
@@ -718,7 +693,7 @@ function UpdateNotifications() {
     //friend Request notifications
     let queryStringFriendRequests = 'action=UpdateNotifications';
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryStringFriendRequests,
         type: "POST",
         dataType: "json",
@@ -767,7 +742,7 @@ function sendFriendRequest(userid) {
     let queryString = 'action=friendRequest' + '&userid=' + userid;
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
@@ -788,7 +763,7 @@ function acceptFriendRequest(userid) {
     let queryString = 'action=acceptFriendRequest' + '&userid=' + userid;
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
@@ -805,7 +780,7 @@ function declineFriendRequest(userid) {
     let queryString = 'action=declineFriendRequest' + '&userid=' + userid;
 
     $.ajax({
-        url: "dbquery.php",
+        url: "dbquery",
         data: queryString,
         type: "POST",
         dataType: "json",
@@ -818,3 +793,56 @@ function declineFriendRequest(userid) {
         }
     });
 }
+
+
+
+$(window).on('load', function () {
+    // $("#loader-wrapper").fadeOut(700);
+
+    // if (window.innerWidth <= 800) {
+    //   console.log("hier a");
+    //   Small();
+    // } else if (window.outerWidth >= 1800) {
+    //   console.log("hier c");
+    //   Large();
+    // } else if (window.innerWidth >= 800 && window.innerWidth <= 1800) {
+    //   console.log("hier b");
+    //   Medium();
+    // } else {
+    //   console.log("welp");
+    // }
+
+    // when page first opened, check windows width:
+    if (window.innerWidth <= 800) {
+        Small();
+    } else if (window.outerWidth >= 1200) {
+        Large();
+    } else if (window.innerWidth >= 800 && window.innerWidth <= 1200) {
+        Medium();
+        console.log("dsad");
+    } else {
+        console.log("welp");
+    }
+
+    // same as above but everytime:
+    mqSmall.addEventListener('change', function (e) {
+        if (e.matches) {
+            Small();
+        }
+    });
+    mqMedium.addEventListener('change', function (e) {
+        if (e.matches) {
+            Medium();
+            console.log("dsa")
+        }
+    });
+    mqLarge.addEventListener('change', function (e) {
+        if (e.matches) {
+            Large();
+        }
+    });
+});
+
+  // let intervalUpdateMessages = setInterval(function() {
+  //   UpdateMessages(lastLoadedX, window.chat);
+  // }, 1000);
