@@ -146,7 +146,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmtFriend->execute();
             $friendinfo = $stmtFriend->fetch();
 
-            echo json_encode($friendinfo);
+            if ($_SESSION['id'] == $userid) {
+                echo json_encode(array("isYou" => 'Yes'));
+            } else {
+                echo json_encode($friendinfo);
+            }
         } elseif ($_POST['action'] == 'UpdateNotifications') {
             $id = $_SESSION['id'];
             $type = "request";
@@ -199,16 +203,21 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
             echo json_encode($awardsList);
         } elseif ($_POST['action'] == 'friendRequest') {
+
             $user1 = $_SESSION['id'];
             $userid = $_POST['userid'];
-            $type = "request";
-            $stmt = $conn->prepare("INSERT INTO friendships (user1, user2, type) 
-            VALUES (:user1, :userid, :type)");
-            $stmt->bindParam(':user1', $user1);
-            $stmt->bindParam(':userid', $userid);
-            $stmt->bindParam(':type', $type);
-            $stmt->execute();
-            echo json_encode("succes");
+
+            if ($userid != $_SESSION['id']) {
+                $type = "request";
+                $stmt = $conn->prepare("INSERT INTO friendships (user1, user2, type) 
+                VALUES (:user1, :userid, :type)");
+                $stmt->bindParam(':user1', $user1);
+                $stmt->bindParam(':userid', $userid);
+                $stmt->bindParam(':type', $type);
+                $stmt->execute();
+                echo json_encode("succes");
+            }
+            echo json_encode("no succes");
         }
     }
 }
