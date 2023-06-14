@@ -1,5 +1,8 @@
 var windowD = null;
 window.chat;
+if(!window.chat){
+    window.chat = "dev_chat";
+}
 const mqSmall = window.matchMedia('(max-width: 800px)');
 const mqMedium = window.matchMedia('(min-width: 800px) and (max-width: 1200px)');
 const mqLarge = window.matchMedia('(min-width: 1200px)');
@@ -322,6 +325,7 @@ $(window).on('load', function () {
 
     let intervalUpdateOtherInfo = setInterval(function () {
         UpdateMembers(window.chat);
+        UpdateNotifications();
     }, 2000);
 });
 
@@ -421,16 +425,46 @@ function UpdateMembers(chat_id) {
         }
     });
 }
-function sendFriendRequest(userid){
-    let queryString = 'action=friendRequest' + '&userid=' + userid;
-    // console.log(queryString);
+
+function UpdateNotifications() {
+
+    //friend Request notifications
+    let queryStringFriendRequests = 'action=UpdateNotifications';
     $.ajax({
         url: "dbquery.php",
-        data: queryString,
+        data: queryStringFriendRequests,
         type: "POST",
         dataType: "json",
         success: function (response) {
-            
+            const friendTab = document.getElementById("tabFriend");
+            friendTab.innerHTML = '';
+            const listFriends = document.createElement("div");
+            listFriends.setAttribute("class", "list");
+            friendTab.appendChild(listFriends);
+            if($.trim(response) == ''){
+                const emptyFriends = document.createElement("p");
+                emptyFriends.innerHTML = "No friend requests";
+                listFriends.appendChild(emptyFriends);
+            }
+
+            response.forEach(element => {
+                const friendRequest = document.createElement("div");
+                friendRequest.setAttribute("class", "list-item");
+                friendRequest.setAttribute("data-id", element.id);
+
+                const pfpRequest = friendRequest.appendChild(document.createElement("img"));
+                pfpRequest.setAttribute("src", element.pfp);
+                const friendRequestName = friendRequest.appendChild(document.createElement("p"));
+                friendRequestName.innerHTML = element.username;
+                const profileButton = friendRequest.appendChild(document.createElement("button"));
+                profileButton.setAttribute("class", "material-symbols-outlined");
+                profileButton.setAttribute("data-id", element.id);
+                profileButton.innerHTML = "more_horiz";
+
+                profileButton.innerHTML = "more_horiz"
+
+                listFriends.appendChild(friendRequest);
+            });
         },
         error: function (error) {
             console.log("post error");
@@ -438,7 +472,32 @@ function sendFriendRequest(userid){
         }
     });
 }
+
+function sendFriendRequest(userid){
+    let queryString = 'action=friendRequest' + '&userid=' + userid;
+
+    $.ajax({
+        url: "dbquery.php",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+
+    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
+    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
+    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
+}
 function UpdateMessages(lastLoaded, chat_id) {
+    if(chat_id ){
+        chat_id = "dev_chat";
+    }
     let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
     // console.log(queryString);
     $.ajax({

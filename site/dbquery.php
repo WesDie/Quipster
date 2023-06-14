@@ -136,16 +136,32 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $stmtCheck->execute();
             $userinfo = $stmtCheck->fetch();
 
-            $stmtFriend = $conn->prepare("SELECT * FROM friendships WHERE user2 = :userid");
+            echo json_encode($userinfo);
+        } elseif ($_POST['action'] == 'getFriendshipStatus') {
+            $userid = $_POST['userid'];
+            $user1 = $_SESSION['id'];
+            $stmtFriend = $conn->prepare("SELECT * FROM friendships WHERE user2 = :userid AND user1 = :user1");
+            $stmtFriend->bindParam(':user1', $user1);
             $stmtFriend->bindParam(':userid', $userid);
             $stmtFriend->execute();
             $friendinfo = $stmtFriend->fetch();
 
-            if ($friendinfo != false) {
-                array_merge($userinfo, $friendinfo);
+            echo json_encode($friendinfo);
+        } elseif ($_POST['action'] == 'UpdateNotifications') {
+            $id = $_SESSION['id'];
+            $stmtCheck = $conn->prepare("SELECT * FROM friendships WHERE user2=:id");
+            $stmtCheck->bindParam(':id', $id);
+            $stmtCheck->execute();
+            $members = $stmtCheck->fetchAll();
+            $memberList = array();
+            foreach ($members as $member) {
+                $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
+                $stmtUser->bindParam(':id', $member["user1"]);
+                $stmtUser->execute();
+                $user = $stmtUser->fetch();
+                array_push($memberList, $user);
             }
-
-            echo json_encode($userinfo);
+            echo json_encode($memberList);
         } elseif ($_POST['action'] == 'getProfileAwardsData') {
 
             $userid = $_POST['userid'];

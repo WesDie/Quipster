@@ -568,18 +568,39 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
               $("#user-profile div:nth-child(3) p2").text(response.description);
               $("#user-profile div:nth-child(1) p").text("Created: " + response.created);
-              console.log(response);
-              if (response.type == "request") {
-                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
-                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
-              } else if (response.type == "friends") {
-                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
-                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already friends!");
-              } else if (response.type == "block") {
-                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Unblock");
-              } else {
-                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'sendFriendRequest(' + '"' + response.id + '"' + ')');
-              }
+
+
+              let queryString2 = 'action=getFriendshipStatus' + '&userid=' + userid;
+              $.ajax({
+                url: "dbquery.php",
+                data: queryString2,
+                type: "POST",
+                dataType: "json",
+                success: function(response2) {
+                  if (response2.type == "request") {
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already sent friende request!");
+                  } else if (response2.type == "friends") {
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Already friends!");
+                  } else if (response2.type == "block") {
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Unblock");
+                  } else {
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'sendFriendRequest(' + '"' + response.id + '"' + ')');
+                    $("#user-profile div:nth-child(4) button:nth-child(1)").text("Send friend request");
+                  }
+                },
+                error: function(error) {
+                  console.log("post error");
+                  console.log(error);
+                }
+              });
+
             },
             error: function(error) {
               console.log("post error");
