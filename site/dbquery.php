@@ -238,64 +238,103 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         } elseif ($_POST['action'] == 'acceptFriendRequest') {
             $type = "friends";
             $id = $_POST['userid'];
+
             $stmt = $conn->prepare("UPDATE friendships SET type = :type WHERE user1 = :id");
             $stmt->bindParam(':type', $type);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
-            //Make new private chat
+            $stmt = $conn->prepare("INSERT INTO friendships (user1, user2, type) 
+            VALUES (:user1, :user2, :type)");
+            $stmt->bindParam(':user1', $_SESSION['id']);
+            $stmt->bindParam(':user2', $id);
+            $stmt->bindParam(':type', $type);
+            $stmt->execute();
 
-            $id = uniqid();
-            while ($stmt->rowCount() > 0) {
-                $id = uniqid();
-                $stmt = $conn->prepare("SELECT id FROM users WHERE id = :id");
-                $stmt->bindParam(':id', $id);
-                $stmt->execute();
-                $stmt->closeCursor();
-            }
-            $stmt->closeCursor();
+            //check if has private chat already
 
-
-            $name = "private-chat-";
-            $name .= $id;
-            $description = "private-chat";
-            $icon = "https://cdn4.iconfinder.com/data/icons/social-network-61/32/07_-_Private_Chat-512.png";
-            $created = date('Y-m-d H:i:s');
             $type = "duo";
+            $stmtCheck = $conn->prepare("SELECT * FROM chats WHERE type=:type");
+            $stmtCheck->bindParam(':type', $type);
+            $stmtCheck->execute();
+            $privateChats = $stmtCheck->fetchAll();
 
-            $stmt = $conn->prepare("INSERT INTO chats (id, name, description, created, icon, type) 
-            VALUES (:id, :name, :description, :created, :icon, :type)");
-            $stmt->bindParam(":id", $id);
-            $stmt->bindParam(":name", $name);
-            $stmt->bindParam(":description", $description);
-            $stmt->bindParam(":created", $created);
-            $stmt->bindParam(":icon", $icon);
-            $stmt->bindParam(":type", $type);
-            $stmt->execute();
+            $privateUserChats = array();
+            foreach ($privateChats as $chat) {
+                $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chatid AND user=:userid");
+                $stmtCheck->bindParam(':chatid', $chat['id']);
+                $stmtCheck->bindParam(':userid', $id);
+                $stmtCheck->execute();
+                array_push($privateUserChats, $stmtCheck->fetch());
+            }
 
-            $role = "memeber";
-            $joined = date('Y-m-d H:i:s');
+            $alreadyPrivateChats = array();
+            foreach ($privateUserChats as $UserChat) {
+                $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chatid AND user=:userid");
+                $stmtCheck->bindParam(':chatid', $UserChat['id']);
+                $stmtCheck->bindParam(':userid', $_SESSION['id']);
+                $stmtCheck->execute();
+                array_push($alreadyPrivateChats, $stmtCheck->fetch());
+            }
 
-            $user = $_SESSION['id'];
-            $stmt = $conn->prepare("INSERT INTO chatmembers (chat, user, joined, role) 
-            VALUES (:chat, :user, :joined, :role)");
-            $stmt->bindParam(":chat", $id);
-            $stmt->bindParam(":user", $user);
-            $stmt->bindParam(":joined", $joined);
-            $stmt->bindParam(":role", $role);
-            $stmt->execute();
+            if (count($alreadyPrivateChats) == 0) {
+
+                //Make new private chat
+
+                $id = uniqid();
+                while ($stmt->rowCount() > 0) {
+                    $id = uniqid();
+                    $stmt = $conn->prepare("SELECT id FROM users WHERE id = :id");
+                    $stmt->bindParam(':id', $id);
+                    $stmt->execute();
+                    $stmt->closeCursor();
+                }
+                $stmt->closeCursor();
 
 
-            $user = $_POST['userid'];
-            $stmt = $conn->prepare("INSERT INTO chatmembers (chat, user, joined, role) 
-            VALUES (:chat, :user, :joined, :role)");
-            $stmt->bindParam(":chat", $id);
-            $stmt->bindParam(":user", $user);
-            $stmt->bindParam(":joined", $joined);
-            $stmt->bindParam(":role", $role);
-            $stmt->execute();
+                $name = "private-chat-";
+                $name .= $id;
+                $description = "private-chat";
+                $icon = "https://cdn4.iconfinder.com/data/icons/social-network-61/32/07_-_Private_Chat-512.png";
+                $created = date('Y-m-d H:i:s');
+                $type = "duo";
 
-            echo json_encode("succes");
+                $stmt = $conn->prepare("INSERT INTO chats (id, name, description, created, icon, type) 
+                VALUES (:id, :name, :description, :created, :icon, :type)");
+                $stmt->bindParam(":id", $id);
+                $stmt->bindParam(":name", $name);
+                $stmt->bindParam(":description", $description);
+                $stmt->bindParam(":created", $created);
+                $stmt->bindParam(":icon", $icon);
+                $stmt->bindParam(":type", $type);
+                $stmt->execute();
+
+                $role = "memeber";
+                $joined = date('Y-m-d H:i:s');
+
+                $user = $_SESSION['id'];
+                $stmt = $conn->prepare("INSERT INTO chatmembers (chat, user, joined, role) 
+                VALUES (:chat, :user, :joined, :role)");
+                $stmt->bindParam(":chat", $id);
+                $stmt->bindParam(":user", $user);
+                $stmt->bindParam(":joined", $joined);
+                $stmt->bindParam(":role", $role);
+                $stmt->execute();
+
+
+                $user = $_POST['userid'];
+                $stmt = $conn->prepare("INSERT INTO chatmembers (chat, user, joined, role) 
+                VALUES (:chat, :user, :joined, :role)");
+                $stmt->bindParam(":chat", $id);
+                $stmt->bindParam(":user", $user);
+                $stmt->bindParam(":joined", $joined);
+                $stmt->bindParam(":role", $role);
+                $stmt->execute();
+
+                echo json_encode("succes");
+            } else {
+                echo json_encode("no succes");
+            }
         } elseif ($_POST['action'] == 'declineFriendRequest') {
             $id = $_POST['userid'];
             $stmt = $conn->prepare("DELETE FROM friendships WHERE user1=:id");
@@ -343,7 +382,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmt->execute();
                 echo json_encode("succes");
             } else {
-                echo json_encode("no succes");
+                echo json_encode("no chat but still friends");
             }
         }
     }

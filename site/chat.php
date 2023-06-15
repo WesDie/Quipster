@@ -64,12 +64,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div class="spacer wave"></div>
       <div id="chats" class="chats tab open">
         <div class="list">
-
+          <button class="filled" onclick="CreateChatModal()">
+            Create new chat
+          </button>
         </div>
       </div>
-      <button class="filled" onclick="CreateChatModal()">
-        Create new chat
-      </button>
       <div id="requests" class="requests tab">
         <div id="switchSides">
           <button onclick="LeftChildToggle(true)" class="filled selected">
