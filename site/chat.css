@@ -66,7 +66,8 @@ button:hover {
 img {
     user-select: none;
 }
-.hide{
+
+.hide {
     display: none;
 }
 
@@ -203,10 +204,10 @@ img {
 
 .selected {
     font-variation-settings:
-        'FILL' 1,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24;
+        'FILL'1,
+        'wght'400,
+        'GRAD'0,
+        'opsz'24;
     cursor: pointer;
 }
 
@@ -863,7 +864,8 @@ dialog::backdrop {
     margin-block: auto;
     background-color: #473850;
 }
-.privateChatInfoContainer{
+
+.privateChatInfoContainer {
     width: 95%;
     height: 30em;
     background-color: #514259;
@@ -871,25 +873,32 @@ dialog::backdrop {
     border-radius: 20px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    grid-template-rows: .8fr .5fr .5fr .5fr .5fr;
     overflow: hidden;
 }
-.privateChatInfoContainer div:nth-child(1){
+
+.privateChatInfoContainer div:nth-child(1) {
     width: 100%;
     height: auto;
-    background: linear-gradient(180deg, rgb(228 229 231) -30%, rgba(255,0,0,0) 90%);
+    background: linear-gradient(180deg, rgb(228 229 231) -30%, rgba(255, 0, 0, 0) 70%);
     display: flex;
-
 }
-.privateChatInfoContainer img:nth-child(1){
+
+.privateChatInfoContainer img:nth-child(1) {
     margin: auto;
     border-radius: 50%;
     height: 7em;
     outline: rgba(0, 0, 0, 0.397) solid 3px;
 }
 
+.privateChatInfoContainer h1 {
+    text-align: center;
+}
 
-
+.privateChat p {
+    font-weight: bolder;
+    font-style: italic;
+}
 
 
 ::-webkit-scrollbar {
