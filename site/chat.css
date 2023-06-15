@@ -903,6 +903,10 @@ dialog::backdrop {
     font-style: italic;
 }
 
+#memberList .list-item {
+    width: 19em !important;
+}
+
 
 ::-webkit-scrollbar {
     width: 5px;

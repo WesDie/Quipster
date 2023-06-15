@@ -279,15 +279,6 @@ function SettingsToggle() {
 }
 
 
-
-//  loading screen
-window.onload = function () {
-    setTimeout(function () {
-        document.getElementById("fadein").remove();
-    }, 1000);
-};
-
-
 //Toggle settings tab
 function SettingsTabToggle(tabName) {
     $("#catagories button").removeClass("selected");
@@ -351,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function () {
         UpdateMembers(window.chat);
         UpdateNotifications();
         UpdateChats();
-    }, 2000);
+    }, 10000);
 
 
 
@@ -487,6 +478,19 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    //  loading screen
+    window.onload = function () {
+        setTimeout(function () {
+            document.getElementById("fadein").remove();
+        }, 1000);
+        
+        UpdateMembers(window.chat);
+        UpdateNotifications();
+        UpdateChats();
+    };
+
+
     function UpdateMessages(lastLoaded, chat_id) {
         let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
         // console.log(queryString);
