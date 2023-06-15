@@ -193,6 +193,68 @@ function LeftChildToggle(side) {
     }
 }
 
+let pins = true;
+function PinsToggle() {
+    let text = $(".top p").text();
+    if (pins) {
+        pins = false
+
+        let queryString = 'action=chatLoadPinned' + '&chat_id=' + window.chat;
+        $.ajax({
+            url: "dbquery",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                const currentchat = $("#pinnedmsgs");
+                currentchat.text("");
+                response.forEach(element => {
+                    const message = $("<div></div>");
+                    message.attr('data-id', element.id);
+                    const pfp = $("<img>").attr("src", element.pfp).appendTo(message);
+                    pfp.addClass('showProfile');
+                    const user = $("<div></div>").addClass("user").appendTo(message);
+                    user.attr('data-id', element.user);
+                    const name = $("<b></b>").html(element.username).appendTo(user);
+                    name.attr("data-id", element.user);
+                    name.addClass('showProfile');
+                    const details = $("<time></time>").appendTo(user);
+                    let now = new Date();
+                    let date = new Date(element.sent);
+                    details.html(date.toDateString() === now.toDateString() ?
+                        `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}` :
+                        `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`);
+                    const tekst = $("<p></p>").text(element.message).appendTo(message);
+                    message.addClass("message");
+                    currentchat.append(message);
+                    $("#pinnedmsgs").scrollTop($("#pinnedmsgs")[0].scrollHeight);
+
+                    lastLoadedX = element.sent;
+                });
+            },
+            error: function (error) {
+                console.log("update error");
+                console.log(error);
+            }
+        });
+
+        $("#pinstoggle").addClass("selected");
+        $("#currentchat").addClass("close");
+        $("#pinnedmsgs").removeClass("close");
+        $(".top p").text(text + " (Pinned Messages)");
+        $("chats").removeAttr("inert", "");
+        $("right").attr("inert", "");
+    } else {
+        pins = true;
+        $("#pinstoggle").removeClass("selected");
+        $("#currentchat").removeClass("close");
+        $("#pinnedmsgs").addClass("close");
+        $(".top p").text(text.replace(" (Pinned Messages)", ""));
+        $("chats").attr("inert", "");
+        $("right").removeAttr("inert", "");
+    }
+}
+
 function ChangeSettingTab() {
 
 }
@@ -370,22 +432,22 @@ document.addEventListener("DOMContentLoaded", function () {
             success: function (response) {
                 document.getElementById("memberList").innerHTML = '';
                 //succes
-                if(response.isPrivate == "Yes"){
+                if (response.isPrivate == "Yes") {
                     console.log(response);
-                        $("#memberList-uppertext").text("Private chat");
-                        const privatChatInfoContainer = document.createElement("div");
-                        privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
+                    $("#memberList-uppertext").text("Private chat");
+                    const privatChatInfoContainer = document.createElement("div");
+                    privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
 
-                        document.getElementById("memberList").appendChild(privatChatInfoContainer);
+                    document.getElementById("memberList").appendChild(privatChatInfoContainer);
 
-                        const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
-                        const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
-                        pfpProfile.setAttribute("src", response[0].pfp);
-                        if (element.status == "online") {
-                            pfpProfile.setAttribute("class", "onlinePfp");
-                        }
+                    const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
+                    const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
+                    pfpProfile.setAttribute("src", response[0].pfp);
+                    if (element.status == "online") {
+                        pfpProfile.setAttribute("class", "onlinePfp");
+                    }
 
-                } else{
+                } else {
                     $("#memberList-uppertext").text("Members - " + response.length);
                     response.forEach(element => {
                         // console.log("added member");
@@ -401,11 +463,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         profileButton.setAttribute("class", "material-symbols-outlined showProfile");
                         profileButton.setAttribute("data-id", element.id);
                         profileButton.innerHTML = "more_horiz";
-    
+
                         // profileButton.innerHTML = "more_horiz"
-    
+
                         document.getElementById("memberList").appendChild(userProfile);
-    
+
                         if (element.status == "online") {
                             pfpProfile.setAttribute("class", "onlinePfp");
                         }
@@ -459,6 +521,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+
     const contextMenu = document.getElementById("context-menu");
 
     function FillContextMenu(e) {
@@ -802,17 +866,17 @@ function UpdateNotifications() {
                         const friendRequest = document.createElement("div");
                         friendRequest.setAttribute("class", "list-item notifications");
                         friendRequest.setAttribute("data-id", element.id);
-        
+
                         const pfpRequest = friendRequest.appendChild(document.createElement("img"));
                         pfpRequest.setAttribute("src", element.pfp);
                         const friendRequestName = friendRequest.appendChild(document.createElement("p"));
                         friendRequestName.innerHTML = element.username;
-        
+
                         const declineButton = friendRequest.appendChild(document.createElement("button"));
                         declineButton.setAttribute("class", "material-symbols-outlined declineButton");
                         declineButton.setAttribute("onclick", 'cancelFriendRequest(' + '"' + element.id + '"' + ')');
                         declineButton.innerHTML = "close";
-        
+
                         listFriends.appendChild(friendRequest);
                     });
                 },

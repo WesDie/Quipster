@@ -87,10 +87,10 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           }
           ?>
         </div>
-        <button class="filled" onclick="CreateChatModal()">
-          Create new chat
-        </button>
       </div>
+      <button class="filled" onclick="CreateChatModal()">
+        Create new chat
+      </button>
       <div id="requests" class="requests tab">
         <div id="switchSides">
           <button onclick="LeftChildToggle(true)" class="filled selected">
@@ -148,14 +148,20 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           echo $user["name"];
           ?>
         </p>
+        <button id="pinstoggle" title="Pinned Messages" onclick="PinsToggle()" class="material-symbols-outlined">push_pin</button>
         <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
           chevron_right
         </button>
       </div>
       <div id="currentchat">
-        <div class="begin">
-          <h1>start of chat</h1>
-        </div>
+      </div>
+      <div id="pinnedmsgs" class="close">
+        <div class="dsa">adasd</div>
+        <div class="dsa">adasd</div>
+        <div class="dsa">adasd</div>
+        <div class="dsa">adasd</div>
+        <div class="dsa">adasd</div>
+        <div class="dsa">adasd</div>
       </div>
       <div id="newMessage">
         <input id="inpurt" type="text" placeholder="Message in <?php

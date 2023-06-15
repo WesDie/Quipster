@@ -68,13 +68,30 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
                     $stmt->closeCursor();
                 }
+            } elseif ($_POST['action'] == 'chatLoadPinned') {
+
+                $stmt = $conn->prepare("SELECT messages.*, users.username, users.pfp
+                    FROM messages LEFT JOIN users ON messages.user = users.id
+                    WHERE chat = '$chat' AND pinned='true'");
+
+                // $stmt->bindParam(':chat_id', $chat);
+                // $stmt->bindParam(':lastLoaded', $lastLoaded);
+
+                if ($stmt->execute()) {
+                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                    $newMsgs = $stmt->fetchAll();
+
+                    echo json_encode($newMsgs);
+
+                    $stmt->closeCursor();
+                }
             } elseif ($_POST['action'] == 'updateMembers') {
                 $stmtCheck = $conn->prepare("SELECT * FROM chats WHERE id=:chat");
                 $stmtCheck->bindParam(':chat', $chat);
                 $stmtCheck->execute();
                 $checkType = $stmtCheck->fetch();
 
-                if($checkType['type'] == "group"){
+                if ($checkType['type'] == "group") {
                     $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chat");
                     $stmtCheck->bindParam(':chat', $chat);
                     $stmtCheck->execute();
@@ -88,14 +105,14 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                         array_push($memberList, $user);
                     }
                     echo json_encode($memberList);
-                } else if($checkType['type'] == "duo"){
+                } else if ($checkType['type'] == "duo") {
                     $stmtCheck = $conn->prepare("SELECT * FROM chatmembers WHERE chat=:chat");
                     $stmtCheck->bindParam(':chat', $chat);
                     $stmtCheck->execute();
                     $members = $stmtCheck->fetchAll();
                     $memberList = array("isPrivate" => 'Yes');
                     foreach ($members as $member) {
-                        if($member["user"] != $_SESSION['id']){
+                        if ($member["user"] != $_SESSION['id']) {
                             $stmtUser = $conn->prepare("SELECT * FROM users WHERE id=:id");
                             $stmtUser->bindParam(':id', $member["user"]);
                             $stmtUser->execute();
@@ -228,7 +245,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             }
             $stmt->closeCursor();
 
-            
+
             $name = "private-chat-";
             $name .= $id;
             $description = "private-chat";
