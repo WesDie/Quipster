@@ -467,7 +467,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const profileUsername = userProfile.appendChild(document.createElement("p"));
                         profileUsername.innerHTML = element.username;
                         const profileButton = userProfile.appendChild(document.createElement("button"));
-                        profileButton.setAttribute("class", "material-symbols-outlined showProfile");
+                        profileButton.setAttribute("class", "google-icon showProfile");
                         profileButton.setAttribute("data-id", element.id);
                         profileButton.innerHTML = "more_horiz";
 
@@ -846,12 +846,12 @@ function UpdateNotifications() {
                 const friendRequestName = friendRequest.appendChild(document.createElement("p"));
                 friendRequestName.innerHTML = element.username;
                 const acceptButton = friendRequest.appendChild(document.createElement("button"));
-                acceptButton.setAttribute("class", "material-symbols-outlined acceptButton");
+                acceptButton.setAttribute("class", "google-icon acceptButton");
                 acceptButton.setAttribute("onclick", 'acceptFriendRequest(' + '"' + element.id + '"' + ')');
                 acceptButton.innerHTML = "done";
 
                 const declineButton = friendRequest.appendChild(document.createElement("button"));
-                declineButton.setAttribute("class", "material-symbols-outlined declineButton");
+                declineButton.setAttribute("class", "google-icon declineButton");
                 declineButton.setAttribute("onclick", 'declineFriendRequest(' + '"' + element.id + '"' + ')');
                 declineButton.innerHTML = "close";
 
@@ -880,7 +880,7 @@ function UpdateNotifications() {
                         friendRequestName.innerHTML = element.username;
 
                         const declineButton = friendRequest.appendChild(document.createElement("button"));
-                        declineButton.setAttribute("class", "material-symbols-outlined declineButton");
+                        declineButton.setAttribute("class", "google-icon declineButton");
                         declineButton.setAttribute("onclick", 'cancelFriendRequest(' + '"' + element.id + '"' + ')');
                         declineButton.innerHTML = "close";
 
@@ -949,7 +949,7 @@ function UpdateChats() {
                                 chatItem.appendChild(chatName);
 
                                 const chatBtn = document.createElement("button");
-                                chatBtn.setAttribute("class", "material-symbols-outlined");
+                                chatBtn.setAttribute("class", "google-icon");
                                 chatBtn.innerHTML = "more_horiz";
                                 chatItem.appendChild(chatBtn);
                         },
@@ -978,7 +978,7 @@ function UpdateChats() {
                     chatItem.appendChild(chatName);
 
                     const chatBtn = document.createElement("button");
-                    chatBtn.setAttribute("class", "material-symbols-outlined");
+                    chatBtn.setAttribute("class", "google-icon");
                     chatBtn.innerHTML = "more_horiz";
                     chatItem.appendChild(chatBtn);
                 }

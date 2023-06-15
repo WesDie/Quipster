@@ -1,5 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap%27');
 
+@font-face {
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    src: url(google-icons/MaterialSymbolsOutlined.codepoints) format('codepoints'),
+        url(google-icons/MaterialSymbolsOutlined.ttf) format('ttf'),
+        url(google-icons/MaterialSymbolsOutlined.woff2) format('woff2');
+}
+
+.google-icon {
+    font-family: 'Material Symbols Outlined';
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 600,
+        'GRAD' 0,
+        'opsz' 48;
+    font-size: 1.5em;
+    font-weight: 900;
+}
+
 :root {
     --bg-primary: #3e3744;
     --bg-secondary: #1f1b22;
@@ -204,10 +223,10 @@ img {
 
 .selected {
     font-variation-settings:
-        'FILL'1,
-        'wght'400,
-        'GRAD'0,
-        'opsz'24;
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
     cursor: pointer;
 }
 
