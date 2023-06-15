@@ -64,28 +64,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
       <div class="spacer wave"></div>
       <div id="chats" class="chats tab open">
         <div class="list">
-          <?php
-          $user = $_SESSION["id"];
-          $stmtChats = $conn->prepare("SELECT * FROM chatmembers WHERE user=:user");
-          $stmtChats->bindParam(':user', $user);
-          $stmtChats->execute();
-          $chats = $stmtChats->fetchAll();
-          foreach ($chats as $chat) {
-            $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-            $stmtChat->bindParam(':id', $chat["chat"]);
-            $stmtChat->execute();
-            $chat = $stmtChat->fetch();
-          ?>
-            <div data-id="<?php echo $chat['id'] ?>" class="chat list-item<?php echo !true ? " selected" : "" ?>">
-              <img src="<?php echo $chat["icon"] ?>" alt="">
-              <p><?php echo $chat["name"] ?></p>
-              <button class="material-symbols-outlined">
-                more_horiz
-              </button>
-            </div>
-          <?php
-          }
-          ?>
+
         </div>
       </div>
       <button class="filled" onclick="CreateChatModal()">
@@ -214,7 +193,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         // }
         ?>
       </div>
-      <button class="filled">
+      <button class="filled" id="inviteMembersBtn">
         Invite members
       </button>
     </div>

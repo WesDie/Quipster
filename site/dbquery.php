@@ -139,29 +139,26 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             $chats = array();
             foreach ($memberat as $chat) {
                 $stmtChat = $conn->prepare("SELECT * FROM chats WHERE id = :id");
-                $stmtChat->bindParam(':id', $chat["id"]);
+                $stmtChat->bindParam(':id', $chat["chat"]);
                 $stmtChat->execute();
                 array_push($chats, $stmtChat->fetch());
             }
+            echo json_encode($chats);
+        } elseif ($_POST['action'] == 'GetPrivateChatInfo') {
+            $chatid = $_POST['chatid'];
+            $stmt = $conn->prepare("SELECT * FROM chatmembers WHERE chat = :chat");
+            $stmt->bindParam(':chat', $chatid);
+            $stmt->execute();
+            $members = $stmt->fetchAll();
 
-            if ($stmtCheck->rowCount() > 0) {
-                // if (strtotime($_POST['lastLoaded'])) {
-                $lastLoaded = $_POST['lastLoaded'];
-
-                $stmt = $conn->prepare("SELECT name FROM chats WHERE id = :id");
-
-                // $stmt->bindParam(':chat_id', $chat);
-                // $stmt->bindParam(':lastLoaded', $lastLoaded);
-
-                if ($stmt->execute()) {
-                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                    $newMsgs = $stmt->fetchAll();
-
-                    echo json_encode($newMsgs);
-
-                    $stmt->closeCursor();
+            foreach ($members as $member) {
+                if ($_SESSION['id'] != $member['user']) {
+                    $stmtChat = $conn->prepare("SELECT * FROM users WHERE id = :id");
+                    $stmtChat->bindParam(':id', $member["user"]);
+                    $stmtChat->execute();
                 }
             }
+            echo json_encode($stmtChat->fetch());
         } elseif ($_POST['action'] == 'goOffline') {
             $status = "offline";
             $id = $_SESSION['id'];

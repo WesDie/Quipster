@@ -340,15 +340,17 @@ function CreateChat() {
 let intervalUpdateMessages;
 // load chat
 document.addEventListener("DOMContentLoaded", function () {
-    UpdateMembers(window.chat);
+    // UpdateMembers(window.chat);
     // UpdateNotifications();
+    // UpdateChats();
     intervalUpdateMessages = setInterval(function () {
         UpdateMessages(lastLoadedX, window.chat);
     }, 1000);
 
     let intervalUpdateOtherInfo = setInterval(function () {
-        // UpdateMembers(window.chat);
+        UpdateMembers(window.chat);
         UpdateNotifications();
+        UpdateChats();
     }, 2000);
 
 
@@ -432,22 +434,27 @@ document.addEventListener("DOMContentLoaded", function () {
             success: function (response) {
                 document.getElementById("memberList").innerHTML = '';
                 //succes
-                if (response.isPrivate == "Yes") {
-                    console.log(response);
-                    $("#memberList-uppertext").text("Private chat");
-                    const privatChatInfoContainer = document.createElement("div");
-                    privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
+                if(response.isPrivate == "Yes"){
+                        $("#inviteMembersBtn").css("display", "none");
+                        $("#memberList-uppertext").text("Private chat");
+                        const privatChatInfoContainer = document.createElement("div");
+                        privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
 
                     document.getElementById("memberList").appendChild(privatChatInfoContainer);
 
-                    const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
-                    const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
-                    pfpProfile.setAttribute("src", response[0].pfp);
-                    if (element.status == "online") {
-                        pfpProfile.setAttribute("class", "onlinePfp");
-                    }
+                        const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
+                        const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
+                        pfpProfile.setAttribute("src", response[0].pfp);
+                        if (response.status == "online") {
+                            pfpProfile.setAttribute("class", "onlinePfp");
+                        }
 
-                } else {
+                        const username = document.createElement("h1");
+                        username.innerHTML = response[0].username;
+                        privatChatInfoContainer.appendChild(username);
+
+                } else{
+                    $("#inviteMembersBtn").css("display", "block");
                     $("#memberList-uppertext").text("Members - " + response.length);
                     response.forEach(element => {
                         // console.log("added member");
@@ -885,6 +892,98 @@ function UpdateNotifications() {
                     console.log(error);
                 }
             });
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
+function UpdateChats() {
+    let queryString = 'action=uiLoadChats';
+
+    $.ajax({
+        url: "dbquery",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            const mainListChats = document.getElementById("chats")
+            mainListChats.innerHTML = '';
+            const listChats = document.createElement("div");
+            listChats.setAttribute("class", "list");
+            mainListChats.appendChild(listChats);
+
+            response.forEach(element => {
+                if(element.type == "duo"){
+
+                    const chatItem = document.createElement("div");
+                    chatItem.setAttribute("data-id", element.id);
+                    chatItem.setAttribute("class", "chat list-item privateChat");
+                    if(element.id == window.chat){
+                        chatItem.classList.add("selected");
+                    }
+                    listChats.appendChild(chatItem);
+
+                    let queryStringPrivateChat = 'action=GetPrivateChatInfo' + '&chatid=' + element.id;
+
+                    $.ajax({
+                        url: "dbquery",
+                        data: queryStringPrivateChat,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (response2) {
+                                const chatImg = document.createElement("img");
+                                chatImg.setAttribute("src", response2.pfp);
+                                chatImg.classList.add("onlinePfp");
+                                chatItem.appendChild(chatImg);
+
+                                if(response2.status == "online"){
+                                    chatImg.classList.add("onlinePfp");
+                                } else{
+                                    chatImg.classList.remove("onlinePfp");
+                                }
+            
+                                const chatName = document.createElement("p");
+                                chatName.innerHTML = "(P) " + response2.username;
+                                chatItem.appendChild(chatName);
+
+                                const chatBtn = document.createElement("button");
+                                chatBtn.setAttribute("class", "material-symbols-outlined");
+                                chatBtn.innerHTML = "more_horiz";
+                                chatItem.appendChild(chatBtn);
+                        },
+                        error: function (error) {
+                            console.log("post error");
+                            console.log(error);
+                        }
+                    });
+
+                } else if(element.type == "group"){
+                    
+                    const chatItem = document.createElement("div");
+                    chatItem.setAttribute("data-id", element.id);
+                    chatItem.setAttribute("class", "chat list-item");
+                    if(element.id == window.chat){
+                        chatItem.classList.add("selected");
+                    }
+                    listChats.appendChild(chatItem);
+
+                    const chatImg = document.createElement("img");
+                    chatImg.setAttribute("src", element.icon);
+                    chatItem.appendChild(chatImg);
+
+                    const chatName = document.createElement("p");
+                    chatName.innerHTML = element.name;
+                    chatItem.appendChild(chatName);
+
+                    const chatBtn = document.createElement("button");
+                    chatBtn.setAttribute("class", "material-symbols-outlined");
+                    chatBtn.innerHTML = "more_horiz";
+                    chatItem.appendChild(chatBtn);
+                }
+            });
+
         },
         error: function (error) {
             console.log("post error");
