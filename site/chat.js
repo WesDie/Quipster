@@ -434,26 +434,26 @@ document.addEventListener("DOMContentLoaded", function () {
             success: function (response) {
                 document.getElementById("memberList").innerHTML = '';
                 //succes
-                if(response.isPrivate == "Yes"){
-                        $("#inviteMembersBtn").css("display", "none");
-                        $("#memberList-uppertext").text("Private chat");
-                        const privatChatInfoContainer = document.createElement("div");
-                        privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
+                if (response.isPrivate == "Yes") {
+                    $("#inviteMembersBtn").css("display", "none");
+                    $("#memberList-uppertext").text("Private chat");
+                    const privatChatInfoContainer = document.createElement("div");
+                    privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
 
                     document.getElementById("memberList").appendChild(privatChatInfoContainer);
 
-                        const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
-                        const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
-                        pfpProfile.setAttribute("src", response[0].pfp);
-                        if (response.status == "online") {
-                            pfpProfile.setAttribute("class", "onlinePfp");
-                        }
+                    const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
+                    const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
+                    pfpProfile.setAttribute("src", response[0].pfp);
+                    if (response.status == "online") {
+                        pfpProfile.setAttribute("class", "onlinePfp");
+                    }
 
-                        const username = document.createElement("h1");
-                        username.innerHTML = response[0].username;
-                        privatChatInfoContainer.appendChild(username);
+                    const username = document.createElement("h1");
+                    username.innerHTML = response[0].username;
+                    privatChatInfoContainer.appendChild(username);
 
-                } else{
+                } else {
                     $("#inviteMembersBtn").css("display", "block");
                     $("#memberList-uppertext").text("Members - " + response.length);
                     response.forEach(element => {
@@ -605,16 +605,12 @@ document.addEventListener("DOMContentLoaded", function () {
         contextMenu.style.display
 
         for (let name in possibilities[what]) {
-            let item = document.createElement("div");
-            item.setAttribute("data-function", possibilities[what][name]);
             let button = document.createElement("button");
             button.innerHTML = name;
-
-            contextMenu.appendChild(item);
-            item.appendChild(button);
-
-            // console.log("Visible name:", name);
-            // console.log("Function name:", possibilities[what][name]);
+            button.setAttribute("data-function", possibilities[what][name]);
+            button.setAttribute("data-id", id);
+            // button.setAttribute("onclick", possibilities[what][name] + "(" + id + ")");
+            contextMenu.appendChild(button);
         }
 
         if (what) contextMenu.style.display = "grid"; else contextMenu.style.display = "none";
@@ -663,6 +659,20 @@ document.addEventListener("DOMContentLoaded", function () {
         contextMenu.style.top = `${y}px`;
     }
 
+    // $("#context-menu button").on("click", function (e) {
+    //     console.log($(e.target).attr("data-function"));
+    //     PinMessage($(e.target).attr("data-function"));
+    // });
+
+    $("#context-menu").on("click", "button", function (e) {
+        var dataFunction = $(this).attr("data-function");
+        var dataId = $(this).attr("data-id");
+        // console.log(dataFunction);
+        // if ($(this).attr("data-function")) {
+
+        // }
+        PinMessage(dataId);
+    });
 
     $(document).on("click", function (event) {
         if (!$(event.target).closest(".list-item button").length) {
@@ -688,6 +698,23 @@ document.addEventListener("DOMContentLoaded", function () {
             ChangeChat(e.getAttribute("data-id"));
         }
     });
+
+    function PinMessage(message) {
+        let queryString = 'action=chatPinMessage' + '&chat_id=' + window.chat + "&message=" + message;
+        $.ajax({
+            url: "dbquery",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                console.log("success?");
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
+    }
 
     $(document).on("click", ".showProfile", function (e) {
         const buttonRect = $(this)[0].getBoundingClientRect();
@@ -915,12 +942,12 @@ function UpdateChats() {
             mainListChats.appendChild(listChats);
 
             response.forEach(element => {
-                if(element.type == "duo"){
+                if (element.type == "duo") {
 
                     const chatItem = document.createElement("div");
                     chatItem.setAttribute("data-id", element.id);
                     chatItem.setAttribute("class", "chat list-item privateChat");
-                    if(element.id == window.chat){
+                    if (element.id == window.chat) {
                         chatItem.classList.add("selected");
                     }
                     listChats.appendChild(chatItem);
@@ -933,25 +960,25 @@ function UpdateChats() {
                         type: "POST",
                         dataType: "json",
                         success: function (response2) {
-                                const chatImg = document.createElement("img");
-                                chatImg.setAttribute("src", response2.pfp);
+                            const chatImg = document.createElement("img");
+                            chatImg.setAttribute("src", response2.pfp);
+                            chatImg.classList.add("onlinePfp");
+                            chatItem.appendChild(chatImg);
+
+                            if (response2.status == "online") {
                                 chatImg.classList.add("onlinePfp");
-                                chatItem.appendChild(chatImg);
+                            } else {
+                                chatImg.classList.remove("onlinePfp");
+                            }
 
-                                if(response2.status == "online"){
-                                    chatImg.classList.add("onlinePfp");
-                                } else{
-                                    chatImg.classList.remove("onlinePfp");
-                                }
-            
-                                const chatName = document.createElement("p");
-                                chatName.innerHTML = "(P) " + response2.username;
-                                chatItem.appendChild(chatName);
+                            const chatName = document.createElement("p");
+                            chatName.innerHTML = "(P) " + response2.username;
+                            chatItem.appendChild(chatName);
 
-                                const chatBtn = document.createElement("button");
-                                chatBtn.setAttribute("class", "google-icon");
-                                chatBtn.innerHTML = "more_horiz";
-                                chatItem.appendChild(chatBtn);
+                            const chatBtn = document.createElement("button");
+                            chatBtn.setAttribute("class", "google-icon");
+                            chatBtn.innerHTML = "more_horiz";
+                            chatItem.appendChild(chatBtn);
                         },
                         error: function (error) {
                             console.log("post error");
@@ -959,12 +986,12 @@ function UpdateChats() {
                         }
                     });
 
-                } else if(element.type == "group"){
-                    
+                } else if (element.type == "group") {
+
                     const chatItem = document.createElement("div");
                     chatItem.setAttribute("data-id", element.id);
                     chatItem.setAttribute("class", "chat list-item");
-                    if(element.id == window.chat){
+                    if (element.id == window.chat) {
                         chatItem.classList.add("selected");
                     }
                     listChats.appendChild(chatItem);

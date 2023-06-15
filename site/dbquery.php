@@ -68,6 +68,19 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
                     $stmt->closeCursor();
                 }
+            } elseif ($_POST['action'] == 'chatPinMessage') {
+
+                $stmt = $conn->prepare("UPDATE messages SET pinned='true' WHERE id=:chat_id");
+                $stmt->bindParam(':chat_id', $_POST["message"]);
+
+                if ($stmt->execute()) {
+                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                    $newMsgs = $stmt->fetchAll();
+
+                    echo json_encode($newMsgs);
+
+                    $stmt->closeCursor();
+                }
             } elseif ($_POST['action'] == 'chatLoadPinned') {
 
                 $stmt = $conn->prepare("SELECT messages.*, users.username, users.pfp
