@@ -174,29 +174,46 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmtChat->execute();
                 array_push($chats, $stmtChat->fetch());
             }
-            echo json_encode($chats);
-        } elseif ($_POST['action'] == 'GetPrivateChatInfo') {
-            $chatid = $_POST['chatid'];
-            $stmt = $conn->prepare("SELECT * FROM chatmembers WHERE chat = :chat");
-            $stmt->bindParam(':chat', $chatid);
-            $stmt->execute();
-            $members = $stmt->fetchAll();
 
-            foreach ($members as $member) {
-                if ($_SESSION['id'] != $member['user']) {
-                    $stmtChat = $conn->prepare("SELECT * FROM users WHERE id = :id");
-                    $stmtChat->bindParam(':id', $member["user"]);
-                    $stmtChat->execute();
+            $privateChatInfo = array();
+            foreach ($chats as $chat) {
+                if($chat['type'] == "duo"){
+                    $chatid = $chat['id'];
+                    $stmt = $conn->prepare("SELECT * FROM chatmembers WHERE chat = :chat");
+                    $stmt->bindParam(':chat', $chatid);
+                    $stmt->execute();
+                    $members = $stmt->fetchAll();
+        
+                    foreach ($members as $member) {
+                        if ($_SESSION['id'] != $member['user']) {
+                            $stmtChat = $conn->prepare("SELECT * FROM users WHERE id = :id");
+                            $stmtChat->bindParam(':id', $member["user"]);
+                            $stmtChat->execute();
+                            array_push($privateChatInfo, $stmtChat->fetch());
+                        }
+                    }
                 }
             }
-            echo json_encode($stmtChat->fetch());
-        } elseif ($_POST['action'] == 'goOffline') {
+
+            echo json_encode(array(
+                'privateChatInfo'=>$privateChatInfo,
+                'chats'=>$chats,
+            ));
+        }elseif ($_POST['action'] == 'goOffline') {
             $status = "offline";
             $id = $_SESSION['id'];
             $stmt = $conn->prepare("UPDATE users SET status = :status WHERE id = :id");
             $stmt->bindParam(':status', $status);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
+        } elseif ($_POST['action'] == 'DeleteChatRequest') {
+            $request = 1;
+            $id = $_POST['chatid'];
+            $stmt = $conn->prepare("UPDATE chats SET delete_request = :request WHERE id = :id");
+            $stmt->bindParam(':request', $request);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            echo json_encode("succes");
         } elseif ($_POST['action'] == 'getProfileData') {
             $userid = $_POST['userid'];
             $stmtCheck = $conn->prepare("SELECT * FROM users WHERE id=:id");

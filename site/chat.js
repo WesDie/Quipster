@@ -455,10 +455,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         const deleteRequestTitle = document.createElement("p");
                         privatChatDeleteInfoContainer.appendChild(deleteRequestTitle);
                         deleteRequestTitle.innerHTML = "request delete chat from (" + response.memberList[0].username + "):";
+
+                        const cancelDeleteRequestButtonsMain = document.createElement("div");
+                        privatChatDeleteInfoContainer.appendChild(cancelDeleteRequestButtonsMain);
+                        cancelDeleteRequestButtonsMain.attr("class", "cancelDeleteRequestButtonsMain");
     
                         const deleteRequestButton = document.createElement("div");
-                        privatChatDeleteInfoContainer.appendChild(deleteRequestButton);
+                        cancelDeleteRequestButtonsMain.appendChild(deleteRequestButton);
                         deleteRequestButton.innerHTML = "DELETE";
+
+                        const cancelDeleteRequestButton = document.createElement("div");
+                        cancelDeleteRequestButtonsMain.appendChild(cancelDeleteRequestButton);
+                        cancelDeleteRequestButton.innerHTML = "CANCEL";
                     }
                 } else {
                     document.getElementById("memberList").setAttribute("class", "list");
@@ -580,7 +588,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Leave": "LeaveChat",
                 "Mute": "MuteChat",
                 "Favourite": "FavouriteChat",
-                "Invite": "InviteToChat"
+                "Invite": "InviteToChat",
+                "Delete chat": "DeleteChat"
             },
             "chat-owner": {
                 "Edit": "EditChat",
@@ -700,6 +709,8 @@ document.addEventListener("DOMContentLoaded", function () {
             PinMessage(dataId);
         } else if (dataFunction == "DeleteMessage") {
             DeleteMessage(dataId);
+        } else if (dataFunction == "DeleteChat") {
+            DeleteChatRequest(dataId);
         }
     });
 
@@ -1112,7 +1123,7 @@ function UpdateMembers(chat_id) {
     });
 }
 
-function UpdateChats() {
+function UpdateChats(chat_id) {
     let queryString = 'action=uiLoadChats';
 
     $.ajax({
@@ -1128,10 +1139,10 @@ function UpdateChats() {
             const listChats = document.createElement("div");
             listChats.setAttribute("class", "list");
             mainListChats.appendChild(listChats);
-
-            response.forEach(element => {
+            countPrivateChats = -1;
+            response.chats.forEach(element => {
                 if (element.type == "duo") {
-
+                    countPrivateChats++;
                     const chatItem = document.createElement("div");
                     chatItem.setAttribute("data-id", element.id);
                     chatItem.setAttribute("class", "chat list-item privateChat");
@@ -1140,39 +1151,27 @@ function UpdateChats() {
                     }
                     listChats.appendChild(chatItem);
 
-                    let queryStringPrivateChat = 'action=GetPrivateChatInfo' + '&chatid=' + element.id;
+                    //private chat info
+                    const chatImg = document.createElement("img");
+                    chatImg.setAttribute("src", response.privateChatInfo[countPrivateChats].pfp);
+                    chatImg.classList.add("onlinePfp");
+                    chatItem.appendChild(chatImg);
 
-                    $.ajax({
-                        url: "dbquery",
-                        data: queryStringPrivateChat,
-                        type: "POST",
-                        dataType: "json",
-                        success: function (response2) {
-                            const chatImg = document.createElement("img");
-                            chatImg.setAttribute("src", response2.pfp);
-                            chatImg.classList.add("onlinePfp");
-                            chatItem.appendChild(chatImg);
+                    if (response.privateChatInfo[countPrivateChats].status == "online") {
+                        chatImg.classList.add("onlinePfp");
+                    } else {
+                        chatImg.classList.remove("onlinePfp");
+                    }
 
-                            if (response2.status == "online") {
-                                chatImg.classList.add("onlinePfp");
-                            } else {
-                                chatImg.classList.remove("onlinePfp");
-                            }
+                    const chatName = document.createElement("p");
+                    chatName.innerHTML = "(P) " + response.privateChatInfo[countPrivateChats].username;
+                    chatItem.appendChild(chatName);
 
-                            const chatName = document.createElement("p");
-                            chatName.innerHTML = "(P) " + response2.username;
-                            chatItem.appendChild(chatName);
+                    const chatBtn = document.createElement("button");
+                    chatBtn.setAttribute("class", "google-icon");
+                    chatBtn.innerHTML = "more_horiz";
+                    chatItem.appendChild(chatBtn);
 
-                            const chatBtn = document.createElement("button");
-                            chatBtn.setAttribute("class", "google-icon");
-                            chatBtn.innerHTML = "more_horiz";
-                            chatItem.appendChild(chatBtn);
-                        },
-                        error: function (error) {
-                            console.log("post error");
-                            console.log(error);
-                        }
-                    });
 
                 } else if (element.type == "group") {
 
@@ -1203,6 +1202,24 @@ function UpdateChats() {
         error: function (error) {
             console.log("post error");
             console.log(error);
+        }
+    });
+}
+function DeleteChatRequest(chatid){
+    let queryString = 'action=DeleteChatRequest' + '&chatid=' + chatid;
+
+    $.ajax({
+        url: "dbquery",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+            UpdateNotifications();
         }
     });
 }
