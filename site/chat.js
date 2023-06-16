@@ -576,6 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Emoji": "EmojiMessage",
                 "Reply": "ReplyMessage",
                 "Pin": "PinMessage",
+                "Delete": "DeleteMessage",
             },
             "message-owner": {
                 "Delete": "DeleteMessage"
@@ -670,11 +671,20 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#context-menu").on("click", "button", function (e) {
         var dataFunction = $(this).attr("data-function");
         var dataId = $(this).attr("data-id");
-        // console.log(dataFunction);
-        // if ($(this).attr("data-function")) {
 
-        // }
-        PinMessage(dataId);
+        if (dataFunction == "PinMessage") {
+            PinMessage(dataId);
+        } else if (dataFunction == "PinMessage") {
+            PinMessage(dataId);
+        } else if (dataFunction == "PinMessage") {
+            PinMessage(dataId);
+        } else if (dataFunction == "PinMessage") {
+            PinMessage(dataId);
+        } else if (dataFunction == "PinMessage") {
+            PinMessage(dataId);
+        } else if (dataFunction == "PinMessage") {
+            PinMessage(dataId);
+        }  
     });
 
     $(document).on("click", function (event) {
@@ -973,9 +983,9 @@ function UpdateNotifications() {
 }
 
 //open new private chat
-function openPrivateChat(userid){
+function openPrivateChat(userid) {
 
-    let queryStringOpenChat = 'action=openPrivateChat'  + '&userid=' + userid;
+    let queryStringOpenChat = 'action=openPrivateChat' + '&userid=' + userid;
     $.ajax({
         url: "dbquery",
         data: queryStringOpenChat,
@@ -985,10 +995,10 @@ function openPrivateChat(userid){
             $("#user-profile div:nth-child(4) button:nth-child(2)").text("Chat is opening...");
             // console.log(response);
 
-            if(response[0] == "undefined"){
+            if (response[0] == "undefined") {
                 $("#user-profile div:nth-child(4) button:nth-child(2)").text("Cannot open chat");
                 console.log(response[0]);
-            } else{
+            } else {
                 $("#user-profile").removeClass("show");
                 window.chat = response[0];
                 // ChangeChat(response[0]);
@@ -1015,26 +1025,26 @@ function UpdateMembers(chat_id) {
         success: function (response) {
             document.getElementById("memberList").innerHTML = '';
             //succes
-            if(response.isPrivate == "Yes"){
-                    $("#inviteMembersBtn").css("display", "none");
-                    $("#memberList-uppertext").text("Private chat");
-                    const privatChatInfoContainer = document.createElement("div");
-                    privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
+            if (response.isPrivate == "Yes") {
+                $("#inviteMembersBtn").css("display", "none");
+                $("#memberList-uppertext").text("Private chat");
+                const privatChatInfoContainer = document.createElement("div");
+                privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
 
                 document.getElementById("memberList").appendChild(privatChatInfoContainer);
 
-                    const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
-                    const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
-                    pfpProfile.setAttribute("src", response[0].pfp);
-                    if (response.status == "online") {
-                        pfpProfile.setAttribute("class", "onlinePfp");
-                    }
+                const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
+                const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
+                pfpProfile.setAttribute("src", response[0].pfp);
+                if (response.status == "online") {
+                    pfpProfile.setAttribute("class", "onlinePfp");
+                }
 
-                    const username = document.createElement("h1");
-                    username.innerHTML = response[0].username;
-                    privatChatInfoContainer.appendChild(username);
+                const username = document.createElement("h1");
+                username.innerHTML = response[0].username;
+                privatChatInfoContainer.appendChild(username);
 
-            } else{
+            } else {
                 $("#inviteMembersBtn").css("display", "block");
                 $("#memberList-uppertext").text("Members - " + response.length);
                 response.forEach(element => {
