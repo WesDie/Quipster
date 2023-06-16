@@ -330,6 +330,8 @@ function CreateChat() {
 }
 let intervalUpdateMessages;
 // load chat
+let loadedMsgs = new Array();
+
 document.addEventListener("DOMContentLoaded", function () {
     // UpdateMembers(window.chat);
     // UpdateNotifications();
@@ -389,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // console.log("post success");
                 // console.log(response);
                 document.querySelector("#newMessage input").value = "";
-                UpdateMessages(lastLoadedX, chat_id)
+                UpdateMessages(lastLoadedX, chat_id);
             },
             error: function (error) {
                 console.log("post error");
@@ -484,12 +486,11 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {
             document.getElementById("fadein").remove();
         }, 1000);
-        
+
         UpdateMembers(window.chat);
         UpdateNotifications();
         UpdateChats();
     };
-
 
     function UpdateMessages(lastLoaded, chat_id) {
         let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
@@ -520,10 +521,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const tekst = $("<p></p>").text(element.message).appendTo(message);
                     message.addClass("message");
-                    currentchat.append(message);
+                    if ($.inArray(element.id, loadedMsgs) !== -1) {
+                        message.remove();
+                        console.log("remove");
+                    } else {
+                        currentchat.append(message);
+                    }
+                    loadedMsgs.push(element.id);
+
                     $("#currentchat").scrollTop($("#currentchat")[0].scrollHeight);
 
                     lastLoadedX = element.sent;
+
                 });
             },
             error: function (error) {
