@@ -399,6 +399,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // setInterval(function () {
     //     UpdateMessages(lastLoadedX, "dev_chat");
     // }, 1000);
+    // change chat
+    function ChangeChat(nextChat) {
+        // console.log("hey " + nextChat);
+        window.chat = nextChat;
+        $(".list .list-item").removeClass("selected");
+        $("div[data-id='" + nextChat + "']").addClass("selected");
+        clearInterval(intervalUpdateMessages);
+        $("#currentchat .message").remove();
+        document.getElementById("memberList").innerHTML = '';
+        UpdateMembers(window.chat);
+        lastLoadedX = 0;
+        intervalUpdateMessages = setInterval(function () {
+            UpdateMessages(lastLoadedX, window.chat);
+        }, 1000);
+    }
     function UpdateMembers(chat_id) {
         let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
 
@@ -463,7 +478,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-
     //  loading screen
     window.onload = function () {
         setTimeout(function () {
