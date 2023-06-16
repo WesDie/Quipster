@@ -680,11 +680,9 @@ document.addEventListener("DOMContentLoaded", function () {
             PinMessage(dataId);
         } else if (dataFunction == "PinMessage") {
             PinMessage(dataId);
-        } else if (dataFunction == "PinMessage") {
-            PinMessage(dataId);
-        } else if (dataFunction == "PinMessage") {
-            PinMessage(dataId);
-        }  
+        } else if (dataFunction == "DeleteMessage") {
+            DeleteMessage(dataId);
+        }
     });
 
     $(document).on("click", function (event) {
@@ -714,6 +712,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function PinMessage(message) {
         let queryString = 'action=chatPinMessage' + '&chat_id=' + window.chat + "&message=" + message;
+        $.ajax({
+            url: "dbquery",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                console.log("success?");
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
+    }
+
+    function DeleteMessage(message) {
+        let queryString = 'action=chatDeleteMessage' + '&chat_id=' + window.chat + "&message=" + message;
         $.ajax({
             url: "dbquery",
             data: queryString,

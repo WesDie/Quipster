@@ -81,6 +81,14 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
 
                     $stmt->closeCursor();
                 }
+            }  elseif ($_POST['action'] == 'chatDeleteMessage') {
+
+                $stmt = $conn->prepare("DELETE FROM messages WHERE id=:chat_id");
+                $stmt->bindParam(':chat_id', $_POST["message"]);
+                $stmt->execute();
+
+                echo json_encode("succes");
+
             } elseif ($_POST['action'] == 'chatLoadPinned') {
 
                 $stmt = $conn->prepare("SELECT messages.*, users.username, users.pfp
