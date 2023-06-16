@@ -307,7 +307,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button onclick="">Send friend request</button>
         <!-- if friend: -->
         <!-- <button>Chat directly</button> -->
-        <!-- <button onclick="">Send invite</button> -->
+        <button onclick="">Open chat</button>
       </div>
     </div>
 

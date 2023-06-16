@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
         UpdateMembers(window.chat);
         UpdateNotifications();
         UpdateChats();
-    }, 10000);
+    }, 2000);
 
 
 
@@ -359,23 +359,6 @@ document.addEventListener("DOMContentLoaded", function () {
             //
         }
     });
-
-    // change chat
-    function ChangeChat(nextChat) {
-        // console.log("hey " + nextChat);
-        window.chat = nextChat;
-        $(".list .list-item").removeClass("selected");
-        $("div[data-id='" + nextChat + "']").addClass("selected");
-        clearInterval(intervalUpdateMessages);
-        $("#currentchat .message").remove();
-        document.getElementById("memberList").innerHTML = '';
-        UpdateMembers(window.chat);
-        lastLoadedX = 0;
-        intervalUpdateMessages = setInterval(function () {
-            UpdateMessages(lastLoadedX, window.chat);
-        }, 1000);
-    }
-
     // send message
     function SendMessage() {
         let input = document.querySelector("#newMessage input").value, chat_id = window.chat;
@@ -416,6 +399,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // setInterval(function () {
     //     UpdateMessages(lastLoadedX, "dev_chat");
     // }, 1000);
+    // change chat
+    function ChangeChat(nextChat) {
+        // console.log("hey " + nextChat);
+        window.chat = nextChat;
+        $(".list .list-item").removeClass("selected");
+        $("div[data-id='" + nextChat + "']").addClass("selected");
+        clearInterval(intervalUpdateMessages);
+        $("#currentchat .message").remove();
+        document.getElementById("memberList").innerHTML = '';
+        UpdateMembers(window.chat);
+        lastLoadedX = 0;
+        intervalUpdateMessages = setInterval(function () {
+            UpdateMessages(lastLoadedX, window.chat);
+        }, 1000);
+    }
     function UpdateMembers(chat_id) {
         let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
 
@@ -480,7 +478,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-
     //  loading screen
     window.onload = function () {
         setTimeout(function () {
@@ -773,11 +770,53 @@ document.addEventListener("DOMContentLoaded", function () {
                 $("#user-profile div:nth-child(3) p2").text(response.description);
                 $("#user-profile div:nth-child(1) p").text("Created: " + response.created);
 
+                $("#user-profile div:nth-child(4) button:nth-child(2)").attr('onclick', 'openPrivateChat(' + '"' + response.id + '"' + ')');
+                $("#user-profile div:nth-child(4) button:nth-child(2)").text("Open chat");
+
 
                 let queryString2 = 'action=getFriendshipStatus' + '&userid=' + userid;
                 $.ajax({
                     url: "dbquery",
                     data: queryString2,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (response2) {
+                        if (response2.isYou == "Yes") {
+                            $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", true);
+                            $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
+                            $("#user-profile div:nth-child(4) button:nth-child(1)").text("(-X-)");
+                            $("#user-profile div:nth-child(4) button:nth-child(1)").addClass("hide");
+                        } else {
+                            $("#user-profile div:nth-child(4) button:nth-child(1)").removeClass("hide");
+                            if (response2.type == "request") {
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'cancelFriendRequest(' + '"' + response.id + '"' + ')');
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Cancel friend request");
+                            } else if (response2.type == "friends") {
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'ChangeChat(' + '"' + response.id + '"' + ')');
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Chat with friend (doesnt work)");
+                            } else if (response2.type == "block") {
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', false);
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Unblock");
+                            } else {
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr("disabled", false);
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").attr('onclick', 'sendFriendRequest(' + '"' + response.id + '"' + ')');
+                                $("#user-profile div:nth-child(4) button:nth-child(1)").text("Send friend request");
+                            }
+                        }
+                    },
+                    error: function (error) {
+                        console.log("post error");
+                        console.log(error);
+                    }
+                });
+
+                let queryString3 = 'action=getFriendshipStatus' + '&userid=' + userid;
+                $.ajax({
+                    url: "dbquery",
+                    data: queryString3,
                     type: "POST",
                     dataType: "json",
                     success: function (response2) {
@@ -932,6 +971,104 @@ function UpdateNotifications() {
         }
     });
 }
+
+//open new private chat
+function openPrivateChat(userid){
+
+    let queryStringOpenChat = 'action=openPrivateChat'  + '&userid=' + userid;
+    $.ajax({
+        url: "dbquery",
+        data: queryStringOpenChat,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            $("#user-profile div:nth-child(4) button:nth-child(2)").text("Chat is opening...");
+            // console.log(response);
+
+            if(response[0] == "undefined"){
+                $("#user-profile div:nth-child(4) button:nth-child(2)").text("Cannot open chat");
+                console.log(response[0]);
+            } else{
+                $("#user-profile").removeClass("show");
+                window.chat = response[0];
+                // ChangeChat(response[0]);
+            }
+
+            // ChangeChat(response.id); can only do if is above chat and now will give error: openPrivateChat is not defined
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+            UpdateNotifications();
+        }
+    });
+}
+
+function UpdateMembers(chat_id) {
+    let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
+
+    $.ajax({
+        url: "dbquery",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+            document.getElementById("memberList").innerHTML = '';
+            //succes
+            if(response.isPrivate == "Yes"){
+                    $("#inviteMembersBtn").css("display", "none");
+                    $("#memberList-uppertext").text("Private chat");
+                    const privatChatInfoContainer = document.createElement("div");
+                    privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
+
+                document.getElementById("memberList").appendChild(privatChatInfoContainer);
+
+                    const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
+                    const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
+                    pfpProfile.setAttribute("src", response[0].pfp);
+                    if (response.status == "online") {
+                        pfpProfile.setAttribute("class", "onlinePfp");
+                    }
+
+                    const username = document.createElement("h1");
+                    username.innerHTML = response[0].username;
+                    privatChatInfoContainer.appendChild(username);
+
+            } else{
+                $("#inviteMembersBtn").css("display", "block");
+                $("#memberList-uppertext").text("Members - " + response.length);
+                response.forEach(element => {
+                    // console.log("added member");
+                    const userProfile = document.createElement("div");
+                    userProfile.setAttribute("class", "list-item");
+                    userProfile.setAttribute("data-id", element.id);
+                    userProfile.classList.add("showProfile");
+                    const pfpProfile = userProfile.appendChild(document.createElement("img"));
+                    pfpProfile.setAttribute("src", element.pfp);
+                    const profileUsername = userProfile.appendChild(document.createElement("p"));
+                    profileUsername.innerHTML = element.username;
+                    const profileButton = userProfile.appendChild(document.createElement("button"));
+                    profileButton.setAttribute("class", "material-symbols-outlined showProfile");
+                    profileButton.setAttribute("data-id", element.id);
+                    profileButton.innerHTML = "more_horiz";
+
+                    // profileButton.innerHTML = "more_horiz"
+
+                    document.getElementById("memberList").appendChild(userProfile);
+
+                    if (element.status == "online") {
+                        pfpProfile.setAttribute("class", "onlinePfp");
+                    }
+                });
+            }
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+        }
+    });
+}
+
 function UpdateChats() {
     let queryString = 'action=uiLoadChats';
 
