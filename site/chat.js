@@ -498,45 +498,12 @@ document.addEventListener("DOMContentLoaded", function () {
             type: "POST",
             dataType: "json",
             success: function (response) {
-                // console.log(response);
                 const currentchat = $("#currentchat");
-                /*response.forEach(element => {
-                    const message = $("<div></div>");
-                    message.attr('data-id', element.id);
-                    const pfp = $("<img>").attr("src", element.pfp).appendTo(message);
-                    pfp.addClass('showProfile');
-                    const user = $("<div></div>").addClass("user").appendTo(message);
-                    user.attr('data-id', element.user);
-                    const name = $("<b></b>").html(element.username).appendTo(user);
-                    name.attr("data-id", element.user);
-                    name.addClass('showProfile');
-                    const details = $("<time></time>").appendTo(user);
-                    let now = new Date();
-                    let date = new Date(element.sent);
-                    details.html(date.toDateString() === now.toDateString() ?
-                        `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}` :
-                        `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`);
 
-                    const tekst = $("<p></p>").text(element.message).appendTo(message);
-                    message.addClass("message");
-                    if ($.inArray(element.id, loadedMsgs) !== -1) {
-                        message.remove();
-                        console.log("remove");
-                    } else {
-                        currentchat.append(message);
-                    }
-                    loadedMsgs.push(element.id);
-
-                    $("#currentchat").scrollTop($("#currentchat")[0].scrollHeight);
-
-                    lastLoadedX = element.sent;
-
-                });*/
                 response.forEach(element => {
                     const messageId = element.id;
 
                     if (currentchat.find(`[data-id="${messageId}"]`).length > 0) {
-                        // Message already exists in the view, skip appending
                         return;
                     }
 
