@@ -404,7 +404,11 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmtCheck->bindParam(':chatid', $chat['id']);
                 $stmtCheck->bindParam(':userid', $id);
                 $stmtCheck->execute();
-                array_push($privateUserChats, $stmtCheck->fetch());
+                $result = $stmtCheck->fetch();
+
+                if($result !== false){
+                    array_push($privateUserChats, $result);
+                }
             }
 
             $alreadyPrivateChats = array();
