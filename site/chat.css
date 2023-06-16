@@ -16,10 +16,10 @@
 .google-icon {
     font-family: 'Material Symbols Outlined';
     font-variation-settings:
-        'FILL' 0,
-        'wght' 600,
-        'GRAD' 0,
-        'opsz' 48;
+        'FILL'0,
+        'wght'600,
+        'GRAD'0,
+        'opsz'48;
     font-size: 1.5em;
 
     /* Support for all WebKit browsers. */
@@ -238,10 +238,10 @@ img {
 
 .selected {
     font-variation-settings:
-        'FILL' 1,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24;
+        'FILL'1,
+        'wght'400,
+        'GRAD'0,
+        'opsz'24;
     cursor: pointer;
 }
 
@@ -291,6 +291,18 @@ img {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(auto-fill, minmax(3em, 0fr));
+    grid-column-gap: 0;
+    grid-row-gap: 0;
+
+    padding: 0;
+}
+
+.listPrivateChat {
+    overflow-y: auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: .5fr 1fr;
     grid-column-gap: 0;
     grid-row-gap: 0;
 
@@ -907,6 +919,46 @@ dialog::backdrop {
     grid-template-columns: 1fr;
     grid-template-rows: .8fr .5fr .5fr .5fr .5fr;
     overflow: hidden;
+}
+
+.privateChatDeleteContainer {
+    margin-block: 1em;
+    width: 95%;
+    height: 10em;
+    background-color: #514259;
+    margin-inline: auto;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: .2fr 1fr;
+    overflow: hidden;
+}
+
+.privateChatDeleteContainer p {
+    text-align: center;
+    font-size: 1.2em;
+    margin-block: 0.2em;
+}
+
+.privateChatDeleteContainer div {
+    background-color: #793636;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    border-radius: 10px;
+    border: 2px solid #babb7498;
+}
+
+.privateChatDeleteContainer div:hover {
+    background-color: #79363680;
+    color: #ffffff6c;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 1.2em;
 }
 
 .privateChatInfoContainer div:nth-child(1) {

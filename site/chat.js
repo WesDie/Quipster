@@ -425,7 +425,9 @@ document.addEventListener("DOMContentLoaded", function () {
             success: function (response) {
                 document.getElementById("memberList").innerHTML = '';
                 //succes
-                if (response.isPrivate == "Yes") {
+                if (response.memberList && response.memberList.isPrivate == "Yes") {
+                    document.getElementById("memberList").setAttribute("class", "listPrivateChat");
+
                     $("#inviteMembersBtn").css("display", "none");
                     $("#memberList-uppertext").text("Private chat");
                     const privatChatInfoContainer = document.createElement("div");
@@ -435,16 +437,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
                     const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
-                    pfpProfile.setAttribute("src", response[0].pfp);
+                    pfpProfile.setAttribute("src", response.memberList[0].pfp);
                     if (response.status == "online") {
                         pfpProfile.setAttribute("class", "onlinePfp");
                     }
 
                     const username = document.createElement("h1");
-                    username.innerHTML = response[0].username;
+                    username.innerHTML = response.memberList[0].username;
                     privatChatInfoContainer.appendChild(username);
 
+
+                    if(response.chatInfo.delete_request == 1){
+                        const privatChatDeleteInfoContainer = document.createElement("div");
+                        privatChatDeleteInfoContainer.setAttribute("class", "privateChatDeleteContainer");
+                        document.getElementById("memberList").appendChild(privatChatDeleteInfoContainer);
+    
+                        const deleteRequestTitle = document.createElement("p");
+                        privatChatDeleteInfoContainer.appendChild(deleteRequestTitle);
+                        deleteRequestTitle.innerHTML = "request delete chat from (" + response.memberList[0].username + "):";
+    
+                        const deleteRequestButton = document.createElement("div");
+                        privatChatDeleteInfoContainer.appendChild(deleteRequestButton);
+                        deleteRequestButton.innerHTML = "DELETE";
+                    }
                 } else {
+                    document.getElementById("memberList").setAttribute("class", "list");
+
                     $("#inviteMembersBtn").css("display", "block");
                     $("#memberList-uppertext").text("Members - " + response.length);
                     response.forEach(element => {
@@ -1103,6 +1121,8 @@ function UpdateChats() {
         type: "POST",
         dataType: "json",
         success: function (response) {
+            const currentChatName = document.getElementById("chatCurrentName");
+            currentChatName.innerHTML = window.chat;
             const mainListChats = document.getElementById("chats")
             mainListChats.innerHTML = '';
             const listChats = document.createElement("div");

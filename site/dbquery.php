@@ -141,7 +141,17 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                             array_push($memberList, $user);
                         }
                     }
-                    echo json_encode($memberList);
+
+                    $chatid = $_POST['chat_id'];
+                    $stmtCheck = $conn->prepare("SELECT * FROM chats WHERE id=:chatid");
+                    $stmtCheck->bindParam(':chatid', $chatid);
+                    $stmtCheck->execute();
+                    $chatinfo = $stmtCheck->fetch();
+
+                    echo json_encode(array(
+                        'chatInfo'=>$chatinfo,
+                        'memberList'=>$memberList,
+                    ));
                 }
             } elseif ($_POST['action'] == 'pinMessage') {
                 //echo json_encode($);
