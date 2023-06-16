@@ -330,6 +330,8 @@ function CreateChat() {
 }
 let intervalUpdateMessages;
 // load chat
+let loadedMsgs = new Array();
+
 document.addEventListener("DOMContentLoaded", function () {
     // UpdateMembers(window.chat);
     // UpdateNotifications();
@@ -372,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // console.log("post success");
                 // console.log(response);
                 document.querySelector("#newMessage input").value = "";
-                UpdateMessages(lastLoadedX, chat_id)
+                UpdateMessages(lastLoadedX, chat_id);
             },
             error: function (error) {
                 console.log("post error");
@@ -397,32 +399,81 @@ document.addEventListener("DOMContentLoaded", function () {
     // setInterval(function () {
     //     UpdateMessages(lastLoadedX, "dev_chat");
     // }, 1000);
-    // change chat
-    function ChangeChat(nextChat) {
-        // console.log("hey " + nextChat);
-        window.chat = nextChat;
-        $(".list .list-item").removeClass("selected");
-        $("div[data-id='" + nextChat + "']").addClass("selected");
-        clearInterval(intervalUpdateMessages);
-        $("#currentchat .message").remove();
-        document.getElementById("memberList").innerHTML = '';
-        UpdateMembers(window.chat);
-        lastLoadedX = 0;
-        intervalUpdateMessages = setInterval(function () {
-            UpdateMessages(lastLoadedX, window.chat);
-        }, 1000);
+    function UpdateMembers(chat_id) {
+        let queryString = 'action=updateMembers' + '&chat_id=' + chat_id;
+
+        $.ajax({
+            url: "dbquery",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                document.getElementById("memberList").innerHTML = '';
+                //succes
+                if (response.isPrivate == "Yes") {
+                    $("#inviteMembersBtn").css("display", "none");
+                    $("#memberList-uppertext").text("Private chat");
+                    const privatChatInfoContainer = document.createElement("div");
+                    privatChatInfoContainer.setAttribute("class", "privateChatInfoContainer");
+
+                    document.getElementById("memberList").appendChild(privatChatInfoContainer);
+
+                    const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
+                    const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
+                    pfpProfile.setAttribute("src", response[0].pfp);
+                    if (response.status == "online") {
+                        pfpProfile.setAttribute("class", "onlinePfp");
+                    }
+
+                    const username = document.createElement("h1");
+                    username.innerHTML = response[0].username;
+                    privatChatInfoContainer.appendChild(username);
+
+                } else {
+                    $("#inviteMembersBtn").css("display", "block");
+                    $("#memberList-uppertext").text("Members - " + response.length);
+                    response.forEach(element => {
+                        // console.log("added member");
+                        const userProfile = document.createElement("div");
+                        userProfile.setAttribute("class", "list-item");
+                        userProfile.setAttribute("data-id", element.id);
+                        userProfile.classList.add("showProfile");
+                        const pfpProfile = userProfile.appendChild(document.createElement("img"));
+                        pfpProfile.setAttribute("src", element.pfp);
+                        const profileUsername = userProfile.appendChild(document.createElement("p"));
+                        profileUsername.innerHTML = element.username;
+                        const profileButton = userProfile.appendChild(document.createElement("button"));
+                        profileButton.setAttribute("class", "google-icon showProfile");
+                        profileButton.setAttribute("data-id", element.id);
+                        profileButton.innerHTML = "more_horiz";
+
+                        // profileButton.innerHTML = "more_horiz"
+
+                        document.getElementById("memberList").appendChild(userProfile);
+
+                        if (element.status == "online") {
+                            pfpProfile.setAttribute("class", "onlinePfp");
+                        }
+                    });
+                }
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
     }
+
     //  loading screen
     window.onload = function () {
         setTimeout(function () {
             document.getElementById("fadein").remove();
         }, 1000);
-        
+
         UpdateMembers(window.chat);
         UpdateNotifications();
         UpdateChats();
     };
-
 
     function UpdateMessages(lastLoaded, chat_id) {
         let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
@@ -433,8 +484,9 @@ document.addEventListener("DOMContentLoaded", function () {
             type: "POST",
             dataType: "json",
             success: function (response) {
+                // console.log(response);
                 const currentchat = $("#currentchat");
-                response.forEach(element => {
+                /*response.forEach(element => {
                     const message = $("<div></div>");
                     message.attr('data-id', element.id);
                     const pfp = $("<img>").attr("src", element.pfp).appendTo(message);
@@ -453,10 +505,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const tekst = $("<p></p>").text(element.message).appendTo(message);
                     message.addClass("message");
-                    currentchat.append(message);
+                    if ($.inArray(element.id, loadedMsgs) !== -1) {
+                        message.remove();
+                        console.log("remove");
+                    } else {
+                        currentchat.append(message);
+                    }
+                    loadedMsgs.push(element.id);
+
                     $("#currentchat").scrollTop($("#currentchat")[0].scrollHeight);
 
                     lastLoadedX = element.sent;
+
+                });*/
+                response.forEach(element => {
+                    const messageId = element.id;
+
+                    if (currentchat.find(`[data-id="${messageId}"]`).length > 0) {
+                        // Message already exists in the view, skip appending
+                        return;
+                    }
+
+                    const message = $("<div></div>").attr('data-id', messageId);
+                    const pfp = $("<img>").attr("src", element.pfp).appendTo(message).addClass('showProfile');
+                    const user = $("<div></div>").addClass("user").appendTo(message).attr('data-id', element.user);
+                    const name = $("<b></b>").html(element.username).appendTo(user).attr("data-id", element.user).addClass('showProfile');
+                    const details = $("<time></time>").appendTo(user);
+
+                    let now = new Date();
+                    let date = new Date(element.sent);
+                    details.html(date.toDateString() === now.toDateString() ?
+                        `Today at ${date.toLocaleTimeString([], { timeStyle: 'short' })}` :
+                        `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`);
+
+                    const tekst = $("<p></p>").text(element.message).appendTo(message);
+                    message.addClass("message");
+                    currentchat.append(message);
+                    $("#currentchat").scrollTop($("#currentchat")[0].scrollHeight);
                 });
             },
             error: function (error) {
@@ -542,16 +627,12 @@ document.addEventListener("DOMContentLoaded", function () {
         contextMenu.style.display
 
         for (let name in possibilities[what]) {
-            let item = document.createElement("div");
-            item.setAttribute("data-function", possibilities[what][name]);
             let button = document.createElement("button");
             button.innerHTML = name;
-
-            contextMenu.appendChild(item);
-            item.appendChild(button);
-
-            // console.log("Visible name:", name);
-            // console.log("Function name:", possibilities[what][name]);
+            button.setAttribute("data-function", possibilities[what][name]);
+            button.setAttribute("data-id", id);
+            // button.setAttribute("onclick", possibilities[what][name] + "(" + id + ")");
+            contextMenu.appendChild(button);
         }
 
         if (what) contextMenu.style.display = "grid"; else contextMenu.style.display = "none";
@@ -600,6 +681,20 @@ document.addEventListener("DOMContentLoaded", function () {
         contextMenu.style.top = `${y}px`;
     }
 
+    // $("#context-menu button").on("click", function (e) {
+    //     console.log($(e.target).attr("data-function"));
+    //     PinMessage($(e.target).attr("data-function"));
+    // });
+
+    $("#context-menu").on("click", "button", function (e) {
+        var dataFunction = $(this).attr("data-function");
+        var dataId = $(this).attr("data-id");
+        // console.log(dataFunction);
+        // if ($(this).attr("data-function")) {
+
+        // }
+        PinMessage(dataId);
+    });
 
     $(document).on("click", function (event) {
         if (!$(event.target).closest(".list-item button").length) {
@@ -625,6 +720,23 @@ document.addEventListener("DOMContentLoaded", function () {
             ChangeChat(e.getAttribute("data-id"));
         }
     });
+
+    function PinMessage(message) {
+        let queryString = 'action=chatPinMessage' + '&chat_id=' + window.chat + "&message=" + message;
+        $.ajax({
+            url: "dbquery",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                console.log("success?");
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
+    }
 
     $(document).on("click", ".showProfile", function (e) {
         const buttonRect = $(this)[0].getBoundingClientRect();
@@ -825,12 +937,12 @@ function UpdateNotifications() {
                 const friendRequestName = friendRequest.appendChild(document.createElement("p"));
                 friendRequestName.innerHTML = element.username;
                 const acceptButton = friendRequest.appendChild(document.createElement("button"));
-                acceptButton.setAttribute("class", "material-symbols-outlined acceptButton");
+                acceptButton.setAttribute("class", "google-icon acceptButton");
                 acceptButton.setAttribute("onclick", 'acceptFriendRequest(' + '"' + element.id + '"' + ')');
                 acceptButton.innerHTML = "done";
 
                 const declineButton = friendRequest.appendChild(document.createElement("button"));
-                declineButton.setAttribute("class", "material-symbols-outlined declineButton");
+                declineButton.setAttribute("class", "google-icon declineButton");
                 declineButton.setAttribute("onclick", 'declineFriendRequest(' + '"' + element.id + '"' + ')');
                 declineButton.innerHTML = "close";
 
@@ -859,7 +971,7 @@ function UpdateNotifications() {
                         friendRequestName.innerHTML = element.username;
 
                         const declineButton = friendRequest.appendChild(document.createElement("button"));
-                        declineButton.setAttribute("class", "material-symbols-outlined declineButton");
+                        declineButton.setAttribute("class", "google-icon declineButton");
                         declineButton.setAttribute("onclick", 'cancelFriendRequest(' + '"' + element.id + '"' + ')');
                         declineButton.innerHTML = "close";
 
@@ -992,12 +1104,12 @@ function UpdateChats() {
             mainListChats.appendChild(listChats);
 
             response.forEach(element => {
-                if(element.type == "duo"){
+                if (element.type == "duo") {
 
                     const chatItem = document.createElement("div");
                     chatItem.setAttribute("data-id", element.id);
                     chatItem.setAttribute("class", "chat list-item privateChat");
-                    if(element.id == window.chat){
+                    if (element.id == window.chat) {
                         chatItem.classList.add("selected");
                     }
                     listChats.appendChild(chatItem);
@@ -1010,25 +1122,25 @@ function UpdateChats() {
                         type: "POST",
                         dataType: "json",
                         success: function (response2) {
-                                const chatImg = document.createElement("img");
-                                chatImg.setAttribute("src", response2.pfp);
+                            const chatImg = document.createElement("img");
+                            chatImg.setAttribute("src", response2.pfp);
+                            chatImg.classList.add("onlinePfp");
+                            chatItem.appendChild(chatImg);
+
+                            if (response2.status == "online") {
                                 chatImg.classList.add("onlinePfp");
-                                chatItem.appendChild(chatImg);
+                            } else {
+                                chatImg.classList.remove("onlinePfp");
+                            }
 
-                                if(response2.status == "online"){
-                                    chatImg.classList.add("onlinePfp");
-                                } else{
-                                    chatImg.classList.remove("onlinePfp");
-                                }
-            
-                                const chatName = document.createElement("p");
-                                chatName.innerHTML = "(P) " + response2.username;
-                                chatItem.appendChild(chatName);
+                            const chatName = document.createElement("p");
+                            chatName.innerHTML = "(P) " + response2.username;
+                            chatItem.appendChild(chatName);
 
-                                const chatBtn = document.createElement("button");
-                                chatBtn.setAttribute("class", "material-symbols-outlined");
-                                chatBtn.innerHTML = "more_horiz";
-                                chatItem.appendChild(chatBtn);
+                            const chatBtn = document.createElement("button");
+                            chatBtn.setAttribute("class", "google-icon");
+                            chatBtn.innerHTML = "more_horiz";
+                            chatItem.appendChild(chatBtn);
                         },
                         error: function (error) {
                             console.log("post error");
@@ -1036,12 +1148,12 @@ function UpdateChats() {
                         }
                     });
 
-                } else if(element.type == "group"){
-                    
+                } else if (element.type == "group") {
+
                     const chatItem = document.createElement("div");
                     chatItem.setAttribute("data-id", element.id);
                     chatItem.setAttribute("class", "chat list-item");
-                    if(element.id == window.chat){
+                    if (element.id == window.chat) {
                         chatItem.classList.add("selected");
                     }
                     listChats.appendChild(chatItem);
@@ -1055,7 +1167,7 @@ function UpdateChats() {
                     chatItem.appendChild(chatName);
 
                     const chatBtn = document.createElement("button");
-                    chatBtn.setAttribute("class", "material-symbols-outlined");
+                    chatBtn.setAttribute("class", "google-icon");
                     chatBtn.innerHTML = "more_horiz";
                     chatItem.appendChild(chatBtn);
                 }

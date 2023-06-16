@@ -31,7 +31,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     <link rel="icon" href="assets/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="chat.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"> -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
@@ -54,10 +54,10 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     echo "https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg";
                   } ?>" alt="">
         <p style="display: inline-block;"><?php echo "{$_SESSION['username']}" ?></p>
-        <button onclick="LeftTabsToggle()" id="requestToggle" class="material-symbols-outlined">
+        <button onclick="LeftTabsToggle()" id="requestToggle" class="google-icon">
           notifications
         </button>
-        <button onclick="SettingsToggle()" class="material-symbols-outlined">
+        <button onclick="SettingsToggle()" class="google-icon">
           settings
         </button>
       </div>
@@ -86,7 +86,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             <div class="list-item<?php echo !true ? " selected" : "" ?>">
               <img src="<?php echo '$chat["icon"]' ?>" alt="">
               <p><?php echo 'No friend requests' ?></p>
-              <!-- <button class="material-symbols-outlined">
+              <!-- <button class="google-icon">
                 more_horiz
               </button> -->
             </div>
@@ -100,7 +100,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             <div class="list-item<?php echo !true ? " selected" : "" ?>">
               <img src="<?php echo '$chat["icon"]' ?>" alt="">
               <p><?php echo 'No chat invites' ?></p>
-              <!-- <button class="material-symbols-outlined">
+              <!-- <button class="google-icon">
                 more_horiz
               </button> -->
             </div>
@@ -113,7 +113,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     </div>
     <div id="middle">
       <div class="top">
-        <button onclick="Toggle(true)" id="toggleLeft" class="material-symbols-outlined">
+        <button onclick="Toggle(true)" id="toggleLeft" class="google-icon">
           chevron_left
         </button>
         <p>
@@ -126,8 +126,8 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
           echo $user["name"];
           ?>
         </p>
-        <button id="pinstoggle" title="Pinned Messages" onclick="PinsToggle()" class="material-symbols-outlined">push_pin</button>
-        <button onclick="Toggle(false)" id="toggleRight" class="material-symbols-outlined" style="float: right;">
+        <button id="pinstoggle" title="Pinned Messages" onclick="PinsToggle()" class="google-icon">push_pin</button>
+        <button onclick="Toggle(false)" id="toggleRight" class="google-icon" style="float: right;">
           chevron_right
         </button>
       </div>
@@ -150,7 +150,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                                                                 $user = $stmtChatTitle->fetch();
                                                                 echo $user["name"];
                                                                 ?>..." autocomplete="off">
-        <button onclick="SendMessage()" class="material-symbols-outlined">
+        <button onclick="SendMessage()" class="google-icon">
           send
         </button>
       </div>
@@ -184,7 +184,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             <p><?php
                 // echo $user["username"] 
                 ?></p>
-            <button class="material-symbols-outlined">
+            <button class="google-icon">
               more_horiz
             </button>
           </div> -->
@@ -198,7 +198,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
     </div>
     <div id="settings" style="display: none">
       <div class="back">
-        <button onclick="SettingsToggle()" class="material-symbols-outlined">close</button>
+        <button onclick="SettingsToggle()" class="google-icon">close</button>
       </div>
       <div id="catagories">
         <button class="catagory selected" onclick="SettingsTabToggle('Profile')" id="profile">
