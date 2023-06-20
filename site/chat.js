@@ -426,7 +426,9 @@ document.addEventListener("DOMContentLoaded", function () {
             success: function (response) {
                 document.getElementById("memberList").innerHTML = '';
                 //succes
-                if (response.isPrivate == "Yes") {
+                if (response.memberList && response.memberList.isPrivate == "Yes") {
+                    document.getElementById("memberList").setAttribute("class", "listPrivateChat");
+
                     $("#inviteMembersBtn").css("display", "none");
                     $("#memberList-uppertext").text("Private chat");
                     const privatChatInfoContainer = document.createElement("div");
@@ -436,16 +438,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const pfpProfileBg = privatChatInfoContainer.appendChild(document.createElement("div"));
                     const pfpProfile = pfpProfileBg.appendChild(document.createElement("img"));
-                    pfpProfile.setAttribute("src", response[0].pfp);
+                    pfpProfile.setAttribute("src", response.memberList[0].pfp);
                     if (response.status == "online") {
                         pfpProfile.setAttribute("class", "onlinePfp");
                     }
 
                     const username = document.createElement("h1");
-                    username.innerHTML = response[0].username;
+                    username.innerHTML = response.memberList[0].username;
                     privatChatInfoContainer.appendChild(username);
 
+
+                    if (response.chatInfo.delete_request == 1) {
+                        const privatChatDeleteInfoContainer = document.createElement("div");
+                        privatChatDeleteInfoContainer.setAttribute("class", "privateChatDeleteContainer");
+                        document.getElementById("memberList").appendChild(privatChatDeleteInfoContainer);
+
+                        const deleteRequestTitle = document.createElement("p");
+                        privatChatDeleteInfoContainer.appendChild(deleteRequestTitle);
+                        deleteRequestTitle.innerHTML = "request delete chat from (" + response.memberList[0].username + "):";
+
+                        const cancelDeleteRequestButtonsMain = document.createElement("div");
+                        privatChatDeleteInfoContainer.appendChild(cancelDeleteRequestButtonsMain);
+                        cancelDeleteRequestButtonsMain.attr("class", "cancelDeleteRequestButtonsMain");
+
+                        const deleteRequestButton = document.createElement("div");
+                        cancelDeleteRequestButtonsMain.appendChild(deleteRequestButton);
+                        deleteRequestButton.innerHTML = "DELETE";
+
+                        const cancelDeleteRequestButton = document.createElement("div");
+                        cancelDeleteRequestButtonsMain.appendChild(cancelDeleteRequestButton);
+                        cancelDeleteRequestButton.innerHTML = "CANCEL";
+                    }
                 } else {
+                    document.getElementById("memberList").setAttribute("class", "list");
+
                     $("#inviteMembersBtn").css("display", "block");
                     $("#memberList-uppertext").text("Members - " + response.length);
                     response.forEach(element => {
@@ -596,7 +622,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Leave": "LeaveChat",
                 "Mute": "MuteChat",
                 "Favourite": "FavouriteChat",
-                "Invite": "InviteToChat"
+                "Invite": "InviteToChat",
+                "Delete chat": "DeleteChat"
             },
             "chat-owner": {
                 "Edit": "EditChat",
@@ -715,8 +742,10 @@ document.addEventListener("DOMContentLoaded", function () {
             PinMessage(dataId);
         } else if (dataFunction == "PinMessage") {
             PinMessage(dataId);
-        } else if (dataFunction == "PinMessage") {
-            PinMessage(dataId);
+        } else if (dataFunction == "DeleteMessage") {
+            DeleteMessage(dataId);
+        } else if (dataFunction == "DeleteChat") {
+            DeleteChatRequest(dataId);
         }
     });
 
@@ -764,6 +793,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function ReplyMessage(message) {
         window.reply = message;
+    }
+
+    function DeleteMessage(message) {
+        let queryString = 'action=chatDeleteMessage' + '&chat_id=' + window.chat + "&message=" + message;
+        $.ajax({
+            url: "dbquery",
+            data: queryString,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                console.log("success?");
+            },
+            error: function (error) {
+                console.log("post error");
+                console.log(error);
+            }
+        });
     }
 
     $(document).on("click", ".showProfile", function (e) {
@@ -1116,7 +1162,7 @@ function UpdateMembers(chat_id) {
     });
 }
 
-function UpdateChats() {
+function UpdateChats(chat_id) {
     let queryString = 'action=uiLoadChats';
 
     $.ajax({
@@ -1125,15 +1171,17 @@ function UpdateChats() {
         type: "POST",
         dataType: "json",
         success: function (response) {
+            const currentChatName = document.getElementById("chatCurrentName");
+            currentChatName.innerHTML = window.chat;
             const mainListChats = document.getElementById("chats")
             mainListChats.innerHTML = '';
             const listChats = document.createElement("div");
             listChats.setAttribute("class", "list");
             mainListChats.appendChild(listChats);
-
-            response.forEach(element => {
+            countPrivateChats = -1;
+            response.chats.forEach(element => {
                 if (element.type == "duo") {
-
+                    countPrivateChats++;
                     const chatItem = document.createElement("div");
                     chatItem.setAttribute("data-id", element.id);
                     chatItem.setAttribute("class", "chat list-item privateChat");
@@ -1142,39 +1190,27 @@ function UpdateChats() {
                     }
                     listChats.appendChild(chatItem);
 
-                    let queryStringPrivateChat = 'action=GetPrivateChatInfo' + '&chatid=' + element.id;
+                    //private chat info
+                    const chatImg = document.createElement("img");
+                    chatImg.setAttribute("src", response.privateChatInfo[countPrivateChats].pfp);
+                    chatImg.classList.add("onlinePfp");
+                    chatItem.appendChild(chatImg);
 
-                    $.ajax({
-                        url: "dbquery",
-                        data: queryStringPrivateChat,
-                        type: "POST",
-                        dataType: "json",
-                        success: function (response2) {
-                            const chatImg = document.createElement("img");
-                            chatImg.setAttribute("src", response2.pfp);
-                            chatImg.classList.add("onlinePfp");
-                            chatItem.appendChild(chatImg);
+                    if (response.privateChatInfo[countPrivateChats].status == "online") {
+                        chatImg.classList.add("onlinePfp");
+                    } else {
+                        chatImg.classList.remove("onlinePfp");
+                    }
 
-                            if (response2.status == "online") {
-                                chatImg.classList.add("onlinePfp");
-                            } else {
-                                chatImg.classList.remove("onlinePfp");
-                            }
+                    const chatName = document.createElement("p");
+                    chatName.innerHTML = "(P) " + response.privateChatInfo[countPrivateChats].username;
+                    chatItem.appendChild(chatName);
 
-                            const chatName = document.createElement("p");
-                            chatName.innerHTML = "(P) " + response2.username;
-                            chatItem.appendChild(chatName);
+                    const chatBtn = document.createElement("button");
+                    chatBtn.setAttribute("class", "google-icon");
+                    chatBtn.innerHTML = "more_horiz";
+                    chatItem.appendChild(chatBtn);
 
-                            const chatBtn = document.createElement("button");
-                            chatBtn.setAttribute("class", "google-icon");
-                            chatBtn.innerHTML = "more_horiz";
-                            chatItem.appendChild(chatBtn);
-                        },
-                        error: function (error) {
-                            console.log("post error");
-                            console.log(error);
-                        }
-                    });
 
                 } else if (element.type == "group") {
 
@@ -1205,6 +1241,24 @@ function UpdateChats() {
         error: function (error) {
             console.log("post error");
             console.log(error);
+        }
+    });
+}
+function DeleteChatRequest(chatid) {
+    let queryString = 'action=DeleteChatRequest' + '&chatid=' + chatid;
+
+    $.ajax({
+        url: "dbquery",
+        data: queryString,
+        type: "POST",
+        dataType: "json",
+        success: function (response) {
+
+        },
+        error: function (error) {
+            console.log("post error");
+            console.log(error);
+            UpdateNotifications();
         }
     });
 }

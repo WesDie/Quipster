@@ -116,15 +116,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
         <button onclick="Toggle(true)" id="toggleLeft" class="google-icon">
           chevron_left
         </button>
-        <p>
-          <?php
-          $stmtChatTitle = $conn->prepare("SELECT * FROM chats WHERE id=:id");
-          $chatr = "dev_chat";
-          $stmtChatTitle->bindParam(':id', $chatr);
-          $stmtChatTitle->execute();
-          $user = $stmtChatTitle->fetch();
-          echo $user["name"];
-          ?>
+        <p id="chatCurrentName">
         </p>
         <button id="pinstoggle" title="Pinned Messages" onclick="PinsToggle()" class="google-icon">push_pin</button>
         <button onclick="Toggle(false)" id="toggleRight" class="google-icon" style="float: right;">
