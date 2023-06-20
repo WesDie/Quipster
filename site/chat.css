@@ -526,6 +526,22 @@ dialog::backdrop {
     margin-left: 4px;
 }
 
+.message.reply .google-icon {
+    font-size: 1em;
+    vertical-align: bottom;
+    margin-left: 1em;
+    color: var(--txt-secondary);
+    cursor: default;
+}
+
+.message.reply a {
+    color: var(--txt-secondary);
+    cursor: pointer;
+}
+
+.message.highlight {
+    background-color: #3d3443;
+}
 
 #pinnedmsgs {
     display: grid;

@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function SendMessage() {
         let input = document.querySelector("#newMessage input").value, chat_id = window.chat;
 
-        let queryString = 'action=chatUpload' + '&chat_id=' + chat_id + '&input=' + input;
+        let queryString = 'action=chatUpload' + '&chat_id=' + chat_id + '&input=' + input + '&reply=' + window.reply;
         // console.log(queryString);
         $.ajax({
             url: "dbquery",
@@ -374,6 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // console.log("post success");
                 // console.log(response);
                 document.querySelector("#newMessage input").value = "";
+                window.reply = null;
                 UpdateMessages(lastLoadedX, chat_id);
             },
             error: function (error) {
@@ -491,7 +492,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function UpdateMessages(lastLoaded, chat_id) {
         let queryString = 'action=chatLoad' + '&chat_id=' + chat_id + '&lastLoaded=' + lastLoaded;
-        // console.log(queryString);
         $.ajax({
             url: "dbquery",
             data: queryString,
@@ -507,6 +507,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         return;
                     }
 
+                    if (element.replyto !== null && currentchat.find(`[data-id="${element.replyto}"]`).length > 0) {
+                        // let queryString = 'action=getMessageById' + '&chat_id=' + chat_id + '&message=' + element.replyto;
+                        // console.log(element.replyto);
+                        // $.ajax({
+                        //     url: "dbquery",
+                        //     data: queryString,
+                        //     type: "POST",
+                        //     dataType: "json",
+                        //     success: function (response) {
+                        //         console.log(response);
+                        //     }
+                        // });
+                    }
+
                     const message = $("<div></div>").attr('data-id', messageId);
                     const pfp = $("<img>").attr("src", element.pfp).appendTo(message).addClass('showProfile');
                     const user = $("<div></div>").addClass("user").appendTo(message).attr('data-id', element.user);
@@ -520,6 +534,26 @@ document.addEventListener("DOMContentLoaded", function () {
                         `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], { timeStyle: 'short' })}`);
 
                     const tekst = $("<p></p>").text(element.message).appendTo(message);
+
+                    const replyToMessage = currentchat.find(`[data-id="${element.replyto}"]`);
+                    if (replyToMessage.length > 0) {
+                        $(message).addClass("reply");
+                        const replyToText = $("<b></b>").addClass("google-icon").text("reply").appendTo(user);
+                        const replyToLink = $("<a></a>").addClass("reply-to-link").text(replyToMessage.find(".user b").text()).appendTo(user);
+
+                        replyToLink.on("click", function () {
+                            // Scroll to the referenced message
+                            const scrollToOffset = replyToMessage.offset().top - $("#currentchat").offset().top + $("#currentchat").scrollTop();
+                            $("#currentchat").animate({ scrollTop: scrollToOffset }, 500);
+
+                            replyToMessage.addClass("highlight");
+                            setTimeout(function () {
+                                replyToMessage.removeClass("highlight");
+                            }, 2000);
+                        });
+
+                    }
+
                     message.addClass("message");
                     currentchat.append(message);
                     $("#currentchat").scrollTop($("#currentchat")[0].scrollHeight);
@@ -576,7 +610,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Emoji": "EmojiMessage",
                 "Reply": "ReplyMessage",
                 "Pin": "PinMessage",
-                "Delete": "DeleteMessage",
             },
             "message-owner": {
                 "Delete": "DeleteMessage"
@@ -674,6 +707,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (dataFunction == "PinMessage") {
             PinMessage(dataId);
+        } else if (dataFunction == "ReplyMessage") {
+            ReplyMessage(dataId);
         } else if (dataFunction == "PinMessage") {
             PinMessage(dataId);
         } else if (dataFunction == "PinMessage") {
@@ -682,9 +717,7 @@ document.addEventListener("DOMContentLoaded", function () {
             PinMessage(dataId);
         } else if (dataFunction == "PinMessage") {
             PinMessage(dataId);
-        } else if (dataFunction == "PinMessage") {
-            PinMessage(dataId);
-        }  
+        }
     });
 
     $(document).on("click", function (event) {
@@ -727,6 +760,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log(error);
             }
         });
+    }
+
+    function ReplyMessage(message) {
+        window.reply = message;
     }
 
     $(document).on("click", ".showProfile", function (e) {

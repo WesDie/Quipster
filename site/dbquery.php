@@ -30,8 +30,13 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     }
                     $stmtId->closeCursor();
 
-                    // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message) VALUES (:id, :chat, :user, :message)");
+                    if (empty($_POST['reply']))
+                        $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message) VALUES (:id, :chat, :user, :message)");
+                    else {
+                        $stmt = $conn->prepare("INSERT INTO messages (id, chat, user, message, replyto) VALUES (:id, :chat, :user, :message, :replyto)");
+                        $stmt->bindParam(':replyto', $_POST['reply']);
+                    }
+
                     $stmt->bindParam(':id', $id);
                     $stmt->bindParam(':chat', $chat);
                     $user = $_SESSION['id'];
@@ -40,7 +45,6 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                     $message = $_POST['input'];
                     $stmt->bindParam(':message', $message);
                     // $stmt->bindParam(':replyto', $id);
-
                     // $id = $key;
 
                     if ($stmt->execute()) {
@@ -93,6 +97,21 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 if ($stmt->execute()) {
                     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                     $newMsgs = $stmt->fetchAll();
+
+                    echo json_encode($newMsgs);
+
+                    $stmt->closeCursor();
+                }
+            } elseif ($_POST['action'] == 'getMessageById') {
+
+                $stmt = $conn->prepare("SELECT * FROM messages WHERE id = :banan");
+
+                $stmt->bindParam(':banan', $_POST['message']);
+                // $stmt->bindParam(':lastLoaded', $lastLoaded);
+
+                if ($stmt->execute()) {
+                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                    $newMsgs = $stmt->fetch();
 
                     echo json_encode($newMsgs);
 
@@ -388,7 +407,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
             } else {
                 echo json_encode("no chat but still friends");
             }
-        } elseif($_POST['action'] == 'openPrivateChat'){
+        } elseif ($_POST['action'] == 'openPrivateChat') {
 
             //check if has private chat already
             $id = $_POST['userid'];
@@ -406,7 +425,7 @@ if (isset($_SESSION['logedin']) && $_SESSION['logedin']) {
                 $stmtCheck->execute();
                 $result = $stmtCheck->fetch();
 
-                if($result !== false){
+                if ($result !== false) {
                     array_push($privateUserChats, $result);
                 }
             }
